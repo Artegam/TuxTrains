@@ -14,6 +14,10 @@ using namespace std;
 	vector<Objet3D> objets;
 	vector<Objet3D>::iterator it;
 	int angle;
+  static int frame = 0;
+  static int current_time = 0;
+  static int last_time = 0;
+  static double fps = 0.0; //Le nb de fps
 
 void initLight(void);
 void idle(void);
@@ -82,7 +86,7 @@ int main(int argc, char** argv) {
 }
 
 
-void initLight(void) 
+void initLight(void)
 {
    GLfloat mat_specular[] = { 1.0, 1.0, 1.0, 1.0 };
    GLfloat mat_shininess[] = { 50.0 };
@@ -97,16 +101,27 @@ void initLight(void)
 	glEnable(GL_DEPTH_TEST);
   	glEnable(GL_LIGHTING);
   	glEnable(GL_LIGHT0);
-   
+
 }
 
 void idle(void) {
+
+  frame++;
+  current_time = glutGet(GLUT_ELAPSED_TIME);
+
+  if(current_time - last_time > 1000) {
+    fps = frame * 1000.0 / (current_time - last_time);
+		printf("FPS : %f\n", fps);
+    last_time = current_time;
+    frame = 0;
+  }
+
 	glutPostRedisplay();
 	glutSwapBuffers();
 }
 
 void render(void) {
- 	
+
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glRotatef(angle,0.0,1.0,0.0);
 
@@ -119,7 +134,7 @@ void render(void) {
 	glFlush();
 }
 
-void Reshape(int w, int h) 
+void Reshape(int w, int h)
 {
 		glViewport( 0, 0, (GLint)w, (GLint)h );
 		glMatrixMode( GL_PROJECTION );

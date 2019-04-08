@@ -4,7 +4,7 @@ OBJECTS=main.o ObjParser.o VertexNormal.o Vertex.o Face.o Objet3D.o
 LIBS=-lGL -lglut -lGLU
 EXEC=essai3D
 
-all:$(EXEC)
+all:$(EXEC) clean
 
 
 $(EXEC): main.o ObjParser.o VertexNormal.o Vertex.o Face.o Objet3D.o
