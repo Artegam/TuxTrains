@@ -5,7 +5,7 @@ Phase I
 
  - [x] Amélioration 1 : (1h) Ajouter l'affichage des FPS dans la console.
  - [ ] Amélioration 2 : Mettre le code qui dessine les objets en listes d'affichage (voir le GLBegin dans les faces à supprimer). http://linor.fr/tutoriaux/tuto-391-opengl-les-listes-affichage.php
- - [ ] Amélioration 3 : Améliorer le système de parser des objets 3D
+ - [ ] Amélioration 3 : Améliorer le système de parser des objets 3D. Utiliser des expressions régulières (#include <regex>) http://guillaume.belz.free.fr/doku.php?id=expressions_regulieres
  
 
 Phase II
