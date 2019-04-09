@@ -1,0 +1,15 @@
+
+La liste des points à faire
+
+Phase I
+
+ - [x] Amélioration 1 : (1h) Ajouter l'affichage des FPS dans la console.
+ - [ ] Amélioration 2 : Mettre le code qui dessine les objets en listes d'affichage (voir le GLBegin dans les faces à supprimer). http://linor.fr/tutoriaux/tuto-391-opengl-les-listes-affichage.php
+ 
+
+Phase II
+
+  - [ ] Maintenance : Nettoyer le code, supprimer tout le code en remarques.
+  - [ ] Maintenance : Ajouter / Modifier les tests unitaires
+  - [ ] Architecture : Modifier les objets qui concerne le rendu (points, faces, Objet3D). Les ranger dans un répertoire qui convient.
+
