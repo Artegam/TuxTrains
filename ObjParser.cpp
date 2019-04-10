@@ -1,7 +1,8 @@
 
 #include "ObjParser.h"
 
-
+#include <regex>
+#include <iostream>
 
 //ASCH - 17/10/2014 - Paramètres
 
@@ -13,13 +14,22 @@ vector<Objet3D> ObjParser::readFile (const char * filename) {
 	FILE* fichier;
 	char ligne[255];
 	int selection = 0;
-	
+
+
+  // Ca fonctionne (version 7 installÃe a la maison)
+if (regex_match("a", regex("[0-9]"))) {
+    cout << "c'est un chiffre !!" << endl;
+}else {
+    cout << "c'est PAS un chiffre !!" << endl;
+}
+
 	fichier = fopen(filename, "r");
-	
-	while(!feof(fichier)) {	
-		fscanf(fichier, "%s", ligne);
+
+	while(!feof(fichier)) {
+    fscanf(fichier, "%[^\n]\n", ligne);
 		selection = 0;
 
+    cout << ":" << ligne << endl;
 
 		if(strcmp((const char*)ligne, (char*)"v") == 0) {
 			selection = 1;
