@@ -1,8 +1,6 @@
 
 #include "ObjParser.h"
 
-#include <regex>
-#include <iostream>
 
 //ASCH - 17/10/2014 - Paramètres
 
@@ -13,145 +11,92 @@ vector<Objet3D> ObjParser::readFile (const char * filename) {
 
 	FILE* fichier;
 	char ligne[255];
-	int selection = 0;
-
-
-  // Ca fonctionne (version 7 installÃe a la maison)
-if (regex_match("a", regex("[0-9]"))) {
-    cout << "c'est un chiffre !!" << endl;
-}else {
-    cout << "c'est PAS un chiffre !!" << endl;
-}
 
 	fichier = fopen(filename, "r");
 
 	while(!feof(fichier)) {
     fscanf(fichier, "%[^\n]\n", ligne);
-		selection = 0;
 
-    cout << ":" << ligne << endl;
-
-		if(strcmp((const char*)ligne, (char*)"v") == 0) {
-			selection = 1;
-		}
-
-		if(strcmp((const char*)ligne, (char*)"vn") == 0) {
-			selection = 2;
-		}
-
-		if(strcmp((const char*)ligne, (char*)"o") == 0) {
-			selection = 3;
-		}
-
-		if(strcmp((const char*)ligne, (char*)"f") == 0) {
-			selection = 4;
-		} 
-
-		if(strcmp((const char*)ligne, (char*)"mtllib") == 0) {
-			selection = 5;
-		} 
-
-		if(strcmp((const char*)ligne, (char*)"usemtl") == 0) {
-			selection = 6;
-		} 
+    cmatch m; // Tableau des chaines qui match
 
 
-		switch(selection) {
+    // D�but de l'objet en 3D (avec le nom)
+    if (regex_match(ligne, m, regex("o (.*)"))) {
+      vObj = new Objet3D();
+      char * nom = getMatchedChar(m)[0];
+      vObj->setNom(nom);
+      objets.insert(objets.begin(), *vObj);
+      printf("\t - %s\n", nom);
+    }
 
-			//ASCH - 16/10/2014 - Le cas du vertex
-			case 1:
-				readVertex(fichier);
-				break;
+    //Vertex
+    if (regex_match(ligne, m, regex("v ([-]*\\d.\\d*) ([-]*\\d.\\d*) ([-]*\\d.\\d*) ([-]*\\d.\\d*).*|v ([-]*\\d.\\d*) ([-]*\\d.\\d*) ([-]*\\d.\\d*).*"))) {
+      double* d = getMatchedDouble(m);
 
-			case 2:
-				readVertexNormal(fichier);
-				break;
+printf("vect %f %f %f\n", d[0], d[1], d[2]);
+      if(sizeof(d) == 3) objets[objets.size()-1].ajouterVertex(d[0], d[1], d[2], 0.0);
+      if(sizeof(d) == 4) objets[objets.size()-1].ajouterVertex(d[0], d[1], d[2], d[3]);
+      continue;
+    }
 
-			case 3:
-				readObject(fichier);
-				break;
+    //Vertex Normal
+    if (regex_match(ligne, m, regex("vn ([-]*\\d.\\d*) ([-]*\\d.\\d*) ([-]*\\d.\\d*) ([-]*\\d.\\d*).*|vn ([-]*\\d.\\d*) ([-]*\\d.\\d*) ([-]*\\d.\\d*).*"))) {
+      double* d = getMatchedDouble(m);
+//printf("vect normal %f %f %f\n", d[0], d[1], d[2]);
+      if(sizeof(d) == 3) objets[objets.size()-1].ajouterVertexNormal(d[0], d[1], d[2], 0.0);
+      if(sizeof(d) == 4) objets[objets.size()-1].ajouterVertexNormal(d[0], d[1], d[2], d[3]);
+      continue;
+    }
 
-			case 4:
-				readFace(fichier);
-				break;
+    if (regex_match(ligne, m, regex("f ([0-9]*/[0-9]*/[0-9]*) ([0-9]*/[0-9]*/[0-9]*) ([0-9]*/[0-9]*/[0-9]*) ([0-9]*/[0-9]*/[0-9]*)|f ([0-9]*/[0-9]*/[0-9]*) ([0-9]*/[0-9]*/[0-9]*) ([0-9]*/[0-9]*/[0-9]*)"))) {
+      char** res = getMatchedChar(m);
+      objets[objets.size()-1].ajouterFace(sizeof(res), res);
+      continue;
+    }
 
-			case 5:
-				readMaterialLib(fichier);
-				break;
+    if (regex_match(ligne, m, regex("mtllib (.*)"))) {
+      printf("Nom de la librairie de maetriaux : %s\n", getMatchedChar(m)[0]);
+      continue;
+    }
 
-			case 6:
-				readMateriaUsed(fichier);
-				break;
-		}
+    if (regex_match(ligne, m, regex("usemtl (.*)"))) {
+      printf("materiaux utilise: %s\n", getMatchedChar(m)[0]);
+      continue;
+    }
+
 	}
 	fclose(fichier);
+
+  //exit(0);
 	return objets;
 }
 
-void ObjParser::readVertex(FILE* fichier){
+char** ObjParser::getMatchedChar(cmatch m) {
+  char** ret = new char*[m.size()];
+  int cpt = 0;
 
-	double x;
-	double y;
-	double z;
-	double w;
-
-	fscanf(fichier, "%lf %lf %lf %lf", &x, &y, &z, &w);
-	objets[objets.size()-1].ajouterVertex(x, y, z, w);
+  for (cmatch::iterator it = m.begin()+1; it != m.end(); it++) {
+    ret[cpt] = new char[it->str().length() + 1];
+    strcpy(ret[cpt], it->str().c_str());
+    //printf("pour le char** : %s\n", ret[cpt]);
+    cpt++;
+  }
+  return ret;
 }
 
-void ObjParser::readVertexNormal(FILE* fichier){
+double* ObjParser::getMatchedDouble(cmatch m) {
+  double* ret = new double[m.size()];
+  int cpt = 0;
 
-	double x;
-	double y;
-	double z;
-	double w;
+  for (cmatch::iterator it = m.begin()+1; it != m.end(); it++) {
+    if(it->str().size() > 0) { // Protege de la regex multiple avec le ou '|'
+      const char* val = it->str().c_str();
+      string str = it->str();
+      ret[cpt] = atof((const char*)str.c_str()); // converti en double (atof)
+      cpt++;
+    }
+  }
 
-	fscanf(fichier, "%lf %lf %lf %lf", &x, &y, &z, &w);
-	objets[objets.size()-1].ajouterVertexNormal(x, y, z, w);
-}
-
-void ObjParser::readObject(FILE* fichier){
-
-	char nom[255];
-	vObj = new Objet3D();
-	vector<Objet3D>::iterator it;
-	
-	fscanf(fichier, "%s", nom);
-	
-	vObj->setNom(nom);
-	objets.insert(objets.begin(), *vObj);
-	printf("\t - %s\n", nom);
-}
-
-void ObjParser::readFace(FILE* fichier) {
-
-	char parametres[4][50];
-	int numVertex[4];
-	int numVertexTexture[4];
-	int numVertexNormal[4];
-	int nbParametres;
-	int nbVertexInfo;
-	
-	nbParametres = fscanf(fichier, "%s %s %s %s", parametres[0], parametres[1], parametres[2], parametres[3]);
-	objets[objets.size()-1].ajouterFace(nbParametres, parametres);
-
-}
-
-void ObjParser::readMaterialLib(FILE* fichier) {
-
-	char nomLib[255];
-
-	fscanf(fichier, "%s", nomLib);
-	printf("Nom de la librairie de maetriaux : %s\n", nomLib);
-
-}
-
-void ObjParser::readMateriaUsed(FILE* fichier) {
-
-	char nomMat[255];
-
-	fscanf(fichier, "%s", nomMat);
-	printf("materiaux utilise: %s\n", nomMat);
-
+  return ret;
 }
 

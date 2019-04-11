@@ -18,15 +18,15 @@ class Objet3D {
 		vector<Vertex> vertices;
 		vector<VertexNormal> verticesNormal;
 		vector<Face> faces;
-		
+
 
 	public:
 		char* getNom();
 		void setNom(char* pNom);
 
 		void ajouterVertex(double pX, double pY, double pZ, double pW);
-		void ajouterVertexNormal(double pX, double pY, double pZ, double pW);		
-		void ajouterFace(int nbParametres, char parametres[4][50]);
+		void ajouterVertexNormal(double pX, double pY, double pZ, double pW);
+		void ajouterFace(int nbParametres, char** parametres);
 
 		void dessiner();
 };

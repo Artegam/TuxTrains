@@ -36,7 +36,7 @@ void Objet3D::ajouterVertexNormal(double pX, double pY, double pZ, double pW){
 	verticesNormal.insert(verticesNormal.end(), *vn);
 }
 
-void Objet3D::ajouterFace(int nbParametres, char parametres[4][50]){
+void Objet3D::ajouterFace(int nbParametres, char** parametres){
 
 	int numVertex[4];
 	int numVertexTexture[4];
@@ -44,9 +44,9 @@ void Objet3D::ajouterFace(int nbParametres, char parametres[4][50]){
 	int nbVertexInfo;
 	int numCas;
 
-	
+
 	if (nbParametres > 0) {
-			
+
 		Face f;
 
 		for(int cpt = 0; cpt < nbParametres;cpt++) {
@@ -97,9 +97,9 @@ void afficherVertex(Vertex& v) {
 
 
 void Objet3D::dessiner() {
-	
+
 	vector<Face>::iterator it;
-	
+
 	//if (faces.size() > 0) printf("%s nb de faces : %d\n", nom, faces.size());
 	for(it = faces.begin(); it != faces.end(); it++) {
 		it->dessiner(vertices, verticesNormal);
