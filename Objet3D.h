@@ -18,7 +18,7 @@ class Objet3D {
 		vector<Vertex> vertices;
 		vector<VertexNormal> verticesNormal;
 		vector<Face> faces;
-
+    GLuint listeAffichage;
 
 	public:
 		char* getNom();
@@ -28,6 +28,7 @@ class Objet3D {
 		void ajouterVertexNormal(double pX, double pY, double pZ, double pW);
 		void ajouterFace(int nbParametres, char** parametres);
 
+    void init();
 		void dessiner();
 };
 

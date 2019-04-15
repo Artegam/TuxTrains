@@ -48,13 +48,13 @@ int main(int argc, char** argv) {
 		printf("Veuillez passer en argument le nom du fichier obj (exemple: ./essai3D ./obj/jaguard.obj\n");
 		return 0;
 	}
-	
+
 
 	parser->~ObjParser();
 
   glutInit(&argc, argv);
   glutInitDisplayMode(GLUT_DEPTH | GLUT_DOUBLE | GLUT_RGBA);
-	
+
   glutInitWindowPosition(100, 100);
   glutInitWindowSize(width, height);
   glutCreateWindow(argv[1]);
@@ -69,12 +69,16 @@ int main(int argc, char** argv) {
 
 	glMatrixMode(GL_TEXTURE);
 	glLoadIdentity();
-	
+
 	glMatrixMode(GL_MODELVIEW);
 
   initLight();
 	gluLookAt(0.0, 6.0, 6.0, 0.0, 0.0, 0.0, 0.0 , 1.0, 0.0);
-  
+
+  //Initialisation des objets (chargement dans la carte graphique pour le rendu
+	for(it = objets.begin(); it != objets.end(); it++) {
+		it->init();
+	}
 
   glutDisplayFunc(render);
   glutIdleFunc(idle);
@@ -128,7 +132,6 @@ void render(void) {
 	for(it = objets.begin(); it != objets.end(); it++) {
 		it->dessiner();
 	}
-
 
   glutSwapBuffers();
 	glFlush();
