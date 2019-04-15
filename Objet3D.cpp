@@ -95,14 +95,29 @@ void afficherVertex(Vertex& v) {
 	v.dessiner();
 }
 
+void Objet3D::init() {
 
-void Objet3D::dessiner() {
+  // Instanciation de la liste
+  listeAffichage = glGenLists(1);
 
-	vector<Face>::iterator it;
+  printf("Initialisation de l'objet %s\n", nom);
+  // CrÃation et dÃ©finition de la liste d'affichage
+  glNewList(listeAffichage, GL_COMPILE);
+
+  //Calcul de l'objet (points, faces, etc...
+ 	vector<Face>::iterator it;
 
 	//if (faces.size() > 0) printf("%s nb de faces : %d\n", nom, faces.size());
 	for(it = faces.begin(); it != faces.end(); it++) {
 		it->dessiner(vertices, verticesNormal);
 	}
+
+  glEndList();
+
+}
+
+void Objet3D::dessiner() {
+
+  glCallList(listeAffichage);
 
 }
