@@ -55,6 +55,7 @@ void Objet3D::ajouterFace(int nbParametres, char** parametres){
 			switch(nbVertexInfo){
 				case 1:
 					nbVertexInfo = sscanf(parametres[cpt], "%d/%d/%d", &numVertex[cpt], &numVertexTexture[cpt], &numVertexNormal[cpt]);
+          printf("=> %d\n", numVertexTexture[cpt]);
 					numCas = nbVertexInfo;
 					break;
 
@@ -86,8 +87,13 @@ void Objet3D::ajouterFace(int nbParametres, char** parametres){
 			}
 
 		}
+    printf("a\n");
 		faces.insert(faces.end(), f);
+    printf("b\n");
+    printf("===> nb params %d \n", nbParametres);
+    printf("Taille des faces : %d \n", faces.size());
 	}
+  printf("c\n");
 }
 
 

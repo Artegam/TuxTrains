@@ -24,119 +24,106 @@ printf ("DÃ©but de lecture du fichier\n");
   fichier.close();
 printf ("Fin de lecture du fichier\n");
 
+vector<string>::iterator it;
+printf ("Debut parcours fichier RAM\n");
 
-  vector<string>::iterator it;
-  boost::cmatch m; // Tableau des chaines qui match
-  boost::regex reg_obj{"o (.*)"};
-  boost::regex reg_usemtl{"usemtl (.*)"};
-  boost::regex reg_vertex{"v ([-]*\\d.\\d*) ([-]*\\d.\\d*) ([-]*\\d.\\d*) ([-]*\\d.\\d*).*|v ([-]*\\d.\\d*) ([-]*\\d.\\d*) ([-]*\\d.\\d*).*"};
-  boost::regex reg_vertNorm{"vn ([-]*\\d.\\d*) ([-]*\\d.\\d*) ([-]*\\d.\\d*) ([-]*\\d.\\d*).*|vn ([-]*\\d.\\d*) ([-]*\\d.\\d*) ([-]*\\d.\\d*).*"};
-  boost::regex reg_face{"f ([0-9]*/[0-9]*/[0-9]*) ([0-9]*/[0-9]*/[0-9]*) ([0-9]*/[0-9]*/[0-9]*) ([0-9]*/[0-9]*/[0-9]*)|f ([0-9]*/[0-9]*/[0-9]*) ([0-9]*/[0-9]*/[0-9]*) ([0-9]*/[0-9]*/[0-9]*)"};
-  boost::regex reg_mtllib{"mtllib (.*)"};
+string delimiter = " ";
+string token;
+size_t pos = 0;
 
-  for(it = fichierRAM.begin(); it != fichierRAM.end(); it++) {
+for(it = fichierRAM.begin(); it != fichierRAM.end(); it++) {
+  pos = 0;
+  vector<string> tokens;
+  while((pos = it->find(delimiter)) != string::npos) {
+    token = it->substr(0, pos);
+    tokens.push_back(token);
+    it->erase(0, pos + delimiter.length());
+  }
+    //Ajouter le dernier element
+    token = it->substr(0, it->size());
+    tokens.push_back(token);
 
-    const char* ligne = it->c_str();
-    //printf("Ligne : %s", ligne);
-
-    // Début de l'objet en 3D (avec le nom)
-    if (boost::regex_match(ligne, m, reg_obj)) {
-//printf ("OBJET\n");
-continue;
+  //Conditions pour traitements
+  if(tokens.size() > 0) {
+    // Objets
+    if(tokens[0].compare("o") == 0) {
       vObj = new Objet3D();
-      char * nom = getMatchedChar(m)[0];
+      char* nom = new char[tokens[1].size()];
+      strcpy(nom, tokens[1].c_str());
       vObj->setNom(nom);
       objets.insert(objets.begin(), *vObj);
       printf("\t - %s\n", nom);
       continue;
     }
 
-    if (boost::regex_match(ligne, m, reg_usemtl)) {
-//printf ("USEMTL\n");
-continue;
-
-      printf("materiaux utilise: %s\n", getMatchedChar(m)[0]);
+    //USEMTL
+    if(tokens[0].compare("usemtl") == 0) {
+      printf("materiaux utilise: %s\n", tokens[1].c_str());
       continue;
     }
 
     //Vertex
-    if (boost::regex_match(ligne, m, reg_vertex)) {
-//printf ("VERTEX\n");
-continue;
+    if(tokens[0].compare("v") == 0) {
+      double d[tokens.size()-1];
+      for(unsigned int i = 0; i < tokens.size()-1; i++) {
+        d[i] = stod(tokens[i+1]);
+    }
 
-
-      double* d = getMatchedDouble(m);
-
-      //printf("vect %f %f %f\n", d[0], d[1], d[2]);
-      if(sizeof(d) == 3) objets[objets.size()-1].ajouterVertex(d[0], d[1], d[2], 0.0);
-      if(sizeof(d) == 4) objets[objets.size()-1].ajouterVertex(d[0], d[1], d[2], d[3]);
+      if(tokens.size()-1 == 3) objets[objets.size()-1].ajouterVertex(d[0], d[1], d[2], 0.0);
+      if(tokens.size()-1 == 4) objets[objets.size()-1].ajouterVertex(d[0], d[1], d[2], d[3]);
       continue;
     }
 
     //Vertex Normal
-    if (boost::regex_match(ligne, m, reg_vertNorm)) {
+    if(tokens[0].compare("vn") == 0) {
 
-//      printf ("VERTEX NORMAL\n");
-continue;
-      
-      double* d = getMatchedDouble(m);
-      //printf("vect normal %f %f %f\n", d[0], d[1], d[2]);
-      if(sizeof(d) == 3) objets[objets.size()-1].ajouterVertexNormal(d[0], d[1], d[2], 0.0);
-      if(sizeof(d) == 4) objets[objets.size()-1].ajouterVertexNormal(d[0], d[1], d[2], d[3]);
+      double d[tokens.size()-1];
+      for(unsigned int i = 0; i < tokens.size()-1; i++) {
+        d[i] = stod(tokens[i+1]);
+      }
+
+      if(tokens.size() - 1 == 3) objets[objets.size()-1].ajouterVertexNormal(d[0], d[1], d[2], 0.0);
+      if(tokens.size() - 1 == 4) objets[objets.size()-1].ajouterVertexNormal(d[0], d[1], d[2], d[3]);
       continue;
     }
 
-    if (boost::regex_match(ligne, m, reg_face)) {
-//      printf ("FACE\n");
-continue;
+  //Faces
+    if(tokens[0].compare("f") == 0) {
 
-      char** res = getMatchedChar(m);
-      objets[objets.size()-1].ajouterFace(sizeof(res), res);
+      char** res = new char*[tokens.size()-1];
+
+      for(unsigned int i = 0; i < tokens.size()-1; i++) {
+        res[i] = new char[tokens[i+1].length()];
+        strcpy(res[i], tokens[i+1].c_str());
+      }
+//      printf("taille size %d\n", tokens.size()-1);
+//      printf("taille sizeof %d \n", sizeof(res));
+
+      if(tokens.size()-1 == 3) {
+      printf(":: %s %s %s \n", res[0], res[1], res[2]);
+      }else{
+      printf(":: %s %s %s %s \n", res[0], res[1], res[2], res[3]);
+      }
+
+      objets[objets.size()-1].ajouterFace(tokens.size()-1, res);
+      continue;
+      }
+
+
+    //MTLLIB
+    if(tokens[0].compare("mtllib") == 0) {
+      printf("Nom de la librairie de maetriaux : %s\n", tokens[1].c_str());
       continue;
     }
-
-    if (boost::regex_match(ligne, m, reg_mtllib)) {
-//      printf ("MTLLIB\n");
-continue;
-      
-      printf("Nom de la librairie de maetriaux : %s\n", getMatchedChar(m)[0]);
-      continue;
-    }
-
 
   }
+  tokens.clear();
+}
+
+printf ("FIN parcours fichier RAM\n");
 
   printf("Fin du traitement\n");
   //exit(0);
 	return objets;
-}
-
-char** ObjParser::getMatchedChar(boost::cmatch m) {
-  char** ret = new char*[m.size()];
-  int cpt = 0;
-
-  for (cmatch::iterator it = m.begin()+1; it != m.end(); it++) {
-    ret[cpt] = new char[it->str().length() + 1];
-    strcpy(ret[cpt], it->str().c_str());
-    //printf("pour le char** : %s\n", ret[cpt]);
-    cpt++;
-  }
-  return ret;
-}
-
-double* ObjParser::getMatchedDouble(boost::cmatch m) {
-  double* ret = new double[m.size()];
-  int cpt = 0;
-
-  for (cmatch::iterator it = m.begin()+1; it != m.end(); it++) {
-    if(it->str().size() > 0) { // Protege de la regex multiple avec le ou '|'
-      const char* val = it->str().c_str();
-      string str = it->str();
-      ret[cpt] = atof((const char*)str.c_str()); // converti en double (atof)
-      cpt++;
-    }
-  }
-
-  return ret;
 }
 
