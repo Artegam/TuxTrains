@@ -2,11 +2,11 @@
 #include "ObjParser.h"
 
 
-//ASCH - 17/10/2014 - Paramètres
+//ASCH - 17/10/2014 - ParamÃ¨tres
 
 
 
-//ASCH - 17/10/2014 - Méthodes
+//ASCH - 17/10/2014 - MÃ©thodes
 vector<Objet3D> ObjParser::readFile (const char * filename) {
 
   string sligne;
@@ -15,29 +15,33 @@ vector<Objet3D> ObjParser::readFile (const char * filename) {
 
   ifstream fichier;
   fichier.open(filename, ios::in);
-printf ("Début de lecture du fichier\n");
+printf ("DÃ©but de lecture du fichier\n");
 
-	while(!fichier.eof()) {
+  while(!fichier.eof()) {
    getline(fichier, sligne);
    fichierRAM.insert(fichierRAM.end(), sligne);
   }
 
-	fichier.close();
+  fichier.close();
 printf ("Fin de lecture du fichier\n");
 
 
   vector<string>::iterator it;
-    cmatch m; // Tableau des chaines qui match
-   regex reg_vertex = regex("v ([-]*\\d.\\d*) ([-]*\\d.\\d*) ([-]*\\d.\\d*) ([-]*\\d.\\d*).*|v ([-]*\\d.\\d*) ([-]*\\d.\\d*) ([-]*\\d.\\d*).*");
-
+  cmatch m; // Tableau des chaines qui match
+  regex reg_obj = regex("o (.*)");
+  regex reg_usemtl = regex("usemtl (.*)");
+  regex reg_vertex = regex("v ([-]*\\d.\\d*) ([-]*\\d.\\d*) ([-]*\\d.\\d*) ([-]*\\d.\\d*).*|v ([-]*\\d.\\d*) ([-]*\\d.\\d*) ([-]*\\d.\\d*).*");
+  regex reg_vertNorm = regex("vn ([-]*\\d.\\d*) ([-]*\\d.\\d*) ([-]*\\d.\\d*) ([-]*\\d.\\d*).*|vn ([-]*\\d.\\d*) ([-]*\\d.\\d*) ([-]*\\d.\\d*).*");
+  regex reg_face = regex("f ([0-9]*/[0-9]*/[0-9]*) ([0-9]*/[0-9]*/[0-9]*) ([0-9]*/[0-9]*/[0-9]*) ([0-9]*/[0-9]*/[0-9]*)|f ([0-9]*/[0-9]*/[0-9]*) ([0-9]*/[0-9]*/[0-9]*) ([0-9]*/[0-9]*/[0-9]*)");
+  regex reg_mtllib = regex("mtllib (.*)");
 
   for(it = fichierRAM.begin(); it != fichierRAM.end(); it++) {
 
     const char* ligne = it->c_str();
     //printf("Ligne : %s", ligne);
 
-    // D�but de l'objet en 3D (avec le nom)
-    if (regex_match(ligne, m, regex("o (.*)"))) {
+    // Début de l'objet en 3D (avec le nom)
+    if (regex_match(ligne, m, reg_obj)) {
 //printf ("OBJET\n");
 continue;
       vObj = new Objet3D();
@@ -48,7 +52,7 @@ continue;
       continue;
     }
 
-    if (regex_match(ligne, m, regex("usemtl (.*)"))) {
+    if (regex_match(ligne, m, reg_usemtl)) {
 //printf ("USEMTL\n");
 continue;
 
@@ -71,11 +75,10 @@ continue;
     }
 
     //Vertex Normal
-    if (regex_match(ligne, m, regex("vn ([-]*\\d.\\d*) ([-]*\\d.\\d*) ([-]*\\d.\\d*) ([-]*\\d.\\d*).*|vn ([-]*\\d.\\d*) ([-]*\\d.\\d*) ([-]*\\d.\\d*).*"))) {
+    if (regex_match(ligne, m, reg_vertNorm)) {
 
 //      printf ("VERTEX NORMAL\n");
 continue;
-
       
       double* d = getMatchedDouble(m);
       //printf("vect normal %f %f %f\n", d[0], d[1], d[2]);
@@ -84,7 +87,7 @@ continue;
       continue;
     }
 
-    if (regex_match(ligne, m, regex("f ([0-9]*/[0-9]*/[0-9]*) ([0-9]*/[0-9]*/[0-9]*) ([0-9]*/[0-9]*/[0-9]*) ([0-9]*/[0-9]*/[0-9]*)|f ([0-9]*/[0-9]*/[0-9]*) ([0-9]*/[0-9]*/[0-9]*) ([0-9]*/[0-9]*/[0-9]*)"))) {
+    if (regex_match(ligne, m, reg_face)) {
 //      printf ("FACE\n");
 continue;
 
@@ -93,10 +96,9 @@ continue;
       continue;
     }
 
-    if (regex_match(ligne, m, regex("mtllib (.*)"))) {
+    if (regex_match(ligne, m, reg_mtllib)) {
 //      printf ("MTLLIB\n");
 continue;
-
       
       printf("Nom de la librairie de maetriaux : %s\n", getMatchedChar(m)[0]);
       continue;
