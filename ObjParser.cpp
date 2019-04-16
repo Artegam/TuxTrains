@@ -1,7 +1,6 @@
 
 #include "ObjParser.h"
 
-
 //ASCH - 17/10/2014 - ParamÃ¨tres
 
 
@@ -27,13 +26,13 @@ printf ("Fin de lecture du fichier\n");
 
 
   vector<string>::iterator it;
-  cmatch m; // Tableau des chaines qui match
-  regex reg_obj = regex("o (.*)");
-  regex reg_usemtl = regex("usemtl (.*)");
-  regex reg_vertex = regex("v ([-]*\\d.\\d*) ([-]*\\d.\\d*) ([-]*\\d.\\d*) ([-]*\\d.\\d*).*|v ([-]*\\d.\\d*) ([-]*\\d.\\d*) ([-]*\\d.\\d*).*");
-  regex reg_vertNorm = regex("vn ([-]*\\d.\\d*) ([-]*\\d.\\d*) ([-]*\\d.\\d*) ([-]*\\d.\\d*).*|vn ([-]*\\d.\\d*) ([-]*\\d.\\d*) ([-]*\\d.\\d*).*");
-  regex reg_face = regex("f ([0-9]*/[0-9]*/[0-9]*) ([0-9]*/[0-9]*/[0-9]*) ([0-9]*/[0-9]*/[0-9]*) ([0-9]*/[0-9]*/[0-9]*)|f ([0-9]*/[0-9]*/[0-9]*) ([0-9]*/[0-9]*/[0-9]*) ([0-9]*/[0-9]*/[0-9]*)");
-  regex reg_mtllib = regex("mtllib (.*)");
+  boost::cmatch m; // Tableau des chaines qui match
+  boost::regex reg_obj{"o (.*)"};
+  boost::regex reg_usemtl{"usemtl (.*)"};
+  boost::regex reg_vertex{"v ([-]*\\d.\\d*) ([-]*\\d.\\d*) ([-]*\\d.\\d*) ([-]*\\d.\\d*).*|v ([-]*\\d.\\d*) ([-]*\\d.\\d*) ([-]*\\d.\\d*).*"};
+  boost::regex reg_vertNorm{"vn ([-]*\\d.\\d*) ([-]*\\d.\\d*) ([-]*\\d.\\d*) ([-]*\\d.\\d*).*|vn ([-]*\\d.\\d*) ([-]*\\d.\\d*) ([-]*\\d.\\d*).*"};
+  boost::regex reg_face{"f ([0-9]*/[0-9]*/[0-9]*) ([0-9]*/[0-9]*/[0-9]*) ([0-9]*/[0-9]*/[0-9]*) ([0-9]*/[0-9]*/[0-9]*)|f ([0-9]*/[0-9]*/[0-9]*) ([0-9]*/[0-9]*/[0-9]*) ([0-9]*/[0-9]*/[0-9]*)"};
+  boost::regex reg_mtllib{"mtllib (.*)"};
 
   for(it = fichierRAM.begin(); it != fichierRAM.end(); it++) {
 
@@ -41,7 +40,7 @@ printf ("Fin de lecture du fichier\n");
     //printf("Ligne : %s", ligne);
 
     // Début de l'objet en 3D (avec le nom)
-    if (regex_match(ligne, m, reg_obj)) {
+    if (boost::regex_match(ligne, m, reg_obj)) {
 //printf ("OBJET\n");
 continue;
       vObj = new Objet3D();
@@ -52,7 +51,7 @@ continue;
       continue;
     }
 
-    if (regex_match(ligne, m, reg_usemtl)) {
+    if (boost::regex_match(ligne, m, reg_usemtl)) {
 //printf ("USEMTL\n");
 continue;
 
@@ -61,7 +60,7 @@ continue;
     }
 
     //Vertex
-    if (regex_match(ligne, m, reg_vertex)) {
+    if (boost::regex_match(ligne, m, reg_vertex)) {
 //printf ("VERTEX\n");
 continue;
 
@@ -75,7 +74,7 @@ continue;
     }
 
     //Vertex Normal
-    if (regex_match(ligne, m, reg_vertNorm)) {
+    if (boost::regex_match(ligne, m, reg_vertNorm)) {
 
 //      printf ("VERTEX NORMAL\n");
 continue;
@@ -87,7 +86,7 @@ continue;
       continue;
     }
 
-    if (regex_match(ligne, m, reg_face)) {
+    if (boost::regex_match(ligne, m, reg_face)) {
 //      printf ("FACE\n");
 continue;
 
@@ -96,7 +95,7 @@ continue;
       continue;
     }
 
-    if (regex_match(ligne, m, reg_mtllib)) {
+    if (boost::regex_match(ligne, m, reg_mtllib)) {
 //      printf ("MTLLIB\n");
 continue;
       
@@ -112,7 +111,7 @@ continue;
 	return objets;
 }
 
-char** ObjParser::getMatchedChar(cmatch m) {
+char** ObjParser::getMatchedChar(boost::cmatch m) {
   char** ret = new char*[m.size()];
   int cpt = 0;
 
@@ -125,7 +124,7 @@ char** ObjParser::getMatchedChar(cmatch m) {
   return ret;
 }
 
-double* ObjParser::getMatchedDouble(cmatch m) {
+double* ObjParser::getMatchedDouble(boost::cmatch m) {
   double* ret = new double[m.size()];
   int cpt = 0;
 
