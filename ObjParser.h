@@ -4,7 +4,7 @@
 #include <cstring>
 #include <vector>
 #include "Objet3D.h"
-#include <regex>
+#include <boost/regex.hpp>
 #include <fstream>
 #include <iostream>
 
