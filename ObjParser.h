@@ -14,8 +14,8 @@ private:
 	vector<Objet3D> objets;
 	Objet3D * vObj;
 
-  char** getMatchedChar(cmatch m);
-  double* getMatchedDouble(cmatch sm);
+  char** getMatchedChar(boost::cmatch m);
+  double* getMatchedDouble(boost::cmatch m);
 
 public:
 
