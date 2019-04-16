@@ -5,6 +5,8 @@
 #include <vector>
 #include "Objet3D.h"
 #include <regex>
+#include <fstream>
+#include <iostream>
 
 class ObjParser {
 
