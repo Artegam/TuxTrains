@@ -4,6 +4,7 @@
 #include <vector>
 #include <algorithm>    // std::for_each
 #include <stdio.h>
+#include <string>
 
 #include "Vertex.h"
 #include "VertexNormal.h"
@@ -26,7 +27,7 @@ class Objet3D {
 
 		void ajouterVertex(double pX, double pY, double pZ, double pW);
 		void ajouterVertexNormal(double pX, double pY, double pZ, double pW);
-		void ajouterFace(int nbParametres, char parametres[4][50]);
+		void ajouterFace(const int nbParametres, char** parametres);
 
     void init();
 		void dessiner();
