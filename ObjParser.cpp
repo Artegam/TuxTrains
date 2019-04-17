@@ -90,10 +90,10 @@ for(it = fichierRAM.begin(); it != fichierRAM.end(); it++) {
   //Faces
     if(tokens[0].compare("f") == 0) {
 
-      char** res = new char*[tokens.size()-1];
+      char** res = new char*[tokens.size()]; // A vérifier sinon utiliser +1 a cause du caractère de fin de chaine '\0'
 
       for(unsigned int i = 0; i < tokens.size()-1; i++) {
-        res[i] = new char[tokens[i+1].length()];
+        res[i] = new char[sizeof(tokens[i+1].c_str())];
         strcpy(res[i], tokens[i+1].c_str());
       }
 //      printf("taille size %d\n", tokens.size()-1);
