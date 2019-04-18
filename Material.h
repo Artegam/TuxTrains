@@ -19,11 +19,9 @@
 
 class Material {
 
-private:
+protected:
 	char name[255];
 	double Ns;
-	
-
 
 public:
 		Material();

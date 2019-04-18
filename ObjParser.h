@@ -9,7 +9,7 @@
 
 class ObjParser {
 
-private:
+protected:
 	vector<Objet3D> objets;
 	Objet3D * vObj;
 

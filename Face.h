@@ -11,7 +11,7 @@ using namespace std;
 
 class Face {
 
-	private:
+	protected:
 		vector<long> vertexNums;
 		vector<long> vertexTextNums;
 		vector<long> vertexNormalNums;

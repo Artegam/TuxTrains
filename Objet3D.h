@@ -14,7 +14,7 @@ using namespace std;
 
 class Objet3D {
 
-	private:
+	protected:
 		char* nom;
 		vector<Vertex> vertices;
 		vector<VertexNormal> verticesNormal;
