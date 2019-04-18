@@ -7,20 +7,20 @@ Phase I
  - [x] Amélioration 2 : Mettre le code qui dessine les objets en listes d'affichage (voir le GLBegin dans les faces à supprimer). http://linor.fr/tutoriaux/tuto-391-opengl-les-listes-affichage.php
  - [x] Amélioration 3 : Améliorer le système de parser des objets 3D. Utiliser des expressions régulières (#include <regex>) http://guillaume.belz.free.fr/doku.php?id=expressions_regulieres
  - [x] Amélioration 4 : Augmenter la rapidité du Parser. (voir bibliothèque boost).
- - [ ] Amélioration 5 : Modifier la visibilité private en protected
- 
+ - [x] Amélioration 5 : Modifier la visibilité private en protected
+
 
 Phase II
 
   - [ ] Maintenance : Nettoyer le code, supprimer tout le code en remarques.
   - [ ] Maintenance : Ajouter / Modifier les tests unitaires
   - [ ] Architecture : Modifier les objets qui concerne le rendu (points, faces, Objet3D). Les ranger dans un répertoire qui convient.
-  
-Phase III
+
+  Phase III
   - [ ] Etude : Inclure / intégrer la bibliothèque Ogre ?
   - [ ] Architecture : Conceptualiser / Designer la partie métier (classes Train, Locomotive, Wagon, Terrain, passage à niveau, Gare, etc...)
   - [ ] Scene : Terrain, découpage en cases, Taille d'une case ?? voir aussi size / resize d'un objet.
-  
+
 Phase IV
   - [ ] Etude : Recherche de chemin (pour la pose des voies de chemin de fer)
 
