@@ -5,22 +5,32 @@ Phase I
 
  - [x] Amélioration 1 : (1h) Ajouter l'affichage des FPS dans la console.
  - [x] Amélioration 2 : Mettre le code qui dessine les objets en listes d'affichage (voir le GLBegin dans les faces à supprimer). http://linor.fr/tutoriaux/tuto-391-opengl-les-listes-affichage.php
- - [x] Amélioration 3 : Améliorer le système de parser des objets 3D. Utiliser des expressions régulières (#include <regex>) http://guillaume.belz.free.fr/doku.php?id=expressions_regulieres
  - [x] Amélioration 4 : Augmenter la rapidité du Parser. (voir bibliothèque boost).
  - [x] Amélioration 5 : Modifier la visibilité private en protected
 
 
 Phase II
-
   - [ ] Maintenance : Nettoyer le code, supprimer tout le code en remarques.
+  - [-] Amélioration 3 : Améliorer le système de parser des objets 3D. Utiliser des expressions régulières avec boost http://guillaume.belz.free.fr/doku.php?id=expressions_regulieres
   - [ ] Maintenance : Ajouter / Modifier les tests unitaires
   - [ ] Architecture : Modifier les objets qui concerne le rendu (points, faces, Objet3D). Les ranger dans un répertoire qui convient.
+  - [ ] Parser : Ajouter le parser de materiaux et afficher à l'écran les couleurs (simple) des objets.
 
   Phase III
   - [ ] Etude : Inclure / intégrer la bibliothèque Ogre ?
   - [ ] Architecture : Conceptualiser / Designer la partie métier (classes Train, Locomotive, Wagon, Terrain, passage à niveau, Gare, etc...)
   - [ ] Scene : Terrain, découpage en cases, Taille d'une case ?? voir aussi size / resize d'un objet.
+  - [ ] UI : Mettre en place un menu très simple au niveau de l'écran en 3D
+  - [ ] Scene : Introduire les animations simples (rotations, translations d'objets)
+  - [ ] Parser : Ajouter la reflexion des matériaux. (lumière ambiante, diffuse, speculaire)
+  - [ ] Parser : Ajouter les Textures
 
 Phase IV
   - [ ] Etude : Recherche de chemin (pour la pose des voies de chemin de fer)
-
+  - [ ] Etude : Recherche de calculs de collision entre objets
+  
+Phase ?
+  - [ ] Etude : Recherches sur l'intelligence artificielle pour les concurents
+  - [ ] Etude : Ajouter le fonction réseau avec boost pour les parties multi-joueurs
+  - [ ] Etude : Ajouter le sysème monaitaire (le coût de la pose de rails, d'un train, etc...)
+  - [ ] Etude : Ajouter le système boursier (actions, titres, etc...)
