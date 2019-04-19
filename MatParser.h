@@ -19,12 +19,12 @@
 
 class MatParser {
 
-private:
+protected:
 	vector<Material> materials;
 	Material * vMat;
 
 public:
-	
+
 	vector<Material> readFile (const char * filename);
 	/*
 	void readVertex(FILE* fichier);
