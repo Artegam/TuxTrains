@@ -1,21 +1,26 @@
 
 
-OBJECTS=main.o ObjParser.o VertexNormal.o Vertex.o Face.o Objet3D.o
+OBJECTS=main.o VertexNormal.o Vertex.o Face.o Objet3D.o
+PARSER=src/Parser/ObjParser.o
 LIBS=-lGL -lglut -lGLU
 EXEC=TuxTrains
 INCLUDES=-I includes/
+OPT=-Wall
 
 all:$(EXEC) clean
 
 
-$(EXEC): main.o ObjParser.o VertexNormal.o Vertex.o Face.o Objet3D.o
-	g++ -Wall -o $@ $^ $(LIBS)
+$(EXEC): $(OBJECTS) $(PARSER)
+	g++ $(OPT) -o $@ $^ $(LIBS)
 
 main.o: src/main.cpp
-	g++ -Wall -c $(INCLUDES) src/main.cpp $(LIBS)
+	g++ $(OPT) -c $(INCLUDES) src/main.cpp $(LIBS)
+
+src/Parser/%.o: src/Parser/%.cpp
+	g++ $(OPT) -c $(INCLUDES) $(INCLUDES)Parser/ $^ -o $@
 
 %.o: src/%.cpp
-	g++ -Wall -c $(INCLUDES) $^
+	g++ $(OPT) -c $(INCLUDES) $^
 
 clean:
 	rm *.o;find . -name "*~" | xargs rm
