@@ -3,7 +3,7 @@
 #include "Objet3D.h"
 #include <stdio.h>
 
-
+//test pour les fichiers tildeÃ©s
 void afficherVertex(Vertex& v);
 
 char* Objet3D::getNom() {
@@ -38,11 +38,6 @@ void Objet3D::ajouterVertexNormal(double pX, double pY, double pZ, double pW){
 
 void Objet3D::ajouterFace(const int nbParametres, char** parametres){
 
-	int numVertex[4];
-	int numVertexTexture[4];
-	int numVertexNormal[4];
-	int nbVertexInfo;
-	int numCas;
   const int MAX = nbParametres;
 
 	if (MAX > 0) {
@@ -50,8 +45,6 @@ void Objet3D::ajouterFace(const int nbParametres, char** parametres){
 		Face f;
 
 		for(int cpt = 0; cpt < MAX; cpt++) {
-			numCas = 0;
-
       string delimiter = "/";
       string token;
       size_t pos = 0;
