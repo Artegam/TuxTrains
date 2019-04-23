@@ -4,6 +4,7 @@
 #include <vector>
 #include <algorithm>    // std::for_each
 #include <stdio.h>
+#include <string>
 
 #include "Vertex.h"
 #include "VertexNormal.h"
@@ -13,21 +14,22 @@ using namespace std;
 
 class Objet3D {
 
-	private:
+	protected:
 		char* nom;
 		vector<Vertex> vertices;
 		vector<VertexNormal> verticesNormal;
 		vector<Face> faces;
-		
+    GLuint listeAffichage;
 
 	public:
 		char* getNom();
 		void setNom(char* pNom);
 
 		void ajouterVertex(double pX, double pY, double pZ, double pW);
-		void ajouterVertexNormal(double pX, double pY, double pZ, double pW);		
-		void ajouterFace(int nbParametres, char parametres[4][50]);
+		void ajouterVertexNormal(double pX, double pY, double pZ, double pW);
+		void ajouterFace(const int nbParametres, char** parametres);
 
+    void init();
 		void dessiner();
 };
 

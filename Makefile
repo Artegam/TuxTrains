@@ -1,20 +1,20 @@
 
 
 OBJECTS=main.o ObjParser.o VertexNormal.o Vertex.o Face.o Objet3D.o
-LIBS=-lGL -lglut -lGLU
+LIBS=-lGL -lglut -lGLU -I boost_1_70_0
 EXEC=essai3D
 
 all:$(EXEC) clean
 
 
 $(EXEC): main.o ObjParser.o VertexNormal.o Vertex.o Face.o Objet3D.o
-	g++ -o $@ $^ $(LIBS)
+	g++ -Wall -o $@ $^ $(LIBS)
 
 main.o: main.cpp
-	g++ -c main.cpp $(LIBS)
+	g++ -Wall -c main.cpp $(LIBS)
 
 %.o: %.cpp
-	g++ -c $^
+	g++ -Wall -c $^
 
 clean:
 	rm *.o
