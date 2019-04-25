@@ -1,23 +1,49 @@
 
 
-OBJECTS=main.o ObjParser.o VertexNormal.o Vertex.o Face.o Objet3D.o
-LIBS=-lGL -lglut -lGLU -I boost_1_70_0
-EXEC=essai3D
+SRC=src/
+SRC_PARSER=$(SRC)Parser/
+SRC_RENDER=$(SRC)Render/
+
+INC=includes/
+INC_PARSER=$(INC)Parser/
+INC_RENDER=$(INC)Render/
+
+INCLUDES=-I $(INC) -I $(INC_PARSER) -I $(INC_RENDER)
+
+INSTALL_DIR=/usr/bin/
+
+LIBS=-lGL -lglut -lGLU
+EXEC=TuxTrains
+OPT=-Wall
+
+OBJECTS=main.o ObjParser.o Objet3D.o Face.o Vertex.o VertexNormal.o
 
 all:$(EXEC) clean
 
 
-$(EXEC): main.o ObjParser.o VertexNormal.o Vertex.o Face.o Objet3D.o
-	g++ -Wall -o $@ $^ $(LIBS)
+$(EXEC): $(OBJECTS)
+	g++ $(OPT) $(INCLUDES) -o $@ $^ $(LIBS)
 
-main.o: main.cpp
-	g++ -Wall -c main.cpp $(LIBS)
+main.o: src/main.cpp
+	g++ $(OPT) -c $(INCLUDES) src/main.cpp $(LIBS)
 
-%.o: %.cpp
-	g++ -Wall -c $^
+%.o: $(SRC)%.cpp $(SRC_PARSER)%.cpp $(SRC_RENDER)%.cpp
+	g++ $(OPT) -c $(INCLUDES) $^
+
+%.o: $(SRC_PARSER)%.cpp
+	g++ $(OPT) -c $(INCLUDES) $^
+
+%.o: $(SRC_RENDER)%.cpp
+	g++ $(OPT) -c $(INCLUDES) $^
 
 clean:
-	rm *.o
+	rm *.o;find . -name "*~" | xargs rm
 
 mrproper: clean
 	rm -rf $(EXEC)
+
+install:
+	cp $(EXEC) $(INSTALL_DIR)
+
+uninstall:
+	rm $(INSTALL_DIR)$(EXEC)
