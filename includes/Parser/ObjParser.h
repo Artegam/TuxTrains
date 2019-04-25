@@ -12,11 +12,12 @@ class ObjParser {
 protected:
 	vector<Objet3D> objets;
 	Objet3D * vObj;
+  vector<string> fichierRAM;
 
 public:
 
-	//ObjParser();
-	//~ObjParser();
 	vector<Objet3D> readFile (const char * filename);
+  void parserFichier(void);
+  vector<string> getTokens(vector<string>::iterator it);
 
 };

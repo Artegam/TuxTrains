@@ -3,6 +3,7 @@
 #include <vector>
 
 #include "Parser/ObjParser.h"
+#include "Parser/MatParser.h"
 #include "Objet3D.h"
 
 
@@ -29,6 +30,7 @@ void mouse(int button, int state, int x, int y);
 int main(int argc, char** argv) {
 
 	ObjParser * parser = new ObjParser();
+  MatParser materiaux;
 
 	angle = -1.0;
 	//float valZoom = 0.0;
@@ -44,6 +46,7 @@ int main(int argc, char** argv) {
 	if (argv[1] != NULL) {
 		printf("Lecture du fichier... \t %s\n", argv[1]);
 		objets = parser->readFile(argv[1]);
+    materiaux.readFile(argv[2]);
 	} else {
 		printf("Veuillez passer en argument le nom du fichier obj (exemple: ./essai3D ./obj/jaguard.obj\n");
 		return 0;

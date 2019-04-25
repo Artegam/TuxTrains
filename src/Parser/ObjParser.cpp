@@ -9,11 +9,10 @@ vector<Objet3D> ObjParser::readFile (const char * filename) {
 
   string sligne;
 
-  vector<string> fichierRAM;
 
   ifstream fichier;
   fichier.open(filename, ios::in);
-  printf ("DÃ©but de lecture du fichier\n");
+  printf ("Debut de lecture du fichier\n");
 
   while(!fichier.eof()) {
    getline(fichier, sligne);
@@ -23,25 +22,18 @@ vector<Objet3D> ObjParser::readFile (const char * filename) {
   fichier.close();
   printf ("Fin de lecture du fichier\n");
 
+  parserFichier();
+
+  return objets;
+}
+
+
+void ObjParser::parserFichier() {
   vector<string>::iterator it;
   printf ("Debut parcours fichier RAM\n");
 
-  string delimiter = " ";
-  string token;
-  size_t pos = 0;
-
   for(it = fichierRAM.begin(); it != fichierRAM.end(); it++) {
-    pos = 0;
-    vector<string> tokens;
-    while((pos = it->find(delimiter)) != string::npos) {
-      token = it->substr(0, pos);
-      tokens.push_back(token);
-      it->erase(0, pos + delimiter.length());
-    }
-    //Ajouter le dernier element
-    token = it->substr(0, it->size());
-    tokens.push_back(token);
-
+    vector<string> tokens = getTokens(it);
     //Conditions pour traitements
     if(tokens.size() > 0) {
       // Objets
@@ -112,8 +104,27 @@ vector<Objet3D> ObjParser::readFile (const char * filename) {
   }
 
   printf ("FIN parcours fichier RAM\n");
-
   printf("Fin du traitement\n");
-  return objets;
+
 }
 
+
+
+vector<string> ObjParser::getTokens(vector<string>::iterator it) {
+
+  string delimiter = " ";
+  string token;
+  size_t pos = 0;
+
+  vector<string> tokens;
+  while((pos = it->find(delimiter)) != string::npos) {
+    token = it->substr(0, pos);
+    tokens.push_back(token);
+    it->erase(0, pos + delimiter.length());
+  }
+  //Ajouter le dernier element
+  token = it->substr(0, it->size());
+  tokens.push_back(token);
+
+  return tokens;
+}

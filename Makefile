@@ -16,7 +16,8 @@ LIBS=-lGL -lglut -lGLU
 EXEC=TuxTrains
 OPT=-Wall
 
-OBJECTS=main.o ObjParser.o Objet3D.o Face.o Vertex.o VertexNormal.o
+O_PARSER=ObjParser.o MatParser.o
+OBJECTS=main.o $(O_PARSER) Objet3D.o Face.o Vertex.o VertexNormal.o Material.o
 
 all:$(EXEC) clean
 
@@ -27,7 +28,7 @@ $(EXEC): $(OBJECTS)
 main.o: src/main.cpp
 	g++ $(OPT) -c $(INCLUDES) src/main.cpp $(LIBS)
 
-%.o: $(SRC)%.cpp $(SRC_PARSER)%.cpp $(SRC_RENDER)%.cpp
+%.o: $(SRC)%.cpp
 	g++ $(OPT) -c $(INCLUDES) $^
 
 %.o: $(SRC_PARSER)%.cpp
@@ -37,7 +38,7 @@ main.o: src/main.cpp
 	g++ $(OPT) -c $(INCLUDES) $^
 
 clean:
-	rm *.o;find . -name "*~" | xargs rm
+	rm *.o;find . -name "*~" | xargs rm -f
 
 mrproper: clean
 	rm -rf $(EXEC)
