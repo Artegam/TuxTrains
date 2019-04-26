@@ -54,10 +54,11 @@ void MatParser::parserFichier() {
         strcpy(nom, tokens[1].c_str());
         mat.setNom(nom);
         vMat = &mat; // On garde le pointeur de materiau courant
-        //objets.insert(objets.begin(), *vObj);
         materiaux[nom] = mat;
+        vMat = &mat;
         printf("Materiau : %s\n", nom);
         continue;
+
       }
 
       // Ambiant
@@ -106,6 +107,79 @@ void MatParser::parserFichier() {
         vMat->setSpeculaire(d[0], d[1], d[2]);
         }else{
           printf("#### Erreur couleur speculaire ####\n");
+        }
+
+        continue;
+      }
+
+      // Reflectivite
+      if(tokens[0].compare("Ns") == 0) {
+
+        if(tokens.size() == 2) {
+          double d;
+          d = stod(tokens[1]);
+
+          vMat->setReflectivite(d);
+        }else{
+          printf("#### Erreur Reflectivite ####\n");
+        }
+
+        continue;
+      }
+
+      // Transparence
+      if(tokens[0].compare("Tr") == 0) {
+
+        if(tokens.size() == 2) {
+          double d;
+          d = stod(tokens[1]);
+
+          vMat->setTransparence(d);
+        }else{
+          printf("#### Erreur Transparence ####\n");
+        }
+
+        continue;
+      }
+
+      // Non-Transparence
+      if(tokens[0].compare("d") == 0) {
+
+        if(tokens.size() == 2) {
+          double d;
+          d = stod(tokens[1]);
+
+          vMat->setNonTransparence(d);
+        }else{
+          printf("#### Erreur Non-Transparence ####\n");
+        }
+
+        continue;
+      }
+
+      // Num illumination
+      if(tokens[0].compare("illum") == 0) {
+
+        if(tokens.size() == 2) {
+          int i;
+          i = atoi(tokens[1].c_str());
+
+          vMat->setModeleIllumination(i);
+        }else{
+          printf("#### Erreur Modele illumination ####\n");
+        }
+
+        continue;
+      }
+
+      // Chemin texture
+      if(tokens[0].compare("map_Kd") == 0) {
+
+        if(tokens.size() == 2) {
+          printf("%s\n", tokens[1].c_str());
+          vMat->setTexture(tokens[1]);
+        }else{
+          printf("#### Erreur chemin texture ####\n");
         }
 
         continue;

@@ -4,6 +4,9 @@ SRC=src/
 SRC_PARSER=$(SRC)Parser/
 SRC_RENDER=$(SRC)Render/
 
+SRC_TU=tests/
+SRC_TU_PARSER=$(SRC_TU)Parser/
+
 INC=includes/
 INC_PARSER=$(INC)Parser/
 INC_RENDER=$(INC)Render/
@@ -17,12 +20,18 @@ EXEC=TuxTrains
 OPT=-Wall
 
 O_PARSER=ObjParser.o MatParser.o
-OBJECTS=main.o $(O_PARSER) Objet3D.o Face.o Vertex.o VertexNormal.o Material.o
+OBJECTS=$(O_PARSER) Objet3D.o Face.o Vertex.o VertexNormal.o Material.o
 
-all:$(EXEC) clean
+TESTS_U=TU_MatParser
+O_TESTS_U=TU_MatParser.o $(OBJECTS)
+
+all:$(EXEC) $(TESTS_U) clean
 
 
-$(EXEC): $(OBJECTS)
+$(EXEC): main.o $(OBJECTS)
+	g++ $(OPT) $(INCLUDES) -o $@ $^ $(LIBS)
+
+$(TESTS_U): $(O_TESTS_U)
 	g++ $(OPT) $(INCLUDES) -o $@ $^ $(LIBS)
 
 main.o: src/main.cpp
@@ -35,6 +44,12 @@ main.o: src/main.cpp
 	g++ $(OPT) -c $(INCLUDES) $^
 
 %.o: $(SRC_RENDER)%.cpp
+	g++ $(OPT) -c $(INCLUDES) $^
+
+%.o: $(SRC_TU)%.cpp
+	g++ $(OPT) -c $(INCLUDES) $^
+
+%.o: $(SRC_TU_PARSER)%.cpp
 	g++ $(OPT) -c $(INCLUDES) $^
 
 clean:
