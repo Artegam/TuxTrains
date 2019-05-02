@@ -1,11 +1,17 @@
 #ifndef MATERIAL
 #define MATERIAL
 
+#include <GL/glut.h>
+
 #include <stdio.h>
 #include <cstring>
 #include <vector>
 #include <map>
 #include <string>
+#include <algorithm>
+
+#include "RenderObj.h"
+
 /*
 	- newmtl name
 	- Ns double : Reflectivité (shininess)
@@ -21,7 +27,7 @@
 */
 using namespace std;
 
-class Material {
+class Material:public RenderObj {
 
   protected:
     char * nom;
@@ -29,12 +35,13 @@ class Material {
     double Ni;
     double d;
     double Tr;
-    double Ka[3];
-    double Kd[3];
-    double Ks[3];
+    GLfloat Ka[4];
+    GLfloat Kd[4];
+    GLfloat Ks[4];
+    GLfloat Ke[4];
     int illum;
     char * map_Kd;
-
+    double no_mat[4] = {0.0f, 0.0f, 0.0f, 1.0f};
 
   public:
     Material();
@@ -44,12 +51,15 @@ class Material {
     void setAmbiant(double r, double v, double b);
     void setDiffus(double r, double v, double b);
     void setSpeculaire(double r, double v, double b);
+    void setEmmission(double r, double v, double b);
     void setReflectivite(double r);
     void setTransparence(double t);
     void setNonTransparence(double nt);
     void setModeleIllumination(int num_model);
     void setTexture(string cheminTexture);
 
+    void init();
+    void dessiner(void);
 };
 
 #endif

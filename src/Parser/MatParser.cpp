@@ -112,6 +112,23 @@ void MatParser::parserFichier() {
         continue;
       }
 
+      // Emmission
+      if(tokens[0].compare("Ke") == 0) {
+
+        if(tokens.size() == 4) {
+        double d[tokens.size()-1];
+        for(unsigned int i = 0; i < tokens.size()-1; i++) {
+          d[i] = stod(tokens[i+1]);
+        }
+
+        vMat->setEmmission(d[0], d[1], d[2]);
+        }else{
+          printf("#### Erreur couleur emmission ####\n");
+        }
+
+        continue;
+      }
+
       // Reflectivite
       if(tokens[0].compare("Ns") == 0) {
 

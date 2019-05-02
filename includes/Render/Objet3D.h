@@ -9,13 +9,15 @@
 #include "Vertex.h"
 #include "VertexNormal.h"
 #include "Face.h"
+#include "RenderObj.h"
 
 using namespace std;
 
-class Objet3D {
+class Objet3D:public RenderObj {
 
 	protected:
 		char* nom;
+    char* nomMateriau;
 		vector<Vertex> vertices;
 		vector<VertexNormal> verticesNormal;
 		vector<Face> faces;
@@ -24,6 +26,7 @@ class Objet3D {
 	public:
 		char* getNom();
 		void setNom(char* pNom);
+		void setMateriau(char* pNomMateriau);
 
 		void ajouterVertex(double pX, double pY, double pZ, double pW);
 		void ajouterVertexNormal(double pX, double pY, double pZ, double pW);

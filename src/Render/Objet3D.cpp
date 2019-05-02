@@ -14,6 +14,10 @@ void Objet3D::setNom(char* pNom) {
 	nom = pNom;
 }
 
+void Objet3D::setMateriau(char* pNomMateriau) {
+  nomMateriau = pNomMateriau;
+}
+
 void Objet3D::ajouterVertex(double pX, double pY, double pZ, double pW){
 	Vertex * v = new Vertex();
 
