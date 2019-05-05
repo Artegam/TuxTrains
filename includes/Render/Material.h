@@ -41,7 +41,8 @@ class Material:public RenderObj {
     GLfloat Ke[4];
     int illum;
     char * map_Kd;
-    double no_mat[4] = {0.0f, 0.0f, 0.0f, 1.0f};
+    GLfloat no_mat[4] = {0.0f, 0.0f, 0.0f, 1.0f};
+    GLfloat test[4] = {0.0f, 1.0f, 0.0f, 1.0f}; //couleur verte de test
 
   public:
     Material();
@@ -57,6 +58,8 @@ class Material:public RenderObj {
     void setNonTransparence(double nt);
     void setModeleIllumination(int num_model);
     void setTexture(string cheminTexture);
+
+    void printInfos();
 
     void init();
     void dessiner(void);

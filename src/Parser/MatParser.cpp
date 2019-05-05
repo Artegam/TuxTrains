@@ -8,7 +8,7 @@
 
 
 //ASCH - 17/10/2014 - Methodes
-vector<Material> MatParser::readFile (const char * filename) {
+map<string, Material> MatParser::readFile (const char * filename) {
   string sligne;
 
   ifstream fichier;
@@ -25,7 +25,7 @@ vector<Material> MatParser::readFile (const char * filename) {
 
   parserFichier();
 
-  return materials;
+  return materiaux;
 }
 
 
@@ -41,6 +41,7 @@ void MatParser::parserFichier() {
 //  first['c']=50;
 //  first['d']=70;
 
+  char* nom;
 
   for(it = fichierRAM.begin(); it != fichierRAM.end(); it++) {
     vector<string> tokens = getTokens(it);
@@ -50,10 +51,11 @@ void MatParser::parserFichier() {
       // newmtl
       if(tokens[0].compare("newmtl") == 0) {
         Material mat;
-        char* nom = new char[tokens[1].size() + 1];
+        nom = new char[tokens[1].size() + 1];
         strcpy(nom, tokens[1].c_str());
         mat.setNom(nom);
         vMat = &mat; // On garde le pointeur de materiau courant
+        printf("NOUVEAU MATERIAU : %s\n", nom);
         materiaux[nom] = mat;
         vMat = &mat;
         printf("Materiau : %s\n", nom);
@@ -70,7 +72,7 @@ void MatParser::parserFichier() {
           d[i] = stod(tokens[i+1]);
         }
 
-        vMat->setAmbiant(d[0], d[1], d[2]);
+        materiaux[nom].setAmbiant(d[0], d[1], d[2]);
         }else{
           printf("#### Erreur couleur ambiante ####\n");
         }
@@ -87,7 +89,7 @@ void MatParser::parserFichier() {
           d[i] = stod(tokens[i+1]);
         }
 
-        vMat->setDiffus(d[0], d[1], d[2]);
+        materiaux[nom].setDiffus(d[0], d[1], d[2]);
         }else{
           printf("#### Erreur couleur diffuse ####\n");
         }
@@ -104,7 +106,7 @@ void MatParser::parserFichier() {
           d[i] = stod(tokens[i+1]);
         }
 
-        vMat->setSpeculaire(d[0], d[1], d[2]);
+        materiaux[nom].setSpeculaire(d[0], d[1], d[2]);
         }else{
           printf("#### Erreur couleur speculaire ####\n");
         }
@@ -121,7 +123,7 @@ void MatParser::parserFichier() {
           d[i] = stod(tokens[i+1]);
         }
 
-        vMat->setEmmission(d[0], d[1], d[2]);
+        materiaux[nom].setEmmission(d[0], d[1], d[2]);
         }else{
           printf("#### Erreur couleur emmission ####\n");
         }
@@ -132,11 +134,13 @@ void MatParser::parserFichier() {
       // Reflectivite
       if(tokens[0].compare("Ns") == 0) {
 
+        printf("!!!! %s\n", tokens[1].c_str());
+
         if(tokens.size() == 2) {
           double d;
           d = stod(tokens[1]);
-
-          vMat->setReflectivite(d);
+printf("!!!! %f\n", d);
+          materiaux[nom].setReflectivite(d);
         }else{
           printf("#### Erreur Reflectivite ####\n");
         }
@@ -151,7 +155,7 @@ void MatParser::parserFichier() {
           double d;
           d = stod(tokens[1]);
 
-          vMat->setTransparence(d);
+          materiaux[nom].setTransparence(d);
         }else{
           printf("#### Erreur Transparence ####\n");
         }
@@ -166,7 +170,7 @@ void MatParser::parserFichier() {
           double d;
           d = stod(tokens[1]);
 
-          vMat->setNonTransparence(d);
+          materiaux[nom].setNonTransparence(d);
         }else{
           printf("#### Erreur Non-Transparence ####\n");
         }
@@ -181,7 +185,7 @@ void MatParser::parserFichier() {
           int i;
           i = atoi(tokens[1].c_str());
 
-          vMat->setModeleIllumination(i);
+          materiaux[nom].setModeleIllumination(i);
         }else{
           printf("#### Erreur Modele illumination ####\n");
         }
@@ -194,7 +198,7 @@ void MatParser::parserFichier() {
 
         if(tokens.size() == 2) {
           printf("%s\n", tokens[1].c_str());
-          vMat->setTexture(tokens[1]);
+          materiaux[nom].setTexture(tokens[1]);
         }else{
           printf("#### Erreur chemin texture ####\n");
         }

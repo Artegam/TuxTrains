@@ -5,17 +5,15 @@
 #include "Parser/ObjParser.h"
 #include "Parser/MatParser.h"
 #include "Objet3D.h"
-#include "RenderObj.h"
-#include "Material.h"
-
 
 using namespace std;
 
 //Ligne de commande de compilation
 //g++ monPremierEssai.cpp -lGL -lglut -o monPremierEssai
 
-	vector<RenderObj*> objets;
-	vector<RenderObj*>::iterator it;
+	vector<Objet3D> objets;
+	vector<Objet3D>::iterator it;
+  map<string, Material> materials;
 	int angle;
   static int frame = 0;
   static int current_time = 0;
@@ -31,7 +29,7 @@ void mouse(int button, int state, int x, int y);
 
 int main(int argc, char** argv) {
 
-	ObjParser * parser = new ObjParser();
+	ObjParser * parser;
   MatParser materiaux;
 
 	angle = -1.0;
@@ -47,7 +45,8 @@ int main(int argc, char** argv) {
 
 	if (argv[1] != NULL) {
 		printf("Lecture du fichier... \t %s\n", argv[1]);
-    materiaux.readFile(argv[2]);
+    materials = materiaux.readFile(argv[2]);
+    parser = new ObjParser(materials);
 		objets = parser->readFile(argv[1]);
 	} else {
 		printf("Veuillez passer en argument le nom du fichier obj (exemple: ./essai3D ./obj/jaguard.obj\n");
@@ -82,7 +81,7 @@ int main(int argc, char** argv) {
 
   //Initialisation des objets (chargement dans la carte graphique pour le rendu
 	for(it = objets.begin(); it != objets.end(); it++) {
-		(*it)->init();
+		it->init();
 	}
 
   glutDisplayFunc(render);
@@ -135,7 +134,7 @@ void render(void) {
 	glRotatef(angle,0.0,1.0,0.0);
 
 	for(it = objets.begin(); it != objets.end(); it++) {
-		(*it)->dessiner();
+		it->dessiner();
 	}
 
   glutSwapBuffers();

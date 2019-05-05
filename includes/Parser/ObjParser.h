@@ -3,21 +3,25 @@
 #include <stdlib.h>
 #include <cstring>
 #include <vector>
+#include <map>
 #include "Objet3D.h"
 #include <fstream>
 #include <iostream>
-#include "RenderObj.h"
+#include "Material.h"
 
 class ObjParser {
 
 protected:
-	vector<RenderObj*> objets;
+  map<string, Material> materiaux;
+	vector<Objet3D> objets;
 	Objet3D * vObj;
   vector<string> fichierRAM;
 
 public:
 
-	vector<RenderObj*> readFile (const char * filename);
+  ObjParser(map<string, Material> mats);
+
+	vector<Objet3D> readFile (const char * filename);
   void parserFichier(void);
   vector<string> getTokens(vector<string>::iterator it);
 

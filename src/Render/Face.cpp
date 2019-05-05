@@ -1,6 +1,9 @@
 
 #include "Face.h"
 
+Face::Face(Material m){
+  mat = m;
+}
 
 void Face::ajouterNumVertex(long numVertex) {
 	vertexNums.insert(vertexNums.end(), numVertex);
@@ -19,7 +22,13 @@ void Face::ajouterNumVertexNormal(long numVertexNormal) {
 void Face::dessiner(vector<Vertex> pVertices, vector<VertexNormal> pVerticesNormal){
 
 	int nbPoints = vertexNums.size();
-	//if(vertexNums.size() < 3 and vertexNums.size() > 4) printf("Nb Points : %d\n", vertexNums.size());
+
+  //if(vertexNums.size() < 3 and vertexNums.size() > 4) printf("Nb Points : %d\n", vertexNums.size());
+
+  //Materiau
+  mat.printInfos();
+  mat.dessiner();
+
 	glBegin(GL_TRIANGLES);
 	for(int cpt = 1; cpt < nbPoints-1; cpt++){
 		int index;

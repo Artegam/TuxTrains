@@ -25,12 +25,11 @@ class MatParser {
 
 protected:
 	Material * vMat;
-	vector<Material> materials;
   vector<string> fichierRAM;
   map<string, Material> materiaux;
 
 public:
   void parserFichier(void);
   vector<string> getTokens(vector<string>::iterator it);
-  vector<Material> readFile (const char * filename);
+  map<string, Material> readFile (const char * filename);
 };

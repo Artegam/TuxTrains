@@ -3,9 +3,13 @@
 
 //ASCH - 17/10/2014 - ParamÃ¨tres
 
+ObjParser::ObjParser(map<string, Material> mats) {
+  materiaux = mats;
+}
+
 
 //ASCH - 17/10/2014 - MÃ©thodes
-vector<RenderObj*> ObjParser::readFile (const char * filename) {
+vector<Objet3D> ObjParser::readFile (const char * filename) {
 
   string sligne;
 
@@ -42,18 +46,14 @@ void ObjParser::parserFichier() {
         char* nom = new char[tokens[1].size() + 1];
         strcpy(nom, tokens[1].c_str());
         vObj->setNom(nom);
-        objets.insert(objets.begin(), vObj);
+        objets.insert(objets.begin(), *vObj);
         printf("\t - %s\n", nom);
         continue;
       }
 
       //USEMTL
       if(tokens[0].compare("usemtl") == 0) {
-        char* nomMat = new char[tokens[1].size() + 1];
-        strcpy(nomMat, tokens[1].c_str());
-
-        vObj->setMateriau(nomMat);
-        printf("materiaux utilise: %s\n", tokens[1].c_str());
+        objets[0].setMateriau(materiaux[tokens[1]]); //L'objet3D est insÃrÃ© en dÃ©but de liste a chaque fois ???
         continue;
       }
 
@@ -64,8 +64,8 @@ void ObjParser::parserFichier() {
           d[i] = stod(tokens[i+1]);
         }
 
-        if(tokens.size()-1 == 3) vObj->ajouterVertex(d[0], d[1], d[2], 0.0);
-        if(tokens.size()-1 == 4) vObj->ajouterVertex(d[0], d[1], d[2], d[3]);
+        if(tokens.size()-1 == 3) objets[objets.size()-1].ajouterVertex(d[0], d[1], d[2], 0.0);
+        if(tokens.size()-1 == 4) objets[objets.size()-1].ajouterVertex(d[0], d[1], d[2], d[3]);
         continue;
       }
 
@@ -77,8 +77,8 @@ void ObjParser::parserFichier() {
           d[i] = stod(tokens[i+1]);
         }
 
-        if(tokens.size() - 1 == 3) vObj->ajouterVertexNormal(d[0], d[1], d[2], 0.0);
-        if(tokens.size() - 1 == 4) vObj->ajouterVertexNormal(d[0], d[1], d[2], d[3]);
+        if(tokens.size() - 1 == 3) objets[objets.size()-1].ajouterVertexNormal(d[0], d[1], d[2], 0.0);
+        if(tokens.size() - 1 == 4) objets[objets.size()-1].ajouterVertexNormal(d[0], d[1], d[2], d[3]);
         continue;
       }
 
@@ -92,7 +92,7 @@ void ObjParser::parserFichier() {
           strcpy(res[i], tokens[i+1].c_str());
         }
 
-        vObj->ajouterFace(tokens.size()-1, res);
+        objets.back().ajouterFace(tokens.size()-1, res);
         continue;
       }
 

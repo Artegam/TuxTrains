@@ -65,6 +65,7 @@ void Material::setModeleIllumination(int num_model){
 void Material::setTexture(string cheminTexture){
   map_Kd = new char[cheminTexture.size()+1];
   strcpy(map_Kd,cheminTexture.c_str());
+  printf("TEXTURE : %s\n", map_Kd);
 }
 
 void Material::init() {
@@ -76,4 +77,23 @@ void Material::dessiner(void) {
   glMaterialfv(GL_FRONT, GL_SPECULAR, Ks);
   glMaterialf(GL_FRONT, GL_SHININESS, Ns);
   glMaterialfv(GL_FRONT, GL_EMISSION, Ke);
+}
+
+
+void Material::printInfos() {
+    printf("-----------------------\n");
+    printf("Nom : %s\n", nom);
+    printf("-----------------------\n");
+    printf("\tNs : %f\n", Ns);
+    printf("\tNi : %f\n", Ni);
+    printf("\td : %f\n", d);
+    printf("\tTransparence : %f\n",  Tr);
+    printf("\tAmbiant : %f %f %f %f\n", Ka[0], Ka[1], Ka[2], Ka[3]);
+    printf("\tDiffus : %f %f %f %f\n", Kd[0], Kd[1], Kd[2], Kd[3]);
+    printf("\tSpeculaire : %f %f %f %f\n", Ks[0], Ks[1], Ks[2], Ks[3]);
+    printf("\tEmission : %f %f %f %f\n", Ke[0], Ke[1], Ke[2], Ke[3]);
+    printf("\tIllumination : %d\n", illum);
+    printf("\tTexture : %s\n", map_Kd);
+    printf("-----------------------\n\n\n\n");
+
 }

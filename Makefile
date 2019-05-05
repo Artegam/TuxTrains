@@ -25,7 +25,7 @@ OBJECTS=$(O_PARSER) Objet3D.o Face.o Vertex.o VertexNormal.o Material.o
 TESTS_U=TU_MatParser
 O_TESTS_U=TU_MatParser.o $(OBJECTS)
 
-all:$(EXEC) $(TESTS_U) clean
+all:$(EXEC) $(TESTS_U)
 
 
 $(EXEC): main.o $(OBJECTS)

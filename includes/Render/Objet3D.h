@@ -4,20 +4,21 @@
 #include <vector>
 #include <algorithm>    // std::for_each
 #include <stdio.h>
+#include <cstring>
 #include <string>
 
 #include "Vertex.h"
 #include "VertexNormal.h"
 #include "Face.h"
-#include "RenderObj.h"
+#include "Material.h"
 
 using namespace std;
 
-class Objet3D:public RenderObj {
+class Objet3D {
 
 	protected:
 		char* nom;
-    char* nomMateriau;
+    Material mat;
 		vector<Vertex> vertices;
 		vector<VertexNormal> verticesNormal;
 		vector<Face> faces;
@@ -26,7 +27,8 @@ class Objet3D:public RenderObj {
 	public:
 		char* getNom();
 		void setNom(char* pNom);
-		void setMateriau(char* pNomMateriau);
+    string getNomMateriau();
+		void setMateriau(Material pMateriau);
 
 		void ajouterVertex(double pX, double pY, double pZ, double pW);
 		void ajouterVertexNormal(double pX, double pY, double pZ, double pW);
