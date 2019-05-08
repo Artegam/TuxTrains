@@ -39,6 +39,6 @@ double Vertex::getW(){
 }
 
 void Vertex::dessiner() {
-	glColor3f(0.0, 0.0, 1.0);
+	//glColor3f(0.0, 0.0, 1.0);
 	glVertex3d(x, y, z);
 }

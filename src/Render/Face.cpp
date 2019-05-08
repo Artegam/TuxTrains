@@ -26,10 +26,15 @@ void Face::dessiner(vector<Vertex> pVertices, vector<VertexNormal> pVerticesNorm
   //if(vertexNums.size() < 3 and vertexNums.size() > 4) printf("Nb Points : %d\n", vertexNums.size());
 
   //Materiau
-  mat.printInfos();
+  //mat.printInfos();
   mat.dessiner();
 
+//  glBegin(GL_QUADS);
+//  glutSolidCube(1.0);
+//  glEnd();
+
 	glBegin(GL_TRIANGLES);
+  //glNormal3d(0, 0, 1);
 	for(int cpt = 1; cpt < nbPoints-1; cpt++){
 		int index;
 		int normalIndex;

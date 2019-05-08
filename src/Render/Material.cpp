@@ -18,9 +18,9 @@ void Material::setNom(char* pNom) {
 }
 
 void Material::setAmbiant(double r, double v, double b){
-  Ka[0] = r;
-  Ka[1] = v;
-  Ka[2] = b;
+  Ka[0] = 0.3 - r;
+  Ka[1] = 0.3 - v;
+  Ka[2] = 0.3  -b;
   Ka[3] = 1.0; //Alpha
 }
 

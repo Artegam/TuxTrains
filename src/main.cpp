@@ -15,6 +15,7 @@ using namespace std;
 	vector<Objet3D>::iterator it;
   map<string, Material> materials;
 	int angle;
+  GLfloat anim =0;
   static int frame = 0;
   static int current_time = 0;
   static int last_time = 0;
@@ -66,6 +67,7 @@ int main(int argc, char** argv) {
 	//Initialisation des matrices
   	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
+  //glOrtho(0.0, 1.0, 0.0, 1.0, -1.0, 1.0);
 	gluPerspective (50.0*zoomFactor, (float)width/(float)height, zNear, zFar);
 
 	glMatrixMode(GL_MODELVIEW);
@@ -96,19 +98,39 @@ int main(int argc, char** argv) {
 
 void initLight(void)
 {
-   GLfloat mat_specular[] = { 1.0, 1.0, 1.0, 1.0 };
-   GLfloat mat_shininess[] = { 50.0 };
-   GLfloat light_position[] = { 4.0, 4.0, 4.0, 0.0 };
-   glClearColor (0.0, 0.0, 0.0, 0.0);
-   glShadeModel (GL_SMOOTH);
 
-   glMaterialfv(GL_FRONT, GL_SPECULAR, mat_specular);
-   glMaterialfv(GL_FRONT, GL_SHININESS, mat_shininess);
-   glLightfv(GL_LIGHT0, GL_POSITION, light_position);
+  printf("LIGHT Initialisation()....\n");
 
-	glEnable(GL_DEPTH_TEST);
-  	glEnable(GL_LIGHTING);
-  	glEnable(GL_LIGHT0);
+
+  //LIGHT0
+   GLfloat lightpos[] = {2.0, 2.0, 2.0, 0.0};
+   GLfloat lightdiffuse[] = {0.0, 0.0, 2.0, 0.0};
+   GLfloat lightspecular[] = {0.0, 0.0, 2.0, 0.0};
+
+   glLightfv(GL_LIGHT0, GL_POSITION, lightpos);
+   glLightfv(GL_LIGHT0, GL_DIFFUSE, lightdiffuse);
+   glLightfv(GL_LIGHT0, GL_SPECULAR, lightspecular);
+
+   //LIGHT1
+   GLfloat lightpos1[] = {0.0, 15.0, 0.0, 0.0};
+   GLfloat lightdiffuse1[] = {2.0, 2.0, 2.0, 0.0};
+   GLfloat lightspecular1[] = {2.0, 2.0, 2.0, 0.0};
+
+   glLightfv(GL_LIGHT1, GL_POSITION, lightpos1);
+   glLightfv(GL_LIGHT1, GL_DIFFUSE, lightdiffuse1);
+   glLightfv(GL_LIGHT1, GL_SPECULAR, lightspecular1);
+
+
+
+   glLightModeli(GL_LIGHT_MODEL_LOCAL_VIEWER, GL_TRUE);
+   glEnable(GL_DEPTH_TEST);
+   glEnable(GL_LIGHTING);
+   glEnable(GL_LIGHT0);
+   glEnable(GL_LIGHT1);
+
+// FIN POUR LES TESTS DE LUMIERE
+  printf("Fin de LIGHT Initialisation...\n");
+
 
 }
 
@@ -131,11 +153,38 @@ void idle(void) {
 void render(void) {
 
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	glRotatef(angle,0.0,1.0,0.0);
+
+  //glRotatef(angle,0.0,1.0,0.0);
 
 	for(it = objets.begin(); it != objets.end(); it++) {
 		it->dessiner();
 	}
+
+  glRotatef(angle,0.0,1.0,0.0);
+
+//Pour symbolyser la lumiÃ¨re du soleil
+  GLfloat es[4] = {0.8f, 0.8f, 0.8f, 1.0f};
+  glMaterialfv(GL_FRONT, GL_EMISSION, es);
+  GLfloat cs[3] = {0.0f, 15.0f, 0.0f};
+  glTranslatef(cs[0], cs[1], cs[2]);
+  glutSolidSphere(0.25, 6, 6);
+  glTranslatef(0-cs[0], 0-cs[1], 0-cs[2]);
+
+  //Pour symboliser la lumiÃ¨re bleue qui se dÃ©place
+  GLfloat e[4] = {0.0f, 0.0f, 0.8f, 1.0f};
+  glMaterialfv(GL_FRONT, GL_EMISSION, e);
+
+  anim += 0.5;
+  if (anim == 10.0) anim = -10.0;
+
+  GLfloat c[3] = {2.0f+anim, 2.0f, 2.0f};
+  glTranslatef(c[0], c[1], c[2]);
+  glutSolidCube(0.5);
+
+  GLfloat lightpos[] = {c[0], c[1], c[2], 1.0};
+  glLightfv(GL_LIGHT0, GL_POSITION, lightpos);
+  glTranslatef(0-c[0], 0-c[1], 0-c[2]);
+
 
   glutSwapBuffers();
 	glFlush();
