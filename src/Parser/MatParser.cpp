@@ -13,7 +13,7 @@ map<string, Material> MatParser::readFile (const char * filename) {
 
   ifstream fichier;
   fichier.open(filename, ios::in);
-  printf ("Debut de lecture du fichier de materiaux\n");
+  printf ("Debut de lecture du fichier de materiaux %s...\n", filename);
 
   while(!fichier.eof()) {
    getline(fichier, sligne);
@@ -55,7 +55,7 @@ void MatParser::parserFichier() {
         strcpy(nom, tokens[1].c_str());
         mat.setNom(nom);
         vMat = &mat; // On garde le pointeur de materiau courant
-        printf("NOUVEAU MATERIAU : %s\n", nom);
+        //printf("NOUVEAU MATERIAU : %s\n", nom);
         materiaux[nom] = mat;
         vMat = &mat;
         printf("Materiau : %s\n", nom);
@@ -134,12 +134,12 @@ void MatParser::parserFichier() {
       // Reflectivite
       if(tokens[0].compare("Ns") == 0) {
 
-        printf("!!!! %s\n", tokens[1].c_str());
+        //printf("!!!! %s\n", tokens[1].c_str());
 
         if(tokens.size() == 2) {
           double d;
           d = stod(tokens[1]);
-printf("!!!! %f\n", d);
+//printf("!!!! %f\n", d);
           materiaux[nom].setReflectivite(d);
         }else{
           printf("#### Erreur Reflectivite ####\n");

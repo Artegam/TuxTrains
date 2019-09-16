@@ -19,7 +19,7 @@ LIBS=-lGL -lglut -lGLU
 EXEC=TuxTrains
 OPT=-Wall
 
-O_PARSER=ObjParser.o MatParser.o
+O_PARSER=ObjParser.o MatParser.o Loader.o
 OBJECTS=$(O_PARSER) Objet3D.o Face.o Vertex.o VertexNormal.o Material.o
 
 TESTS_U=TU_MatParser

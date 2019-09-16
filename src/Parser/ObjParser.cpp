@@ -16,7 +16,7 @@ vector<Objet3D> ObjParser::readFile (const char * filename) {
 
   ifstream fichier;
   fichier.open(filename, ios::in);
-  printf ("Debut de lecture du fichier\n");
+  printf ("Debut de lecture du fichier %s...\n", filename);
 
   while(!fichier.eof()) {
    getline(fichier, sligne);
@@ -53,9 +53,9 @@ void ObjParser::parserFichier() {
 
       //USEMTL
       if(tokens[0].compare("usemtl") == 0) {
-        printf("SET MATERIAU %s\n", tokens[1].c_str());
+        //printf("SET MATERIAU %s\n", tokens[1].c_str());
 
-        materiaux[tokens[1]].printInfos();
+        //materiaux[tokens[1]].printInfos();
         objets[0].setMateriau(materiaux[tokens[1]]); //L'objet3D est insÃrÃ© en dÃ©but de liste a chaque fois ???
         continue;
       }

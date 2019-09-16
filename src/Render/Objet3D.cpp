@@ -20,7 +20,7 @@ string Objet3D::getNomMateriau(){
 
 void Objet3D::setMateriau(Material pNomMateriau) {
   mat = pNomMateriau;
-  printf("### %s\n", mat.getNom());
+  //printf("### %s\n", mat.getNom());
 }
 
 void Objet3D::ajouterVertex(double pX, double pY, double pZ, double pW){

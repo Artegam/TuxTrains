@@ -25,10 +25,11 @@ class Objet3D {
     GLuint listeAffichage;
 
 	public:
-		char* getNom();
 		void setNom(char* pNom);
-    string getNomMateriau();
 		void setMateriau(Material pMateriau);
+
+		char* getNom();
+    string getNomMateriau();
 
 		void ajouterVertex(double pX, double pY, double pZ, double pW);
 		void ajouterVertexNormal(double pX, double pY, double pZ, double pW);

@@ -65,7 +65,7 @@ void Material::setModeleIllumination(int num_model){
 void Material::setTexture(string cheminTexture){
   map_Kd = new char[cheminTexture.size()+1];
   strcpy(map_Kd,cheminTexture.c_str());
-  printf("TEXTURE : %s\n", map_Kd);
+  //printf("TEXTURE : %s\n", map_Kd);
 }
 
 void Material::init() {
@@ -95,5 +95,4 @@ void Material::printInfos() {
     printf("\tIllumination : %d\n", illum);
     printf("\tTexture : %s\n", map_Kd);
     printf("-----------------------\n\n\n\n");
-
 }

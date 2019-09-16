@@ -4,6 +4,7 @@
 
 #include "Parser/ObjParser.h"
 #include "Parser/MatParser.h"
+#include "Parser/Loader.h"
 #include "Objet3D.h"
 
 using namespace std;
@@ -16,6 +17,7 @@ using namespace std;
   map<string, Material> materials;
 	int angle;
   GLfloat anim =0;
+  GLfloat a_step = 0.5;
   static int frame = 0;
   static int current_time = 0;
   static int last_time = 0;
@@ -31,7 +33,7 @@ void mouse(int button, int state, int x, int y);
 int main(int argc, char** argv) {
 
 	ObjParser * parser;
-  MatParser materiaux;
+  MatParser matParser;
 
 	angle = -1.0;
 	//float valZoom = 0.0;
@@ -43,17 +45,24 @@ int main(int argc, char** argv) {
 	float zFar = 50.0;
 	float zoomFactor = 1.0;
 
+  //Loader *l = new Loader("/home/tonio/TuxTrains/obj", "/home/tonio/TuxTrains/mtl", false);
+  Loader *l = new Loader("/home/tonio/TuxTrains", "/home/tonio/TuxTrains/mtl", false);
 
+
+    materials = matParser.readFile("/home/tonio/TuxTrains/mtl/jaguard.mtl");
+    parser = new ObjParser(materials);
+    objets = parser->readFile("/home/tonio/TuxTrains/obj/jaguard.obj");
+#
+/*
 	if (argv[1] != NULL) {
-		printf("Lecture du fichier... \t %s\n", argv[1]);
-    materials = materiaux.readFile(argv[2]);
+    materials = matParser.readFile(argv[2]);
     parser = new ObjParser(materials);
 		objets = parser->readFile(argv[1]);
 	} else {
 		printf("Veuillez passer en argument le nom du fichier obj (exemple: ./essai3D ./obj/jaguard.obj\n");
 		return 0;
 	}
-
+*/
 
 	parser->~ObjParser();
 
@@ -126,7 +135,7 @@ void initLight(void)
    glEnable(GL_DEPTH_TEST);
    glEnable(GL_LIGHTING);
    glEnable(GL_LIGHT0);
-   glEnable(GL_LIGHT1);
+   //glEnable(GL_LIGHT1);
 
 // FIN POUR LES TESTS DE LUMIERE
   printf("Fin de LIGHT Initialisation...\n");
@@ -162,7 +171,7 @@ void render(void) {
 
   glRotatef(angle,0.0,1.0,0.0);
 
-//Pour symbolyser la lumiÃ¨re du soleil
+  //Pour symbolyser la lumiÃ¨re du soleil
   GLfloat es[4] = {0.8f, 0.8f, 0.8f, 1.0f};
   glMaterialfv(GL_FRONT, GL_EMISSION, es);
   GLfloat cs[3] = {0.0f, 15.0f, 0.0f};
@@ -174,16 +183,35 @@ void render(void) {
   GLfloat e[4] = {0.0f, 0.0f, 0.8f, 1.0f};
   glMaterialfv(GL_FRONT, GL_EMISSION, e);
 
-  anim += 0.5;
-  if (anim == 10.0) anim = -10.0;
+  //Pour effacer l'objet chargÃ©
+	//glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-  GLfloat c[3] = {2.0f+anim, 2.0f, 2.0f};
-  glTranslatef(c[0], c[1], c[2]);
-  glutSolidCube(0.5);
+  anim += a_step;
+  if (anim == 95.0 || anim == 0.0) a_step = -a_step;
 
-  GLfloat lightpos[] = {c[0], c[1], c[2], 1.0};
+  //GLfloat c[3] = {2.0f+anim, 2.0f, 2.0f};
+  GLfloat c[3] = {2.0f, 0.0f, 2.0f};
+  //glTranslatef(c[0], c[1], c[2]);
+  //glRotatef(5.0, 1.0, 0.0, 0.0);
+
+  GLfloat lightpos[] = {0.0, 0.0, 0.0, 1.0};
+
+  glTranslatef(-c[0], -c[1], -c[2]); //Protege la scene
   glLightfv(GL_LIGHT0, GL_POSITION, lightpos);
-  glTranslatef(0-c[0], 0-c[1], 0-c[2]);
+  glTranslatef(c[0], c[1], c[2]); //Pose la position
+
+
+
+  glTranslatef(-c[0], -c[1], -c[2]);
+  glRotatef(-anim, 1.0, 0.0, 0.0); //protege la scene de la rotation
+
+  glutSolidCube(0.5);
+  glRotatef(anim, 1.0, 0.0, 0.0);
+  glTranslatef(c[0], c[1], c[2]);
+
+  //GLfloat lightpos[] = {c[0], c[1], c[2], 1.0};
+  //glLightfv(GL_LIGHT0, GL_POSITION, lightpos);
+  //glTranslatef(0-c[0], 0-c[1], 0-c[2]);
 
 
   glutSwapBuffers();
