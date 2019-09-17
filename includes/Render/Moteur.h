@@ -7,11 +7,11 @@
 class Moteur {
 
 	protected:
-    vector<Objets3D> listeObjets;
+    vector<Objet3D> listeObjets;
 
 	public:
     void ajouter(Objet3D obj);
-    void ajouter(vector<Objets3D> lst);
+    void ajouter(vector<Objet3D> lst);
 		void tic();
 };
 

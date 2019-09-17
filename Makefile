@@ -20,7 +20,7 @@ EXEC=TuxTrains
 OPT=-Wall
 
 O_PARSER=ObjParser.o MatParser.o Loader.o
-OBJECTS=$(O_PARSER) Objet3D.o Face.o Vertex.o VertexNormal.o Material.o
+OBJECTS=$(O_PARSER) Objet3D.o Face.o Vertex.o VertexNormal.o Material.o Moteur.o
 
 TESTS_U=TU_MatParser
 O_TESTS_U=TU_MatParser.o $(OBJECTS)

@@ -23,12 +23,17 @@ using namespace std;
   static int last_time = 0;
   static double fps = 0.0; //Le nb de fps
 
+
+  char str[150] = "";
+
 void initLight(void);
 void idle(void);
 void Reshape(int w, int h);
 void render(void);
 void keyboard(unsigned char c, int x, int y);
 void mouse(int button, int state, int x, int y);
+void vBitmapOutput(int x, int y, char *string, void *font);
+void vStrokeOutput(GLfloat x, GLfloat y, char *string, void *font);
 
 int main(int argc, char** argv) {
 
@@ -52,7 +57,7 @@ int main(int argc, char** argv) {
     materials = matParser.readFile("/home/tonio/TuxTrains/mtl/jaguard.mtl");
     parser = new ObjParser(materials);
     objets = parser->readFile("/home/tonio/TuxTrains/obj/jaguard.obj");
-#
+
 /*
 	if (argv[1] != NULL) {
     materials = matParser.readFile(argv[2]);
@@ -150,7 +155,10 @@ void idle(void) {
 
   if(current_time - last_time > 1000) {
     fps = frame * 1000.0 / (current_time - last_time);
-		printf("FPS : %f\n", fps);
+		//printf("FPS : %f\n", fps);
+
+    sprintf(str, "FPS : %f", fps);
+    //vBitmapOutput(10, 10, str, GLUT_BITMAP_8_BY_13);
     last_time = current_time;
     frame = 0;
   }
@@ -164,6 +172,9 @@ void render(void) {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
   //glRotatef(angle,0.0,1.0,0.0);
+
+	glColor3d(1,1,1); // Texte en blanc
+	vBitmapOutput(0,3,str,GLUT_BITMAP_HELVETICA_18);
 
 	for(it = objets.begin(); it != objets.end(); it++) {
 		it->dessiner();
@@ -243,4 +254,23 @@ void mouse(int button, int state, int x, int y){
 }
 
 
+void vBitmapOutput(int x, int y, char *string, void *font)
+{
+	int len,i; // len donne la longueur de la chaÃ®ne de caractÃ¨res
+
+	glRasterPos2f(x,y); // Positionne le premier caractÃ¨re de la chaÃ®ne
+	len = (int) strlen(string); // Calcule la longueur de la chaÃ®ne
+	for (i = 0; i < len; i++) glutBitmapCharacter(font,string[i]); // Affiche chaque caractÃ¨re de la chaÃ®ne
+}
+
+void vStrokeOutput(GLfloat x, GLfloat y, char *string, void *font)
+{
+	char *p;
+
+	glPushMatrix();	// glPushMatrix et glPopMatrix sont utilisÃ©es pour sauvegarde 
+			// et restaurer les systÃ¨mes de coordonnÃ©es non translatÃ©s
+	glTranslatef(x, y, 0); // Positionne le premier caractÃ¨re de la chaÃ®ne
+	for (p = string; *p; p++) glutStrokeCharacter(font, *p); // Affiche chaque caractÃ¨re de la chaÃ®ne
+	glPopMatrix();
+}
 

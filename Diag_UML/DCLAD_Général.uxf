@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="14.3.0">
+  <zoom_level>10</zoom_level>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>60</x>
+      <y>500</y>
+      <w>490</w>
+      <h>320</h>
+    </coordinates>
+    <panel_attributes>Render::Objet3D
+--
+#nom: char*
+#mat: Material
+#vertices: vector&lt;Vertex&gt;
+#verticesNormal: vector&lt;VertexNormal&gt;
+#faces: vector&lt;Face&gt;
+#listeAffichage: GLuint
+--
++init():void
++getNom() :chr*
++setNom(nom :char *):void
++getNomMateriau():string
++setMateriau(Material pNomMateriau):void
++ajouterVertex(double pX, double pY, double pZ, double pW):void
++ajouterVertexNormal(double pX, double pY, double pZ, double pW):void
++ajouterFace(const int nbParametres, char** parametres):void
++afficherVertex(Vertex&amp; v):void
++dessiner():void
+/+animer():void/
+/-postAnimation():void/
+/-preAnimation():void/
+/-animer(sens: bool)/
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>130</x>
+      <y>0</y>
+      <w>210</w>
+      <h>140</h>
+    </coordinates>
+    <panel_attributes>Parser::MatParser
+--
+#vMat : Material*
+#fichierRAM: vector&lt;string&gt;
+#materiaux: map&lt;string, Material&gt;
+--
++parserFichier(void): void
++getTokens(vector&lt;string&gt;::iterator it): vector&lt;string&gt;
++readFile (const char * filename): map&lt;string, Material&gt;
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>70</x>
+      <y>220</y>
+      <w>370</w>
+      <h>150</h>
+    </coordinates>
+    <panel_attributes>Parser::ObjParser
+--
+#materiaux: map&lt;string, Material&gt;
+#objets: vector&lt;Objet3D&gt;
+#vObj: Objet3D*
+--
++ObjParser(map&lt;string, Material&gt; mats)
++readFile (const char * filename): vector&lt;Objet3D&gt;
++parserFichier(void): void
++getTokens(vector&lt;string&gt;::iterator it): vector&lt;string&gt;</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1260</x>
+      <y>60</y>
+      <w>100</w>
+      <h>30</h>
+    </coordinates>
+    <panel_attributes>_Main_</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>330</x>
+      <y>60</y>
+      <w>360</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+readFile("chemin/monFichier.mtl")</panel_attributes>
+    <additional_attributes>10.0;20.0;340.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>430</x>
+      <y>110</y>
+      <w>260</w>
+      <h>210</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+new(listeMateriaux)
+readFile(chemin/monFichier.obj)</panel_attributes>
+    <additional_attributes>10.0;190.0;240.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>670</x>
+      <y>40</y>
+      <w>370</w>
+      <h>120</h>
+    </coordinates>
+    <panel_attributes>Parser::Loader
+--
+#listeMateriaux: map&lt;string, Material&gt;
+--
+Loader(vector&lt;string&gt; listeObj, vector&lt;string&gt; listeMtl)
+Loader(char* cheminObj, char* cheminMtl, bool recursif)
+getObjets(): vector&lt;Objet3D&gt;
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1030</x>
+      <y>70</y>
+      <w>250</w>
+      <h>30</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;230.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>290</x>
+      <y>360</y>
+      <w>30</w>
+      <h>160</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-</panel_attributes>
+    <additional_attributes>10.0;140.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>980</x>
+      <y>260</y>
+      <w>210</w>
+      <h>80</h>
+    </coordinates>
+    <panel_attributes>Moteur
+--
+#listeObjets:Objets3D
+--
++tic():void
+
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1120</x>
+      <y>80</y>
+      <w>190</w>
+      <h>200</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+tic()</panel_attributes>
+    <additional_attributes>10.0;180.0;170.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>460</x>
+      <y>270</y>
+      <w>540</w>
+      <h>250</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>520.0;10.0;10.0;230.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>540</x>
+      <y>300</y>
+      <w>460</w>
+      <h>240</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+dessiner()</panel_attributes>
+    <additional_attributes>10.0;220.0;440.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>890</x>
+      <y>150</y>
+      <w>190</w>
+      <h>130</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+getObjets()</panel_attributes>
+    <additional_attributes>10.0;10.0;170.0;110.0</additional_attributes>
+  </element>
+</diagram>
