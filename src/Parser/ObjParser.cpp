@@ -16,6 +16,7 @@ vector<Objet3D> ObjParser::readFile (const char * filename) {
 
   ifstream fichier;
   fichier.open(filename, ios::in);
+  printf("Taille de fichierRAM : %d\n", fichierRAM.size());
   printf ("Debut de lecture du fichier %s...\n", filename);
 
   while(!fichier.eof()) {

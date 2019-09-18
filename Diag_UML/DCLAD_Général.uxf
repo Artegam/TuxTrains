@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<diagram program="umlet" version="14.3.0">
+<?xml version="1.0" encoding="UTF-8"?><diagram program="umlet" version="13.3">
   <zoom_level>10</zoom_level>
   <element>
     <id>UMLClass</id>
@@ -125,7 +124,8 @@ readFile(chemin/monFichier.obj)</panel_attributes>
 --
 Loader(vector&lt;string&gt; listeObj, vector&lt;string&gt; listeMtl)
 Loader(char* cheminObj, char* cheminMtl, bool recursif)
-getObjets(): vector&lt;Objet3D&gt;
+#vector&lt;string&gt; getFilenamesFromDir(const char* directory)
++getObjets(): vector&lt;Objet3D&gt;
 </panel_attributes>
     <additional_attributes/>
   </element>
@@ -154,8 +154,8 @@ getObjets(): vector&lt;Objet3D&gt;
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>980</x>
-      <y>260</y>
+      <x>880</x>
+      <y>360</y>
       <w>210</w>
       <h>80</h>
     </coordinates>
@@ -171,48 +171,48 @@ getObjets(): vector&lt;Objet3D&gt;
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1120</x>
+      <x>1020</x>
       <y>80</y>
-      <w>190</w>
-      <h>200</h>
+      <w>290</w>
+      <h>300</h>
     </coordinates>
     <panel_attributes>lt=&lt;-
 tic()</panel_attributes>
-    <additional_attributes>10.0;180.0;170.0;10.0</additional_attributes>
+    <additional_attributes>10.0;280.0;270.0;10.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
       <x>460</x>
-      <y>270</y>
-      <w>540</w>
-      <h>250</h>
+      <y>370</y>
+      <w>440</w>
+      <h>150</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
-    <additional_attributes>520.0;10.0;10.0;230.0</additional_attributes>
+    <additional_attributes>420.0;10.0;10.0;130.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
       <x>540</x>
-      <y>300</y>
-      <w>460</w>
-      <h>240</h>
+      <y>400</y>
+      <w>360</w>
+      <h>140</h>
     </coordinates>
     <panel_attributes>lt=&lt;-
 dessiner()</panel_attributes>
-    <additional_attributes>10.0;220.0;440.0;10.0</additional_attributes>
+    <additional_attributes>10.0;120.0;340.0;10.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
       <x>890</x>
       <y>150</y>
-      <w>190</w>
-      <h>130</h>
+      <w>140</w>
+      <h>230</h>
     </coordinates>
     <panel_attributes>lt=&lt;-
 getObjets()</panel_attributes>
-    <additional_attributes>10.0;10.0;170.0;110.0</additional_attributes>
+    <additional_attributes>10.0;10.0;70.0;210.0</additional_attributes>
   </element>
 </diagram>

@@ -130,6 +130,8 @@ void Objet3D::init() {
 
 void Objet3D::dessiner() {
 
+glPushMatrix();
   glCallList(listeAffichage);
+glPopMatrix();
 
 }

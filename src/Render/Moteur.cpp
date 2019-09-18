@@ -11,8 +11,10 @@ void Moteur::ajouter(vector<Objet3D> lst) {
 
 void Moteur::tic() {
   //Not implemented yet !!!
+  vector<Objet3D>::iterator it;
+
   for(it = listeObjets.begin(); it != listeObjets.end(); it++) {
-    it->desssiner(); //ou animer();
+    it->dessiner(); //ou animer();
   }
 }
 

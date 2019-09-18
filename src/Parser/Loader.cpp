@@ -17,8 +17,6 @@ Loader::Loader(vector<string> listeObj, vector<string> listeMtl){
 }
 
 Loader::Loader(const char* cheminObj, const char* cheminMtl, bool recursif){
-  //TODO: Not implemented yet !!
-
   vector<string> fichiersMtl;
   vector<string> fichiersObj;
 
@@ -28,12 +26,8 @@ Loader::Loader(const char* cheminObj, const char* cheminMtl, bool recursif){
 	ObjParser * parser;
   MatParser matParser;
   map<string, Material> materials;
-	vector<Objet3D> objets;
 
-  //Exemple
-  //fichierRAM.insert(fichierRAM.end(), sligne);
-  //objets.insert(objets.end(), sligne);
-
+  //Lecture des fichiers mtl
   vector<string>::iterator it;
 
   for(it = fichiersMtl.begin(); it != fichiersMtl.end(); it++) {
@@ -41,11 +35,15 @@ Loader::Loader(const char* cheminObj, const char* cheminMtl, bool recursif){
     printf(" * %s\n", it->c_str());
   }
 
+  //Lecture des fichiers obj
   parser = new ObjParser(materials);
-  //objets = parser->readFile("/home/tonio/TuxTrains/obj/jaguard.obj");
+
   for(it = fichiersObj.begin(); it != fichiersObj.end(); it++) {
-    objets = parser->readFile(it->c_str());
-    printf(" # %s\n", it->c_str());
+    regex self_regex(".*\\.obj", regex_constants::basic);
+    if(regex_search(it->c_str(), self_regex)) {
+      objets = parser->readFile(it->c_str());
+      printf(" # %s\n", it->c_str());
+    }
   }
 
 }
@@ -56,31 +54,30 @@ vector<string> Loader::getFilenamesFromDir(const char* directory) {
   struct dirent* fichierLu = NULL; /* Déclaration d'un pointeur vers la structure dirent. */
 
   rep = opendir(directory); // Ouverture d'un dossier (mauvais chemin par exemple)
-  if(rep == NULL) exit(1);                  // Si le dossier n'a pas pu être ouvert
+  if(rep == NULL) exit(1);  // Si le dossier n'a pas pu être ouvert
 
   printf("Repertoire scanne : %s\n", directory);
 
-  fichierLu = readdir(rep);                                                                // On lit le premier répertoire du dossier.
+  fichierLu = readdir(rep);                                     // On lit le premier répertoire du dossier.
   while(fichierLu != NULL) {
-    //printf("Le fichier lu s'appelle '%s' ( %c )\n", fichierLu->d_name, fichierLu->d_type);
-    if(fichierLu->d_type != DT_DIR) {                                                      // Protection : on ne prends pas les repertoires
+    if(fichierLu->d_type != DT_DIR) {                           // Protection : on ne prends pas les repertoires
       string nomFchier = fichierLu->d_name;
       string separator = "/";
       string cheminComplet = directory + separator + nomFchier;
 
-      res.insert(res.end(), cheminComplet);                                               // On ajoute le nom de fichier trouve a la liste de resultat
+      res.insert(res.end(), cheminComplet);                     // On ajoute le nom de fichier trouve a la liste de resultat
     }
-    fichierLu = readdir(rep);                                                              // On lit le premier répertoire du dossier.
+    fichierLu = readdir(rep);                                   // On lit le premier répertoire du dossier.
   }
-
-  //puts("Le dossier a ete ouvert avec succes");
 
   if(closedir(rep) == -1) exit(-1);/* S'il y a eu un souci avec la fermeture */
 
-  //puts("Le dossier a ete ferme avec succes");
-
-  //return 0;
   return res;
 }
 
+
+vector<Objet3D> Loader::getObjets()
+{
+ return objets;
+}
 

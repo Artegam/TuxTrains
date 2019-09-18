@@ -22,6 +22,7 @@ using namespace std;
   static int current_time = 0;
   static int last_time = 0;
   static double fps = 0.0; //Le nb de fps
+  static bool loumiere = false;
 
 
   char str[150] = "";
@@ -30,7 +31,7 @@ void initLight(void);
 void idle(void);
 void Reshape(int w, int h);
 void render(void);
-void keyboard(unsigned char c, int x, int y);
+void keyboard(unsigned char key, int x, int y);
 void mouse(int button, int state, int x, int y);
 void vBitmapOutput(int x, int y, char *string, void *font);
 void vStrokeOutput(GLfloat x, GLfloat y, char *string, void *font);
@@ -50,13 +51,14 @@ int main(int argc, char** argv) {
 	float zFar = 50.0;
 	float zoomFactor = 1.0;
 
-  //Loader *l = new Loader("/home/tonio/TuxTrains/obj", "/home/tonio/TuxTrains/mtl", false);
-  Loader *l = new Loader("/home/tonio/TuxTrains", "/home/tonio/TuxTrains/mtl", false);
+  Loader *l = new Loader("/home/tonio/TuxTrains/obj", "/home/tonio/TuxTrains/mtl", false);
 
-
-    materials = matParser.readFile("/home/tonio/TuxTrains/mtl/jaguard.mtl");
-    parser = new ObjParser(materials);
-    objets = parser->readFile("/home/tonio/TuxTrains/obj/jaguard.obj");
+  materials = matParser.readFile("/home/tonio/TuxTrains/mtl/jaguard.mtl");
+  parser = new ObjParser(materials);
+  objets = parser->readFile("/home/tonio/TuxTrains/obj/jaguard.obj");
+  //objets = l->getObjets(); //Charge tous les objets dans la scene en 3D
+  //TODO: Il y a une erreur de dessin lorsque plusieurs objets sont presents
+  //  Il s'agit probablement d'une erreur du parser
 
 /*
 	if (argv[1] != NULL) {
@@ -79,7 +81,7 @@ int main(int argc, char** argv) {
   glutCreateWindow(argv[1]);
 
 	//Initialisation des matrices
-  	glMatrixMode(GL_PROJECTION);
+  glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
   //glOrtho(0.0, 1.0, 0.0, 1.0, -1.0, 1.0);
 	gluPerspective (50.0*zoomFactor, (float)width/(float)height, zNear, zFar);
@@ -171,10 +173,17 @@ void render(void) {
 
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-  //glRotatef(angle,0.0,1.0,0.0);
+//AZZIZ LOUMIERE !!!
+if(loumiere) {
+   glEnable(GL_LIGHT1);
+}else{
+   glDisable(GL_LIGHT1);
+}
 
+glPushMatrix();
 	glColor3d(1,1,1); // Texte en blanc
-	vBitmapOutput(0,3,str,GLUT_BITMAP_HELVETICA_18);
+	vBitmapOutput(-1,3,str,GLUT_BITMAP_HELVETICA_18);
+glPopMatrix();
 
 	for(it = objets.begin(); it != objets.end(); it++) {
 		it->dessiner();
@@ -200,26 +209,11 @@ void render(void) {
   anim += a_step;
   if (anim == 95.0 || anim == 0.0) a_step = -a_step;
 
-  //GLfloat c[3] = {2.0f+anim, 2.0f, 2.0f};
-  GLfloat c[3] = {2.0f, 0.0f, 2.0f};
-  //glTranslatef(c[0], c[1], c[2]);
-  //glRotatef(5.0, 1.0, 0.0, 0.0);
-
-  GLfloat lightpos[] = {0.0, 0.0, 0.0, 1.0};
-
-//  glTranslatef(-c[0], -c[1], -c[2]); //Protege la scene
-//  glLightfv(GL_LIGHT0, GL_POSITION, lightpos);
-//  glTranslatef(c[0], c[1], c[2]); //Pose la position
-
-//  glTranslatef(-c[0], -c[1], -c[2]);
-//  glRotatef(-anim, 1.0, 0.0, 0.0); //protege la scene de la rotation
-
-//  glutSolidCube(0.5);
-//  glRotatef(anim, 1.0, 0.0, 0.0);
-//  glTranslatef(c[0], c[1], c[2]);
 
 //Pour sauvegarder/restaurer la scene
 glPushMatrix();
+  GLfloat c[3] = {2.0f, 0.0f, 2.0f};
+  GLfloat lightpos[] = {0.0, 0.0, 0.0, 1.0};
 
   glLightfv(GL_LIGHT0, GL_POSITION, lightpos);
   glTranslatef(c[0], c[1], c[2]); //Pose la position
@@ -227,10 +221,6 @@ glPushMatrix();
   glRotatef(anim, 1.0, 0.0, 0.0);
 
 glPopMatrix();
-
-  //GLfloat lightpos[] = {c[0], c[1], c[2], 1.0};
-  //glLightfv(GL_LIGHT0, GL_POSITION, lightpos);
-  //glTranslatef(0-c[0], 0-c[1], 0-c[2]);
 
 
   glutSwapBuffers();
@@ -247,10 +237,17 @@ void Reshape(int w, int h)
 		glLoadIdentity();
 }
 
-void keyboard(unsigned char c, int x, int y){
+void keyboard(unsigned char key, int x, int y){
   // ASCH - 29/09/2014 - La touche 27 est la touche echap
-  if (c == 27) {
+  // Attention le printf est trÃ¨s lent
+  //printf("vous avez appuye sur %d", key);
+  if (key == 27) {
     exit(0);
+  }
+
+  if (key == 97) {
+    //inverser le bit de la lumiere
+    loumiere = !loumiere;
   }
 
 }
