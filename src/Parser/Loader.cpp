@@ -20,9 +20,10 @@ Loader::Loader(const char* cheminObj, const char* cheminMtl, bool recursif){
   //TODO: Not implemented yet !!
 
   vector<string> fichiersMtl;
+  vector<string> fichiersObj;
 
-  fichiersMtl =  getFilenamesFromDir(cheminMtl);
-  //getFilenamesFromDir(cheminObj);
+  fichiersMtl = getFilenamesFromDir(cheminMtl);
+  fichiersObj = getFilenamesFromDir(cheminObj);
 
 	ObjParser * parser;
   MatParser matParser;
@@ -32,7 +33,7 @@ Loader::Loader(const char* cheminObj, const char* cheminMtl, bool recursif){
   //Exemple
   //fichierRAM.insert(fichierRAM.end(), sligne);
   //objets.insert(objets.end(), sligne);
-  //
+
   vector<string>::iterator it;
 
   for(it = fichiersMtl.begin(); it != fichiersMtl.end(); it++) {
@@ -41,7 +42,11 @@ Loader::Loader(const char* cheminObj, const char* cheminMtl, bool recursif){
   }
 
   parser = new ObjParser(materials);
-  objets = parser->readFile("/home/tonio/TuxTrains/obj/jaguard.obj");
+  //objets = parser->readFile("/home/tonio/TuxTrains/obj/jaguard.obj");
+  for(it = fichiersObj.begin(); it != fichiersObj.end(); it++) {
+    objets = parser->readFile(it->c_str());
+    printf(" # %s\n", it->c_str());
+  }
 
 }
 

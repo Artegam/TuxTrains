@@ -207,18 +207,26 @@ void render(void) {
 
   GLfloat lightpos[] = {0.0, 0.0, 0.0, 1.0};
 
-  glTranslatef(-c[0], -c[1], -c[2]); //Protege la scene
+//  glTranslatef(-c[0], -c[1], -c[2]); //Protege la scene
+//  glLightfv(GL_LIGHT0, GL_POSITION, lightpos);
+//  glTranslatef(c[0], c[1], c[2]); //Pose la position
+
+//  glTranslatef(-c[0], -c[1], -c[2]);
+//  glRotatef(-anim, 1.0, 0.0, 0.0); //protege la scene de la rotation
+
+//  glutSolidCube(0.5);
+//  glRotatef(anim, 1.0, 0.0, 0.0);
+//  glTranslatef(c[0], c[1], c[2]);
+
+//Pour sauvegarder/restaurer la scene
+glPushMatrix();
+
   glLightfv(GL_LIGHT0, GL_POSITION, lightpos);
   glTranslatef(c[0], c[1], c[2]); //Pose la position
-
-
-
-  glTranslatef(-c[0], -c[1], -c[2]);
-  glRotatef(-anim, 1.0, 0.0, 0.0); //protege la scene de la rotation
-
   glutSolidCube(0.5);
   glRotatef(anim, 1.0, 0.0, 0.0);
-  glTranslatef(c[0], c[1], c[2]);
+
+glPopMatrix();
 
   //GLfloat lightpos[] = {c[0], c[1], c[2], 1.0};
   //glLightfv(GL_LIGHT0, GL_POSITION, lightpos);
