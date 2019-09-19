@@ -42,62 +42,56 @@ void ObjParser::parserFichier() {
   for(it = fichierRAM.begin(); it != fichierRAM.end(); it++) {
 
       //Le cas o xxxx
-      regex self_regex("o (.*)", regex_constants::basic);
-      smatch matches;
+      regex o_regex("o \\(.*\\)", regex_constants::basic);
+      smatch m;
 
-      if(regex_search(it->c_str(), matches, self_regex)) {
-        for(size_t i = 0; i < matches.size(); ++i) { //TODO: On sais qu'il n'y a q'un seul group Ã  corriger
-          printf("\t - %s\n", matches[i].str());
-          vObj = new Objet3D();
-          vObj->setNom(matches[i].str());
-          objets.insert(objets.begin(), *vObj);
-        }
+
+      if(regex_search(*it, m, o_regex)) {
+        //printf("\t - %s\n", m[1].str().c_str());
+        vObj = new Objet3D();
+        vObj->setNom(m[1].str().c_str());
+        objets.insert(objets.begin(), *vObj);
         continue;
       }
 
       //Le cas mtllib xxxx
-      regex self_regex("mtllib (.*)", regex_constants::basic);
-      smatch matches;
+      regex mtllib_regex("mtllib \\(.*\\)", regex_constants::basic);
 
-      if(regex_search(it->c_str(), matches, self_regex)) {//TODO: On sais qu'il n'y a q'un seul group Ã  corriger
-        for(size_t i = 0; i < matches.size(); ++i) {
-          printf(" lib de mtl lu : %s\n", matches[i].str());
-        }
+      if(regex_search(*it, m, mtllib_regex)) {
+        printf("Nom de la librairie de materiaux : %s\n", m[1].str().c_str());
         continue;
       }
 
       //Le cas usemtl xxxx
-      regex self_regex("usemtl (.*)", regex_constants::basic);
-      smatch matches;
+      regex usemtl_regex("usemtl \\(.*\\)", regex_constants::basic);
 
-      if(regex_search(it->c_str(), matches, self_regex)) {
-        for(size_t i = 0; i < matches.size(); ++i) {
-          printf(" Materiau lu : %s\n", matches[i].str());
-          objets[0].setMateriau(materiaux[matches[i].str()]); //L'objet3D est insÃrÃ© en dÃ©but de liste a chaque fois ???
+      if(regex_search(*it, m, usemtl_regex)) {
+        for(size_t i = 0; i < m.size(); ++i) {
+          //printf(" Materiau lu : %s\n", m[1].str().c_str());
+          objets[0].setMateriau(materiaux[m[1].str().c_str()]); //L'objet3D est insÃrÃ© en dÃ©but de liste a chaque fois ???
         }
         continue;
       }
-     
-      //Le cas de v xxxx xxxx xxxx 
-      regex self_regex("v (-*\d*.\d*) (-*\d*.\d*) (-*\d*.\d*)$", regex_constants::basic);
-      smatch matches;
 
-      if(regex_search(it->c_str(), matches, self_regex)) {
-        objets[objets.size()-1].ajouterVertex(matches[0].str(), matches[1].str(), matches[2].str(), 0.0);
+      //Le cas de v xxxx xxxx xxxx
+      regex v3_regex("v \\(-*.*\\) \\(-*.*\\) \\(-*.*\\)$", regex_constants::basic);
+
+      if(regex_search(*it, m, v3_regex)) {
+        objets[objets.size()-1].ajouterVertex(stod(m[1].str().c_str()), stod(m[2].str().c_str()), stod(m[3].str().c_str()), 0.0);
         continue;
       }
 
-      //Le cas de v xxxx xxxx xxxx xxxxx 
-      regex self_regex("v (-*\d*.\d*) (-*\d*.\d*) (-*\d*.\d*) (-*\d*.\d*)$", regex_constants::basic);
-      smatch matches;
+      //Le cas de v xxxx xxxx xxxx xxxxx
+      //regex v4_regex("v \\(-*\d*.\d*\\) \\(-*\\d*.\\d*\\) \\(-*\\d*.\\d*\\) \\(-*\\d*.\\d*\\)$", regex_constants::basic);
+      regex v4_regex("v \\(-*.*\\) \\(-*.*\\) \\(-*.*\\) \\(-*.*\\)", regex_constants::basic);
 
-      if(regex_search(it->c_str(), matches, self_regex)) {
-        objets[objets.size()-1].ajouterVertex(matches[0].str(), matches[1].str(), matches[2].str(),  matches[3].str());
+      if(regex_search(*it, m, v4_regex)) {
+        objets[objets.size()-1].ajouterVertex(stod(m[1].str().c_str()), stod(m[2].str().c_str()), stod(m[3].str().c_str()),  stod(m[4].str().c_str()));
         continue;
       }
 
-
-      //Le cas de vn xxxx xxxx xxxx 
+/*
+      //Le cas de vn xxxx xxxx xxxx
       regex self_regex("vn (-*\d*.\d*) (-*\d*.\d*) (-*\d*.\d*)$", regex_constants::basic);
       smatch matches;
 
@@ -106,7 +100,7 @@ void ObjParser::parserFichier() {
         continue;
       }
 
-      //Le cas de vn xxxx xxxx xxxx xxxxx 
+      //Le cas de vn xxxx xxxx xxxx xxxxx
       regex self_regex("vn (-*\d*.\d*) (-*\d*.\d*) (-*\d*.\d*) (-*\d*.\d*)$", regex_constants::basic);
       smatch matches;
 
@@ -116,6 +110,20 @@ void ObjParser::parserFichier() {
       }
 
 
+      //Les faces
+//f (\d+) (\d+) (\d+)
+//f (\d+) (\d+) (\d+) (\d+)
+
+      //Le cas de f xxxx xxxx xxxx
+      regex self_regex("f (\d+) (\d+) (\d+)", regex_constants::basic);
+      smatch matches;
+
+      if(regex_search(it->c_str(), matches, self_regex)) {
+        printf("une face du type f xx xx xx\n");
+        continue;
+      }
+
+*/
 /*
     vector<string> tokens = getTokens(it);
     //Conditions pour traitements

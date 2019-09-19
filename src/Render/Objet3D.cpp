@@ -10,8 +10,8 @@ char* Objet3D::getNom() {
 	return nom;
 }
 
-void Objet3D::setNom(char* pNom) {
-	nom = pNom;
+void Objet3D::setNom(const char* pNom) {
+	nom = (char*)pNom;
 }
 
 string Objet3D::getNomMateriau(){

@@ -25,7 +25,7 @@ class Objet3D {
     GLuint listeAffichage;
 
 	public:
-		void setNom(char* pNom);
+		void setNom(const char* pNom);
 		void setMateriau(Material pMateriau);
 
 		char* getNom();
