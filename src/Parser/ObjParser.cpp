@@ -1,6 +1,8 @@
 
 #include "ObjParser.h"
 
+#include <regex>
+
 //ASCH - 17/10/2014 - ParamÃ¨tres
 
 ObjParser::ObjParser(map<string, Material> mats) {
@@ -35,9 +37,86 @@ vector<Objet3D> ObjParser::readFile (const char * filename) {
 
 void ObjParser::parserFichier() {
   vector<string>::iterator it;
-  printf ("Debut parcours fichier RAM\n");
+  //printf ("Debut parcours fichier RAM\n");
 
   for(it = fichierRAM.begin(); it != fichierRAM.end(); it++) {
+
+      //Le cas o xxxx
+      regex self_regex("o (.*)", regex_constants::basic);
+      smatch matches;
+
+      if(regex_search(it->c_str(), matches, self_regex)) {
+        for(size_t i = 0; i < matches.size(); ++i) { //TODO: On sais qu'il n'y a q'un seul group Ã  corriger
+          printf("\t - %s\n", matches[i].str());
+          vObj = new Objet3D();
+          vObj->setNom(matches[i].str());
+          objets.insert(objets.begin(), *vObj);
+        }
+        continue;
+      }
+
+      //Le cas mtllib xxxx
+      regex self_regex("mtllib (.*)", regex_constants::basic);
+      smatch matches;
+
+      if(regex_search(it->c_str(), matches, self_regex)) {//TODO: On sais qu'il n'y a q'un seul group Ã  corriger
+        for(size_t i = 0; i < matches.size(); ++i) {
+          printf(" lib de mtl lu : %s\n", matches[i].str());
+        }
+        continue;
+      }
+
+      //Le cas usemtl xxxx
+      regex self_regex("usemtl (.*)", regex_constants::basic);
+      smatch matches;
+
+      if(regex_search(it->c_str(), matches, self_regex)) {
+        for(size_t i = 0; i < matches.size(); ++i) {
+          printf(" Materiau lu : %s\n", matches[i].str());
+          objets[0].setMateriau(materiaux[matches[i].str()]); //L'objet3D est insÃrÃ© en dÃ©but de liste a chaque fois ???
+        }
+        continue;
+      }
+     
+      //Le cas de v xxxx xxxx xxxx 
+      regex self_regex("v (-*\d*.\d*) (-*\d*.\d*) (-*\d*.\d*)$", regex_constants::basic);
+      smatch matches;
+
+      if(regex_search(it->c_str(), matches, self_regex)) {
+        objets[objets.size()-1].ajouterVertex(matches[0].str(), matches[1].str(), matches[2].str(), 0.0);
+        continue;
+      }
+
+      //Le cas de v xxxx xxxx xxxx xxxxx 
+      regex self_regex("v (-*\d*.\d*) (-*\d*.\d*) (-*\d*.\d*) (-*\d*.\d*)$", regex_constants::basic);
+      smatch matches;
+
+      if(regex_search(it->c_str(), matches, self_regex)) {
+        objets[objets.size()-1].ajouterVertex(matches[0].str(), matches[1].str(), matches[2].str(),  matches[3].str());
+        continue;
+      }
+
+
+      //Le cas de vn xxxx xxxx xxxx 
+      regex self_regex("vn (-*\d*.\d*) (-*\d*.\d*) (-*\d*.\d*)$", regex_constants::basic);
+      smatch matches;
+
+      if(regex_search(it->c_str(), matches, self_regex)) {
+        objets[objets.size()-1].ajouterVertexNormal(matches[0].str(), matches[1].str(), matches[2].str(), 0.0);
+        continue;
+      }
+
+      //Le cas de vn xxxx xxxx xxxx xxxxx 
+      regex self_regex("vn (-*\d*.\d*) (-*\d*.\d*) (-*\d*.\d*) (-*\d*.\d*)$", regex_constants::basic);
+      smatch matches;
+
+      if(regex_search(it->c_str(), matches, self_regex)) {
+        objets[objets.size()-1].ajouterVertexNormal(matches[0].str(), matches[1].str(), matches[2].str(),  matches[3].str());
+        continue;
+      }
+
+
+/*
     vector<string> tokens = getTokens(it);
     //Conditions pour traitements
     if(tokens.size() > 0) {
@@ -103,16 +182,17 @@ void ObjParser::parserFichier() {
 
       //MTLLIB
       if(tokens[0].compare("mtllib") == 0) {
-        printf("Nom de la librairie de maetriaux : %s\n", tokens[1].c_str());
+        printf("Nom de la librairie de materiaux : %s\n", tokens[1].c_str());
         continue;
       }
 
     }
     tokens.clear();
+    */
   }
 
-  printf ("FIN parcours fichier RAM\n");
-  printf("Fin du traitement\n");
+  //printf ("FIN parcours fichier RAM\n");
+  //printf("Fin du traitement\n");
 
 }
 
