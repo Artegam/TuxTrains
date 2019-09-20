@@ -1,9 +1,10 @@
 
+#include "TU_MatParser.h"
 #include "MatParser.h"
 #include "Material.h"
 #include <map>
 
-int main(int argc, char** argv) {
+int TU_MatParser::execute() {
 
   MatParser p;
 

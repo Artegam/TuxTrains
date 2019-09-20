@@ -92,7 +92,7 @@ void ObjParser::parserFichier() {
 
 
       //Le cas de vn xxxx xxxx xxxx
-      regex vn3_regex("vn \\(-*.*\\) \\(-*.*\\) \\(-*.*\\)$" regex_constants::basic);
+      regex vn3_regex("vn \\(-*.*\\) \\(-*.*\\) \\(-*.*\\)$", regex_constants::basic);
 
       if(regex_search(*it, m, vn3_regex)) {
         objets[objets.size()-1].ajouterVertexNormal(stod(m[1].str().c_str()), stod(m[2].str().c_str()), stod(m[3].str().c_str()), 0.0);
@@ -110,7 +110,7 @@ void ObjParser::parserFichier() {
 
       //Les faces
       //Le cas de f xxxx xxxx xxxx
-      regex f3_regex("f \\(.*\\) \\(.*\\) \\(.*\\)$" regex_constants::basic);
+      regex f3_regex("f \\(.*\\) \\(.*\\) \\(.*\\)$", regex_constants::basic);
 
       if(regex_search(*it, m, f3_regex)) {
         printf("une face du type f 3\n");
@@ -118,7 +118,7 @@ void ObjParser::parserFichier() {
       }
 
       //Le cas de f xxxx xxxx xxxx xxxxx
-      regex f4_regex("f \\(.*\\) \\(.*\\) \\(.*\\) \\(.*\\)$" regex_constants::basic);
+      regex f4_regex("f \\(.*\\) \\(.*\\) \\(.*\\) \\(.*\\)$", regex_constants::basic);
 
       if(regex_search(*it, m, f4_regex)) {
         printf("une face du type f 4\n");

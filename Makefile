@@ -6,12 +6,15 @@ SRC_RENDER=$(SRC)Render/
 
 SRC_TU=tests/
 SRC_TU_PARSER=$(SRC_TU)Parser/
+SRC_TU_RENDER=$(SRC_TU)Render/
 
 INC=includes/
 INC_PARSER=$(INC)Parser/
 INC_RENDER=$(INC)Render/
 
-INCLUDES=-I $(INC) -I $(INC_PARSER) -I $(INC_RENDER)
+INC_TU=$(SRC_TU)$(INC)
+
+INCLUDES=-I $(INC) -I $(INC_PARSER) -I $(INC_RENDER) -I $(INC_TU)
 
 INSTALL_DIR=/usr/bin/
 
@@ -22,8 +25,8 @@ OPT=-Wall
 O_PARSER=ObjParser.o MatParser.o Loader.o
 OBJECTS=$(O_PARSER) Objet3D.o Face.o Vertex.o VertexNormal.o Material.o Moteur.o
 
-TESTS_U=TU_MatParser TU_Loader TU_Moteur
-O_TESTS_U=TU_MatParser.o TU_Loader.o Tu_Moteur.o $(OBJECTS)
+TESTS_U=test_unitaires
+O_TESTS_U=$(OBJECTS) test_unitaires.o TU_Loader.o TU_Moteur.o TU_MatParser.o
 
 all:$(EXEC) $(TESTS_U)
 
@@ -50,6 +53,9 @@ main.o: src/main.cpp
 	g++ $(OPT) -c $(INCLUDES) $^
 
 %.o: $(SRC_TU_PARSER)%.cpp
+	g++ $(OPT) -c $(INCLUDES) $^
+
+%.o: $(SRC_TU_RENDER)%.cpp
 	g++ $(OPT) -c $(INCLUDES) $^
 
 clean:

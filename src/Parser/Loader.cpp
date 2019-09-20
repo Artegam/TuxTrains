@@ -12,7 +12,7 @@
 
 // documentation ici : https://pubs.opengroup.org/onlinepubs/007908799/xsh/dirent.h.html
 
-Loader(char* cheminObj, bool recursif) {
+Loader::Loader(const char* cheminObj, bool recursif) {
   //TODO:Not implementd yet !!!
   //Charger les fichier obj, ne charger que les fichiers MTL necessaires aux fixhiers obj
   //modifications a apporter

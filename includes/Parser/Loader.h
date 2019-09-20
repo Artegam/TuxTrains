@@ -21,6 +21,7 @@ class Loader {
     vector<string> getFilenamesFromDir(const char* directory);
 
   public:
+    Loader(const char* cheminObj, bool recursif);
     Loader(vector<string> listeObj, vector<string> listeMtl);
     Loader(const char* cheminObj, const char* cheminMtl, bool recursif);
     vector<Objet3D> getObjets();

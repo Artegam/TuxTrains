@@ -3,8 +3,8 @@
 
 Moteur::Moteur(const char* objPath){
   //Not implemented yet !!!
-  Loader l = new Loader(objPath, false);
-} 
+  Loader *l = new Loader(objPath, false);
+}
 
 void Moteur::ajouter(Objet3D obj) {
   //Not implemented yet !!!
