@@ -83,47 +83,48 @@ void ObjParser::parserFichier() {
 
       //Le cas de v xxxx xxxx xxxx xxxxx
       //regex v4_regex("v \\(-*\d*.\d*\\) \\(-*\\d*.\\d*\\) \\(-*\\d*.\\d*\\) \\(-*\\d*.\\d*\\)$", regex_constants::basic);
-      regex v4_regex("v \\(-*.*\\) \\(-*.*\\) \\(-*.*\\) \\(-*.*\\)", regex_constants::basic);
+      regex v4_regex("v \\(-*.*\\) \\(-*.*\\) \\(-*.*\\) \\(-*.*\\)$", regex_constants::basic);
 
       if(regex_search(*it, m, v4_regex)) {
         objets[objets.size()-1].ajouterVertex(stod(m[1].str().c_str()), stod(m[2].str().c_str()), stod(m[3].str().c_str()),  stod(m[4].str().c_str()));
         continue;
       }
 
-/*
-      //Le cas de vn xxxx xxxx xxxx
-      regex self_regex("vn (-*\d*.\d*) (-*\d*.\d*) (-*\d*.\d*)$", regex_constants::basic);
-      smatch matches;
 
-      if(regex_search(it->c_str(), matches, self_regex)) {
-        objets[objets.size()-1].ajouterVertexNormal(matches[0].str(), matches[1].str(), matches[2].str(), 0.0);
+      //Le cas de vn xxxx xxxx xxxx
+      regex vn3_regex("vn \\(-*.*\\) \\(-*.*\\) \\(-*.*\\)$" regex_constants::basic);
+
+      if(regex_search(*it, m, vn3_regex)) {
+        objets[objets.size()-1].ajouterVertexNormal(stod(m[1].str().c_str()), stod(m[2].str().c_str()), stod(m[3].str().c_str()), 0.0);
         continue;
       }
+
 
       //Le cas de vn xxxx xxxx xxxx xxxxx
-      regex self_regex("vn (-*\d*.\d*) (-*\d*.\d*) (-*\d*.\d*) (-*\d*.\d*)$", regex_constants::basic);
-      smatch matches;
+      regex vn4_regex("vn \\(-*.*\\) \\(-*.*\\) \\(-*.*\\) \\(-*.*\\)$", regex_constants::basic);
 
-      if(regex_search(it->c_str(), matches, self_regex)) {
-        objets[objets.size()-1].ajouterVertexNormal(matches[0].str(), matches[1].str(), matches[2].str(),  matches[3].str());
+      if(regex_search(*it, m, vn4_regex)) {
+        objets[objets.size()-1].ajouterVertexNormal(stod(m[1].str().c_str()), stod(m[2].str().c_str()), stod(m[3].str().c_str()), stod(m[4].str().c_str()));
         continue;
       }
-
 
       //Les faces
-//f (\d+) (\d+) (\d+)
-//f (\d+) (\d+) (\d+) (\d+)
-
       //Le cas de f xxxx xxxx xxxx
-      regex self_regex("f (\d+) (\d+) (\d+)", regex_constants::basic);
-      smatch matches;
+      regex f3_regex("f \\(.*\\) \\(.*\\) \\(.*\\)$" regex_constants::basic);
 
-      if(regex_search(it->c_str(), matches, self_regex)) {
-        printf("une face du type f xx xx xx\n");
+      if(regex_search(*it, m, f3_regex)) {
+        printf("une face du type f 3\n");
         continue;
       }
 
-*/
+      //Le cas de f xxxx xxxx xxxx xxxxx
+      regex f4_regex("f \\(.*\\) \\(.*\\) \\(.*\\) \\(.*\\)$" regex_constants::basic);
+
+      if(regex_search(*it, m, f4_regex)) {
+        printf("une face du type f 4\n");
+        continue;
+      }
+
 /*
     vector<string> tokens = getTokens(it);
     //Conditions pour traitements
