@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="UTF-8"?><diagram program="umlet" version="13.3">
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="14.3.0">
   <zoom_level>10</zoom_level>
   <element>
     <id>UMLClass</id>
@@ -122,23 +123,13 @@ readFile(chemin/monFichier.obj)</panel_attributes>
 --
 #listeMateriaux: map&lt;string, Material&gt;
 --
-Loader(vector&lt;string&gt; listeObj, vector&lt;string&gt; listeMtl)
+Loader(char* cheminObj, bool recursif)
 Loader(char* cheminObj, char* cheminMtl, bool recursif)
+Loader(vector&lt;string&gt; listeObj, vector&lt;string&gt; listeMtl)
 #vector&lt;string&gt; getFilenamesFromDir(const char* directory)
 +getObjets(): vector&lt;Objet3D&gt;
 </panel_attributes>
     <additional_attributes/>
-  </element>
-  <element>
-    <id>Relation</id>
-    <coordinates>
-      <x>1030</x>
-      <y>70</y>
-      <w>250</w>
-      <h>30</h>
-    </coordinates>
-    <panel_attributes>lt=&lt;-</panel_attributes>
-    <additional_attributes>10.0;10.0;230.0;10.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
@@ -154,7 +145,7 @@ Loader(char* cheminObj, char* cheminMtl, bool recursif)
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>880</x>
+      <x>820</x>
       <y>360</y>
       <w>210</w>
       <h>80</h>
@@ -163,6 +154,7 @@ Loader(char* cheminObj, char* cheminMtl, bool recursif)
 --
 #listeObjets:Objets3D
 --
++Moteur(const char* objPath);
 +tic():void
 
 </panel_attributes>
@@ -171,48 +163,50 @@ Loader(char* cheminObj, char* cheminMtl, bool recursif)
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1020</x>
+      <x>960</x>
       <y>80</y>
-      <w>290</w>
+      <w>350</w>
       <h>300</h>
     </coordinates>
     <panel_attributes>lt=&lt;-
+new()
 tic()</panel_attributes>
-    <additional_attributes>10.0;280.0;270.0;10.0</additional_attributes>
+    <additional_attributes>10.0;280.0;330.0;10.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
       <x>460</x>
       <y>370</y>
-      <w>440</w>
+      <w>380</w>
       <h>150</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
-    <additional_attributes>420.0;10.0;10.0;130.0</additional_attributes>
+    <additional_attributes>360.0;10.0;10.0;130.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
       <x>540</x>
       <y>400</y>
-      <w>360</w>
+      <w>300</w>
       <h>140</h>
     </coordinates>
     <panel_attributes>lt=&lt;-
 dessiner()</panel_attributes>
-    <additional_attributes>10.0;120.0;340.0;10.0</additional_attributes>
+    <additional_attributes>10.0;120.0;280.0;10.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
       <x>890</x>
       <y>150</y>
-      <w>140</w>
+      <w>100</w>
       <h>230</h>
     </coordinates>
     <panel_attributes>lt=&lt;-
+new()
 getObjets()</panel_attributes>
-    <additional_attributes>10.0;10.0;70.0;210.0</additional_attributes>
+    <additional_attributes>10.0;10.0;10.0;210.0</additional_attributes>
   </element>
 </diagram>

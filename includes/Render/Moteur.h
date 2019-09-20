@@ -10,6 +10,8 @@ class Moteur {
     vector<Objet3D> listeObjets;
 
 	public:
+    Moteur(const char* objPath);
+
     void ajouter(Objet3D obj);
     void ajouter(vector<Objet3D> lst);
 		void tic();

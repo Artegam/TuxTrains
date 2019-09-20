@@ -1,5 +1,10 @@
 #include "Moteur.h"
+#include "Loader.h"
 
+Moteur::Moteur(const char* objPath){
+  //Not implemented yet !!!
+  Loader l = new Loader(objPath, false);
+} 
 
 void Moteur::ajouter(Objet3D obj) {
   //Not implemented yet !!!
