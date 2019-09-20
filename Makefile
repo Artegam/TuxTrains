@@ -22,8 +22,8 @@ OPT=-Wall
 O_PARSER=ObjParser.o MatParser.o Loader.o
 OBJECTS=$(O_PARSER) Objet3D.o Face.o Vertex.o VertexNormal.o Material.o Moteur.o
 
-TESTS_U=TU_MatParser
-O_TESTS_U=TU_MatParser.o $(OBJECTS)
+TESTS_U=TU_MatParser TU_Loader
+O_TESTS_U=TU_MatParser.o TU_Loader $(OBJECTS)
 
 all:$(EXEC) $(TESTS_U)
 
