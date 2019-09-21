@@ -42,6 +42,6 @@ double VertexNormal::getW(){
 }
 
 void VertexNormal::dessiner() {
-  printf("dessiner - vn %lf %lf %lf\n", x, y, z);
+  //printf("dessiner - vn %lf %lf %lf\n", x, y, z);
 	glNormal3d(x, y, z);
 }

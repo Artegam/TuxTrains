@@ -8,7 +8,7 @@ int TU_MatParser::execute() {
 
   MatParser p;
 
-  map<string, Material> res = p.readFile("mtl/jaguard.mtl");
+  map<string, Material> res = p.readFile("obj/jaguard.mtl");
 
   return 0;
 }

@@ -1,3 +1,5 @@
+#ifndef OBJPARSER_H
+#define OBJPARSER_H
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -8,6 +10,7 @@
 #include <fstream>
 #include <iostream>
 #include "Material.h"
+#include "MatParser.h"
 #include "Face.h"
 #include <regex>
 
@@ -20,13 +23,19 @@ class ObjParser {
     vector<string> fichierRAM;
 
     int parserFace(smatch m);
+    string cheminFichiersObj;
+    MatParser matParser;
+    Material mat_courant;
 
   public:
 
-    ObjParser(map<string, Material> mats);
+    ObjParser();
 
-    vector<Objet3D> readFile (const char * filename);
+    vector<Objet3D> readFile (const char * filename, const char * chemin);
     void parserFichier(void);
     vector<string> getTokens(vector<string>::iterator it);
 
 };
+
+#endif
+

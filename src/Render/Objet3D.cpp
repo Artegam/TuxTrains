@@ -120,7 +120,7 @@ void Objet3D::init() {
   // Instanciation de la liste
   listeAffichage = glGenLists(1);
 
-  printf("Initialisation de l'objet %s '%s'\n", nom, mat.getNom());
+  printf("Initialisation de l'objet %s '%s'\n", nom, mat.getNom().c_str());
   // CrÃation et dÃ©finition de la liste d'affichage
   glNewList(listeAffichage, GL_COMPILE);
 

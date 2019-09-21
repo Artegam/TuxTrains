@@ -4,16 +4,15 @@
 
 //ASCH - 17/10/2014 - ParamÃ¨tres
 
-ObjParser::ObjParser(map<string, Material> mats) {
-  materiaux = mats;
+ObjParser::ObjParser() {
 }
 
 
 //ASCH - 17/10/2014 - MÃ©thodes
-vector<Objet3D> ObjParser::readFile (const char * filename) {
+vector<Objet3D> ObjParser::readFile (const char * filename, const char * chemin) {
 
   string sligne;
-
+  cheminFichiersObj = chemin;
 
   ifstream fichier;
   fichier.open(filename, ios::in);
@@ -35,6 +34,7 @@ vector<Objet3D> ObjParser::readFile (const char * filename) {
 
 
 void ObjParser::parserFichier() {
+  map<string, Material> materials;
   vector<string>::iterator it;
   //printf ("Debut parcours fichier RAM\n");
 
@@ -59,17 +59,22 @@ void ObjParser::parserFichier() {
       regex mtllib_regex("mtllib \\(.*\\)", regex_constants::basic);
 
       if(regex_search(*it, m, mtllib_regex)) {
-        printf("Nom de la librairie de materiaux : %s\n", m[1].str().c_str());
+        printf("Nom de la librairie de materiaux a charger : %s/%s\n", cheminFichiersObj.c_str(), m[1].str().c_str());
+        string nomComplet = cheminFichiersObj + '/' + m[1].str().c_str();
+        materials = matParser.readFile(nomComplet.c_str());
+
+
+        // Charger le fichier en parametre
         continue;
       }
 
       //Le cas usemtl xxxx
       regex usemtl_regex("usemtl \\(.*\\)", regex_constants::basic);
-
       if(regex_search(*it, m, usemtl_regex)) {
         for(size_t i = 0; i < m.size(); ++i) {
           //printf(" Materiau lu : %s\n", m[1].str().c_str());
-          objets[0].setMateriau(materiaux[m[1].str().c_str()]); //L'objet3D est insÃrÃ© en dÃ©but de liste a chaque fois ???
+          mat_courant = materials[m[1].str()];
+          objets[0].setMateriau(mat_courant); //L'objet3D est insÃrÃ© en dÃ©but de liste a chaque fois ???
         }
         continue;
       }
@@ -133,8 +138,7 @@ void ObjParser::parserFichier() {
 
 
 int ObjParser::parserFace(smatch m) {
-  Material mat = objets.back().getMateriau();
-  Face *f = new Face(mat);
+  Face *f = new Face(mat_courant);
   regex v_vt_vn_regex("^\\([0-9]*\\)/\\([0-9]*\\)/\\([0-9]*\\)$", regex_constants::basic);
   smatch sm;
 

@@ -38,7 +38,7 @@ void vStrokeOutput(GLfloat x, GLfloat y, char *string, void *font);
 
 int main(int argc, char** argv) {
 
-	ObjParser * parser;
+	//ObjParser * parser;
   MatParser matParser;
 
 	angle = -1.0;
@@ -51,12 +51,13 @@ int main(int argc, char** argv) {
 	float zFar = 50.0;
 	float zoomFactor = 1.0;
 
-  Loader *l = new Loader("/home/tonio/TuxTrains/obj", "/home/tonio/TuxTrains/mtl", false);
+  //Loader *l = new Loader("/home/tonio/TuxTrains/obj", "/home/tonio/TuxTrains/mtl", false);
+  Loader *l = new Loader("/home/tonio/TuxTrains/obj", false);
 
-  materials = matParser.readFile("/home/tonio/TuxTrains/mtl/jaguard.mtl");
-  parser = new ObjParser(materials);
-  objets = parser->readFile("/home/tonio/TuxTrains/obj/jaguard.obj");
-  //objets = l->getObjets(); //Charge tous les objets dans la scene en 3D
+  //materials = matParser.readFile("/home/tonio/TuxTrains/mtl/jaguard.mtl");
+  //parser = new ObjParser(materials);
+  //objets = parser->readFile("/home/tonio/TuxTrains/obj/jaguard.obj");
+  objets = l->getObjets(); //Charge tous les objets dans la scene en 3D
   //TODO: Il y a une erreur de dessin lorsque plusieurs objets sont presents
   //  Il s'agit probablement d'une erreur du parser
 
@@ -71,7 +72,7 @@ int main(int argc, char** argv) {
 	}
 */
 
-	parser->~ObjParser();
+	//parser->~ObjParser();
 
   glutInit(&argc, argv);
   glutInitDisplayMode(GLUT_DEPTH | GLUT_DOUBLE | GLUT_RGBA);

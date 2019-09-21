@@ -13,20 +13,12 @@
 // documentation ici : https://pubs.opengroup.org/onlinepubs/007908799/xsh/dirent.h.html
 
 Loader::Loader(const char* cheminObj, bool recursif) {
-  //TODO:Not implementd yet !!!
   //Charger les fichier obj, ne charger que les fichiers MTL necessaires aux fixhiers obj
-  //modifications a apporter
-}
 
-Loader::Loader(vector<string> listeObj, vector<string> listeMtl){
-  //TODO: Not implemented yet !!
-}
-
-Loader::Loader(const char* cheminObj, const char* cheminMtl, bool recursif){
-  vector<string> fichiersMtl;
+  //vector<string> fichiersMtl;
   vector<string> fichiersObj;
 
-  fichiersMtl = getFilenamesFromDir(cheminMtl);
+  //fichiersMtl = getFilenamesFromDir(cheminMtl);
   fichiersObj = getFilenamesFromDir(cheminObj);
 
 	ObjParser * parser;
@@ -35,19 +27,23 @@ Loader::Loader(const char* cheminObj, const char* cheminMtl, bool recursif){
 
   //Lecture des fichiers mtl
   vector<string>::iterator it;
+/*  
+  vector<string> fichiersMtl;
 
+  fichiersMtl = getFilenamesFromDir(cheminMtl);
   for(it = fichiersMtl.begin(); it != fichiersMtl.end(); it++) {
     materials = matParser.readFile(it->c_str());
     printf(" * %s\n", it->c_str());
   }
-
-  //Lecture des fichiers obj
   parser = new ObjParser(materials);
+   */
+  //Lecture des fichiers obj
+  parser = new ObjParser();
 
   for(it = fichiersObj.begin(); it != fichiersObj.end(); it++) {
-    regex self_regex(".*\\.obj", regex_constants::basic);
+    regex self_regex(".*\\.obj$", regex_constants::basic);
     if(regex_search(it->c_str(), self_regex)) {
-      objets = parser->readFile(it->c_str());
+      objets = parser->readFile(it->c_str(), cheminObj);
       printf(" # %s\n", it->c_str());
     }
   }

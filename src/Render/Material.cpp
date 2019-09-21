@@ -3,17 +3,18 @@
 
 
 Material::Material() {
+  nom = "Inconnu";
   copy(begin(Ka), end(Ka), begin(no_mat));
   copy(begin(Kd), end(Kd), begin(no_mat));
   copy(begin(Ks), end(Ks), begin(no_mat));
   copy(begin(Ke), end(Ke), begin(no_mat));
 }
 
-char* Material::getNom() {
+string Material::getNom() {
 	return nom;
 }
 
-void Material::setNom(char* pNom) {
+void Material::setNom(string pNom) {
 	nom = pNom;
 }
 
@@ -82,7 +83,7 @@ void Material::dessiner(void) {
 
 void Material::printInfos() {
     printf("-----------------------\n");
-    printf("Nom : %s\n", nom);
+    printf("Nom : %s\n", nom.c_str());
     printf("-----------------------\n");
     printf("\tNs : %f\n", Ns);
     printf("\tNi : %f\n", Ni);

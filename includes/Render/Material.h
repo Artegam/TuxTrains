@@ -30,7 +30,7 @@ using namespace std;
 class Material:public RenderObj {
 
   protected:
-    char * nom;
+    string nom;
     double Ns;
     double Ni;
     double d;
@@ -46,9 +46,9 @@ class Material:public RenderObj {
 
   public:
     Material();
-    char* getNom();
+    string getNom();
 
-    void setNom(char* pNom);
+    void setNom(string pNom);
     void setAmbiant(double r, double v, double b);
     void setDiffus(double r, double v, double b);
     void setSpeculaire(double r, double v, double b);

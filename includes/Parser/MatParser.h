@@ -1,3 +1,5 @@
+#ifndef MATPARSER_H
+#define MATPARSER_H
 
 #include <stdio.h>
 #include <cstring>
@@ -33,3 +35,6 @@ public:
   vector<string> getTokens(vector<string>::iterator it);
   map<string, Material> readFile (const char * filename);
 };
+
+#endif
+
