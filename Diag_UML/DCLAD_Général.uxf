@@ -1,10 +1,9 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<diagram program="umlet" version="14.3.0">
+<?xml version="1.0" encoding="UTF-8"?><diagram program="umlet" version="13.3">
   <zoom_level>10</zoom_level>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>60</x>
+      <x>600</x>
       <y>500</y>
       <w>490</w>
       <h>320</h>
@@ -38,7 +37,7 @@
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>130</x>
+      <x>670</x>
       <y>0</y>
       <w>210</w>
       <h>140</h>
@@ -58,7 +57,7 @@
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>70</x>
+      <x>610</x>
       <y>220</y>
       <w>370</w>
       <h>150</h>
@@ -78,7 +77,7 @@
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>1260</x>
+      <x>1800</x>
       <y>60</y>
       <w>100</w>
       <h>30</h>
@@ -89,7 +88,7 @@
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>330</x>
+      <x>870</x>
       <y>60</y>
       <w>360</w>
       <h>40</h>
@@ -101,7 +100,7 @@ readFile("chemin/monFichier.mtl")</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>430</x>
+      <x>970</x>
       <y>110</y>
       <w>260</w>
       <h>210</h>
@@ -114,7 +113,7 @@ readFile(chemin/monFichier.obj)</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>670</x>
+      <x>1210</x>
       <y>40</y>
       <w>370</w>
       <h>120</h>
@@ -134,7 +133,7 @@ Loader(vector&lt;string&gt; listeObj, vector&lt;string&gt; listeMtl)
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>290</x>
+      <x>830</x>
       <y>360</y>
       <w>30</w>
       <h>160</h>
@@ -145,7 +144,7 @@ Loader(vector&lt;string&gt; listeObj, vector&lt;string&gt; listeMtl)
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>820</x>
+      <x>1360</x>
       <y>360</y>
       <w>210</w>
       <h>80</h>
@@ -163,7 +162,7 @@ Loader(vector&lt;string&gt; listeObj, vector&lt;string&gt; listeMtl)
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>960</x>
+      <x>1500</x>
       <y>80</y>
       <w>350</w>
       <h>300</h>
@@ -176,7 +175,7 @@ tic()</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>460</x>
+      <x>1000</x>
       <y>370</y>
       <w>380</w>
       <h>150</h>
@@ -187,7 +186,7 @@ tic()</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>540</x>
+      <x>1080</x>
       <y>400</y>
       <w>300</w>
       <h>140</h>
@@ -199,14 +198,37 @@ dessiner()</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>890</x>
+      <x>1430</x>
       <y>150</y>
-      <w>100</w>
+      <w>110</w>
       <h>230</h>
     </coordinates>
     <panel_attributes>lt=&lt;-
 new()
 getObjets()</panel_attributes>
     <additional_attributes>10.0;10.0;10.0;210.0</additional_attributes>
+  </element>
+  <element>
+    <type>com.baselet.element.old.element.Class</type>
+    <coordinates>
+      <x>70</x>
+      <y>360</y>
+      <w>380</w>
+      <h>200</h>
+    </coordinates>
+    <panel_attributes>Render::Face
+--
+mat: Material
+vertexNums: vector&lt;long&gt;
+vertexTextNums: vector&lt;long&gt;
+vertexNormalNums: vector&lt;long&gt;
+--
+Face(Material m);
+ajouterNumVertex(long numVertex): void
+ajouterNumVertexTexture(long numVertexTexture): void
+ajouterNumVertexNormal(long numVertexNormal): void
+dessiner(vector&lt;Vertex&gt; pVertices, vector&lt;VertexNormal&gt; pVerticesNormal): void
+</panel_attributes>
+    <additional_attributes/>
   </element>
 </diagram>

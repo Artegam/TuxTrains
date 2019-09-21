@@ -3,7 +3,10 @@
 
 
 VertexNormal::VertexNormal() {
-	w = 1.0;
+  x = 0.0;
+  y = 0.0;
+  z = 0.0;
+  w = 1.0;
 }
 
 void VertexNormal::setX(double pX) {
@@ -39,5 +42,6 @@ double VertexNormal::getW(){
 }
 
 void VertexNormal::dessiner() {
+  printf("dessiner - vn %lf %lf %lf\n", x, y, z);
 	glNormal3d(x, y, z);
 }

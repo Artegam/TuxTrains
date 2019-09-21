@@ -21,6 +21,7 @@ class Face {
 
 
 	public:
+    Face();
     Face(Material m);
 
 		void ajouterNumVertex(long numVertex);
@@ -28,6 +29,7 @@ class Face {
 		void ajouterNumVertexNormal(long numVertexNormal);
 
 		void dessiner(vector<Vertex> pVertices, vector<VertexNormal> pVerticesNormal);
+    void dump(void);
 
 };
 

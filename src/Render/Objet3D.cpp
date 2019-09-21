@@ -23,6 +23,10 @@ void Objet3D::setMateriau(Material pNomMateriau) {
   //printf("### %s\n", mat.getNom());
 }
 
+Material Objet3D::getMateriau() {
+  return mat;
+}
+
 void Objet3D::ajouterVertex(double pX, double pY, double pZ, double pW){
 	Vertex * v = new Vertex();
 
@@ -102,6 +106,10 @@ void Objet3D::ajouterFace(const int nbParametres, char** parametres){
 	}
 }
 
+
+void Objet3D::ajouterFace(Face f) {
+  faces.insert(faces.end(), f);
+}
 
 void afficherVertex(Vertex& v) {
 	v.dessiner();

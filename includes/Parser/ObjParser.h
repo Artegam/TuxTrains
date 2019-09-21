@@ -8,21 +8,25 @@
 #include <fstream>
 #include <iostream>
 #include "Material.h"
+#include "Face.h"
+#include <regex>
 
 class ObjParser {
 
-protected:
-  map<string, Material> materiaux;
-	vector<Objet3D> objets;
-	Objet3D * vObj;
-  vector<string> fichierRAM;
+  protected:
+    map<string, Material> materiaux;
+    vector<Objet3D> objets;
+    Objet3D * vObj;
+    vector<string> fichierRAM;
 
-public:
+    int parserFace(smatch m);
 
-  ObjParser(map<string, Material> mats);
+  public:
 
-	vector<Objet3D> readFile (const char * filename);
-  void parserFichier(void);
-  vector<string> getTokens(vector<string>::iterator it);
+    ObjParser(map<string, Material> mats);
+
+    vector<Objet3D> readFile (const char * filename);
+    void parserFichier(void);
+    vector<string> getTokens(vector<string>::iterator it);
 
 };

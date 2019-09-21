@@ -30,10 +30,12 @@ class Objet3D {
 
 		char* getNom();
     string getNomMateriau();
+    Material getMateriau(void);
 
 		void ajouterVertex(double pX, double pY, double pZ, double pW);
 		void ajouterVertexNormal(double pX, double pY, double pZ, double pW);
 		void ajouterFace(const int nbParametres, char** parametres);
+    void ajouterFace(Face f);
 
     void init();
 		void dessiner();

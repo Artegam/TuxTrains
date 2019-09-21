@@ -1,6 +1,11 @@
 
 #include "Face.h"
 
+Face::Face(){
+  Material *m = new Material();
+  mat = *m;
+}
+
 Face::Face(Material m){
   mat = m;
 }
@@ -18,6 +23,22 @@ void Face::ajouterNumVertexNormal(long numVertexNormal) {
 	vertexNormalNums.insert(vertexNormalNums.end(), numVertexNormal);
 }
 
+void Face::dump() {
+  printf("####### dump face #########\n");
+  printf(" vertex\n");
+  for(unsigned int i = 0; i < vertexNums.size(); i++) {
+    printf("%ld ", vertexNums[i]);
+  }
+  printf("\n vertex normal\n");
+  for(unsigned int i = 0; i < vertexNormalNums.size(); i++) {
+    printf("%ld ", vertexNormalNums[i]);
+  }
+  printf("\n vertex texture\n");
+  for(unsigned int i = 0; i < vertexTextNums.size(); i++) {
+    printf("%ld ", vertexTextNums[i]);
+  }
+  printf("\n");
+}
 
 void Face::dessiner(vector<Vertex> pVertices, vector<VertexNormal> pVerticesNormal){
 
