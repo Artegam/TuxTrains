@@ -129,9 +129,9 @@ void initLight(void)
    glLightfv(GL_LIGHT0, GL_SPECULAR, lightspecular);
 
    //LIGHT1
-   GLfloat lightpos1[] = {0.0, 15.0, 0.0, 0.0};
-   GLfloat lightdiffuse1[] = {2.0, 2.0, 2.0, 0.0};
-   GLfloat lightspecular1[] = {2.0, 2.0, 2.0, 0.0};
+   GLfloat lightpos1[] = {0.0, 40.0, 0.0, 0.0}; //Poition de la source lumineuse
+   GLfloat lightdiffuse1[] = {10.0, 10.0, 10.0, 0.0}; // QuantitÃ© de couleur reflechie par les objets
+   GLfloat lightspecular1[] = {1.0, 1.0, 1.0, 0.0}; // Aspect blanc reflete
 
    glLightfv(GL_LIGHT1, GL_POSITION, lightpos1);
    glLightfv(GL_LIGHT1, GL_DIFFUSE, lightdiffuse1);

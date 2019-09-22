@@ -44,32 +44,31 @@ void MatParser::parserFichier() {
   char* nom;
 
   for(it = fichierRAM.begin(); it != fichierRAM.end(); it++) {
-    vector<string> tokens = getTokens(it);
-    //Conditions pour traitements
-    if(tokens.size() > 0) {
 
-      // newmtl
-      if(tokens[0].compare("newmtl") == 0) {
+      //Le cas newmtl xxxx
+      regex newmtl_regex("^newmtl \\(.*\\)", regex_constants::basic);
+      smatch m;
+
+
+      if(regex_search(*it, m, newmtl_regex)) {
         Material mat;
-        nom = new char[tokens[1].size() + 1];
-        strcpy(nom, tokens[1].c_str());
+        nom = new char[m[1].str().size() + 1];
+        strcpy(nom, m[1].str().c_str());
         mat.setNom(nom);
         vMat = &mat; // On garde le pointeur de materiau courant
-        //printf("NOUVEAU MATERIAU : %s\n", nom);
         materiaux[nom] = mat;
         vMat = &mat;
-        printf("Materiau : %s\n", nom);
         continue;
-
       }
 
-      // Ambiant
-      if(tokens[0].compare("Ka") == 0) {
+      //Le cas Ka xxxx xxxxx xxxx
+      regex ka_regex("^Ka \\([0-9\\.]*\\) \\([0-9\\.]*\\) \\([0-9\\.]*\\)", regex_constants::basic);
 
-        if(tokens.size() == 4) {
-        double d[tokens.size()-1];
-        for(unsigned int i = 0; i < tokens.size()-1; i++) {
-          d[i] = stod(tokens[i+1]);
+      if(regex_search(*it, m, ka_regex)) {
+        if(m.size() == 4) {
+        double d[m.size()-1];
+        for(unsigned int i = 0; i < m.size()-1; i++) {
+          d[i] = stod(m[i+1].str().c_str());
         }
 
         materiaux[nom].setAmbiant(d[0], d[1], d[2]);
@@ -80,13 +79,14 @@ void MatParser::parserFichier() {
         continue;
       }
 
-      // Diffus
-      if(tokens[0].compare("Kd") == 0) {
+      //Le cas Kd xxxx xxxxx xxxx
+      regex kd_regex("^Kd \\([0-9\\.]*\\) \\([0-9\\.]*\\) \\([0-9\\.]*\\)", regex_constants::basic);
 
-        if(tokens.size() == 4) {
-        double d[tokens.size()-1];
-        for(unsigned int i = 0; i < tokens.size()-1; i++) {
-          d[i] = stod(tokens[i+1]);
+      if(regex_search(*it, m, kd_regex)) {
+        if(m.size() == 4) {
+        double d[m.size()-1];
+        for(unsigned int i = 0; i < m.size()-1; i++) {
+          d[i] = stod(m[i+1].str().c_str());
         }
 
         materiaux[nom].setDiffus(d[0], d[1], d[2]);
@@ -97,13 +97,15 @@ void MatParser::parserFichier() {
         continue;
       }
 
-      // Speculaire
-      if(tokens[0].compare("Ks") == 0) {
 
-        if(tokens.size() == 4) {
-        double d[tokens.size()-1];
-        for(unsigned int i = 0; i < tokens.size()-1; i++) {
-          d[i] = stod(tokens[i+1]);
+      //Le cas Ks xxxx xxxxx xxxx
+      regex ks_regex("^Ks \\([0-9\\.]*\\) \\([0-9\\.]*\\) \\([0-9\\.]*\\)", regex_constants::basic);
+
+      if(regex_search(*it, m, ks_regex)) {
+        if(m.size() == 4) {
+        double d[m.size()-1];
+        for(unsigned int i = 0; i < m.size()-1; i++) {
+          d[i] = stod(m[i+1].str().c_str());
         }
 
         materiaux[nom].setSpeculaire(d[0], d[1], d[2]);
@@ -114,13 +116,15 @@ void MatParser::parserFichier() {
         continue;
       }
 
-      // Emmission
-      if(tokens[0].compare("Ke") == 0) {
 
-        if(tokens.size() == 4) {
-        double d[tokens.size()-1];
-        for(unsigned int i = 0; i < tokens.size()-1; i++) {
-          d[i] = stod(tokens[i+1]);
+      //Le cas Ke xxxx xxxxx xxxx
+      regex ke_regex("^Ke \\([0-9\\.]*\\) \\([0-9\\.]*\\) \\([0-9\\.]*\\)", regex_constants::basic);
+
+      if(regex_search(*it, m, ke_regex)) {
+        if(m.size() == 4) {
+        double d[m.size()-1];
+        for(unsigned int i = 0; i < m.size()-1; i++) {
+          d[i] = stod(m[i+1].str().c_str());
         }
 
         materiaux[nom].setEmmission(d[0], d[1], d[2]);
@@ -131,15 +135,13 @@ void MatParser::parserFichier() {
         continue;
       }
 
-      // Reflectivite
-      if(tokens[0].compare("Ns") == 0) {
+      //Le cas Ns xxxx
+      regex ns_regex("^Ns \\(.*\\)", regex_constants::basic);
 
-        //printf("!!!! %s\n", tokens[1].c_str());
-
-        if(tokens.size() == 2) {
+      if(regex_search(*it, m, ns_regex)) {
+        if(m.size() == 2) {
           double d;
-          d = stod(tokens[1]);
-//printf("!!!! %f\n", d);
+          d = stod(m[1].str().c_str());
           materiaux[nom].setReflectivite(d);
         }else{
           printf("#### Erreur Reflectivite ####\n");
@@ -148,13 +150,13 @@ void MatParser::parserFichier() {
         continue;
       }
 
-      // Transparence
-      if(tokens[0].compare("Tr") == 0) {
+      //Le cas Tr xxxx
+      regex tr_regex("^Tr \\(.*\\)", regex_constants::basic);
 
-        if(tokens.size() == 2) {
+      if(regex_search(*it, m, tr_regex)) {
+        if(m.size() == 2) {
           double d;
-          d = stod(tokens[1]);
-
+          d = stod(m[1].str().c_str());
           materiaux[nom].setTransparence(d);
         }else{
           printf("#### Erreur Transparence ####\n");
@@ -163,13 +165,13 @@ void MatParser::parserFichier() {
         continue;
       }
 
-      // Non-Transparence
-      if(tokens[0].compare("d") == 0) {
+      //Le cas d xxxx
+      regex d_regex("^d \\(.*\\)", regex_constants::basic);
 
-        if(tokens.size() == 2) {
+      if(regex_search(*it, m, d_regex)) {
+        if(m.size() == 2) {
           double d;
-          d = stod(tokens[1]);
-
+          d = stod(m[1].str().c_str());
           materiaux[nom].setNonTransparence(d);
         }else{
           printf("#### Erreur Non-Transparence ####\n");
@@ -178,13 +180,12 @@ void MatParser::parserFichier() {
         continue;
       }
 
-      // Num illumination
-      if(tokens[0].compare("illum") == 0) {
+      //Le cas illum xxxx
+      regex illum_regex("^illum \\(.*\\)", regex_constants::basic);
 
-        if(tokens.size() == 2) {
-          int i;
-          i = atoi(tokens[1].c_str());
-
+      if(regex_search(*it, m, illum_regex)) {
+        if(m.size() == 2) {
+          int i = atoi(m[1].str().c_str());
           materiaux[nom].setModeleIllumination(i);
         }else{
           printf("#### Erreur Modele illumination ####\n");
@@ -193,12 +194,13 @@ void MatParser::parserFichier() {
         continue;
       }
 
-      // Chemin texture
-      if(tokens[0].compare("map_Kd") == 0) {
+      //Le cas map_Kd xxxx Chemin texture
+      regex mapkd_regex("^map_Kd \\(.*\\)", regex_constants::basic);
 
-        if(tokens.size() == 2) {
-          printf("%s\n", tokens[1].c_str());
-          materiaux[nom].setTexture(tokens[1]);
+      if(regex_search(*it, m, mapkd_regex)) {
+        if(m.size() == 2) {
+          printf("%s\n", m[1].str().c_str());
+          materiaux[nom].setTexture(m[1].str());
         }else{
           printf("#### Erreur chemin texture ####\n");
         }
@@ -206,8 +208,7 @@ void MatParser::parserFichier() {
         continue;
       }
 
-    }
-    tokens.clear();
+
   }
 
   printf ("FIN parcours fichier RAM\n");

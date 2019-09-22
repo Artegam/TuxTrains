@@ -7,6 +7,7 @@
 #include "Material.h"
 #include <fstream>
 #include <iostream>
+#include <regex>
 
 /*
 	- newmtl name
