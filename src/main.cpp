@@ -6,6 +6,7 @@
 #include "Parser/MatParser.h"
 #include "Parser/Loader.h"
 #include "Objet3D.h"
+#include "Render/Moteur.h"
 
 using namespace std;
 
@@ -23,7 +24,7 @@ using namespace std;
   static int last_time = 0;
   static double fps = 0.0; //Le nb de fps
   static bool loumiere = false;
-  Moteur moteur("/home/tonio/TuxTrains/obj"); //Le moteur qui gere le chargement et l'animation des objets en 3D 
+  Moteur moteur("/home/tonio/TuxTrains/obj"); //Le moteur qui gere le chargement et l'animation des objets en 3D
 
 
   char str[150] = "";
@@ -52,7 +53,7 @@ int main(int argc, char** argv) {
 	float zFar = 50.0;
 	float zoomFactor = 1.0;
 
-  
+
   glutInit(&argc, argv);
   glutInitDisplayMode(GLUT_DEPTH | GLUT_DOUBLE | GLUT_RGBA);
 
@@ -77,11 +78,13 @@ int main(int argc, char** argv) {
   initLight();
 	gluLookAt(0.0, 6.0, 6.0, 0.0, 0.0, 0.0, 0.0 , 1.0, 0.0);
 
+  moteur.init();
+/*
   //Initialisation des objets (chargement dans la carte graphique pour le rendu
 	for(it = objets.begin(); it != objets.end(); it++) {
 		it->init();
 	}
-
+*/
   glutDisplayFunc(render);
   glutIdleFunc(idle);
 	//glutReshapeFunc(Reshape);
@@ -165,10 +168,12 @@ glPushMatrix();
 	vBitmapOutput(-1,3,str,GLUT_BITMAP_HELVETICA_18);
 glPopMatrix();
 
+  moteur.tic();
+/*
 	for(it = objets.begin(); it != objets.end(); it++) {
 		it->dessiner();
 	}
-
+*/
   glRotatef(angle,0.0,1.0,0.0);
 
   //Pour symbolyser la lumiÃ¨re du soleil

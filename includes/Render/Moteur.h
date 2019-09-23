@@ -16,6 +16,7 @@ class Moteur {
     //void ajouter(Objet3D obj);
     //void ajouter(vector<Objet3D> lst);
 		void tic();
+		void init();
 };
 
 #endif

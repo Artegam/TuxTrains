@@ -14,8 +14,17 @@ void Moteur::tic() {
   //Not implemented yet !!!
   vector<Objet3D>::iterator it;
 
-  for(it = listeObjets.begin(); it != listeObjets.end(); it++) {
+  for(it = objets.begin(); it != objets.end(); it++) {
     it->dessiner(); //ou animer();
+  }
+}
+
+void Moteur::init() {
+  //Not implemented yet !!!
+  vector<Objet3D>::iterator it;
+
+  for(it = objets.begin(); it != objets.end(); it++) {
+    it->init(); //ou animer();
   }
 }
 
