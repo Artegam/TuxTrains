@@ -1,10 +1,11 @@
-<?xml version="1.0" encoding="UTF-8"?><diagram program="umlet" version="13.3">
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="14.3.0">
   <zoom_level>10</zoom_level>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>600</x>
-      <y>500</y>
+      <x>860</x>
+      <y>710</y>
       <w>490</w>
       <h>320</h>
     </coordinates>
@@ -37,8 +38,8 @@
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>670</x>
-      <y>0</y>
+      <x>520</x>
+      <y>320</y>
       <w>210</w>
       <h>140</h>
     </coordinates>
@@ -57,8 +58,8 @@
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>610</x>
-      <y>220</y>
+      <x>820</x>
+      <y>320</y>
       <w>370</w>
       <h>150</h>
     </coordinates>
@@ -77,8 +78,8 @@
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>1800</x>
-      <y>60</y>
+      <x>1500</x>
+      <y>370</y>
       <w>100</w>
       <h>30</h>
     </coordinates>
@@ -88,33 +89,33 @@
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>870</x>
-      <y>60</y>
-      <w>360</w>
-      <h>40</h>
+      <x>640</x>
+      <y>110</y>
+      <w>280</w>
+      <h>230</h>
     </coordinates>
     <panel_attributes>lt=&lt;-
 readFile("chemin/monFichier.mtl")</panel_attributes>
-    <additional_attributes>10.0;20.0;340.0;20.0</additional_attributes>
+    <additional_attributes>10.0;210.0;260.0;10.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>970</x>
+      <x>950</x>
       <y>110</y>
-      <w>260</w>
-      <h>210</h>
+      <w>270</w>
+      <h>230</h>
     </coordinates>
     <panel_attributes>lt=&lt;-
 new(listeMateriaux)
 readFile(chemin/monFichier.obj)</panel_attributes>
-    <additional_attributes>10.0;190.0;240.0;10.0</additional_attributes>
+    <additional_attributes>90.0;210.0;10.0;10.0</additional_attributes>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>1210</x>
-      <y>40</y>
+      <x>850</x>
+      <y>0</y>
       <w>370</w>
       <h>120</h>
     </coordinates>
@@ -133,19 +134,19 @@ Loader(vector&lt;string&gt; listeObj, vector&lt;string&gt; listeMtl)
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>830</x>
-      <y>360</y>
-      <w>30</w>
-      <h>160</h>
+      <x>1040</x>
+      <y>460</y>
+      <w>80</w>
+      <h>270</h>
     </coordinates>
     <panel_attributes>lt=&lt;-</panel_attributes>
-    <additional_attributes>10.0;140.0;10.0;10.0</additional_attributes>
+    <additional_attributes>60.0;250.0;10.0;10.0</additional_attributes>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>1360</x>
-      <y>360</y>
+      <x>1210</x>
+      <y>350</y>
       <w>210</w>
       <h>80</h>
     </coordinates>
@@ -162,57 +163,57 @@ Loader(vector&lt;string&gt; listeObj, vector&lt;string&gt; listeMtl)
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1500</x>
-      <y>80</y>
-      <w>350</w>
-      <h>300</h>
+      <x>1410</x>
+      <y>370</y>
+      <w>110</w>
+      <h>50</h>
     </coordinates>
     <panel_attributes>lt=&lt;-
 new()
 tic()</panel_attributes>
-    <additional_attributes>10.0;280.0;330.0;10.0</additional_attributes>
+    <additional_attributes>10.0;20.0;90.0;20.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1000</x>
-      <y>370</y>
-      <w>380</w>
-      <h>150</h>
+      <x>1260</x>
+      <y>420</y>
+      <w>40</w>
+      <h>310</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
-    <additional_attributes>360.0;10.0;10.0;130.0</additional_attributes>
+    <additional_attributes>20.0;10.0;10.0;290.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1080</x>
-      <y>400</y>
-      <w>300</w>
-      <h>140</h>
+      <x>1300</x>
+      <y>420</y>
+      <w>100</w>
+      <h>310</h>
     </coordinates>
     <panel_attributes>lt=&lt;-
 dessiner()</panel_attributes>
-    <additional_attributes>10.0;120.0;280.0;10.0</additional_attributes>
+    <additional_attributes>10.0;290.0;20.0;10.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1430</x>
-      <y>150</y>
-      <w>110</w>
-      <h>230</h>
+      <x>1070</x>
+      <y>110</y>
+      <w>240</w>
+      <h>260</h>
     </coordinates>
     <panel_attributes>lt=&lt;-
 new()
 getObjets()</panel_attributes>
-    <additional_attributes>10.0;10.0;10.0;210.0</additional_attributes>
+    <additional_attributes>10.0;10.0;220.0;240.0</additional_attributes>
   </element>
   <element>
     <type>com.baselet.element.old.element.Class</type>
     <coordinates>
-      <x>70</x>
-      <y>360</y>
+      <x>440</x>
+      <y>710</y>
       <w>380</w>
       <h>200</h>
     </coordinates>
@@ -230,5 +231,33 @@ ajouterNumVertexNormal(long numVertexNormal): void
 dessiner(vector&lt;Vertex&gt; pVertices, vector&lt;VertexNormal&gt; pVerticesNormal): void
 </panel_attributes>
     <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>280</x>
+      <y>300</y>
+      <w>210</w>
+      <h>190</h>
+    </coordinates>
+    <panel_attributes>Parser::AniParser
+--
+#animations: vector&lt;Transformations&gt;
+--
+
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>370</x>
+      <y>60</y>
+      <w>500</w>
+      <h>260</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+readFile("chemin/monFichier.ani")</panel_attributes>
+    <additional_attributes>10.0;240.0;480.0;10.0</additional_attributes>
   </element>
 </diagram>

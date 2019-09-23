@@ -23,6 +23,7 @@ using namespace std;
   static int last_time = 0;
   static double fps = 0.0; //Le nb de fps
   static bool loumiere = false;
+  Moteur moteur("/home/tonio/TuxTrains/obj"); //Le moteur qui gere le chargement et l'animation des objets en 3D 
 
 
   char str[150] = "";
@@ -51,29 +52,7 @@ int main(int argc, char** argv) {
 	float zFar = 50.0;
 	float zoomFactor = 1.0;
 
-  //Loader *l = new Loader("/home/tonio/TuxTrains/obj", "/home/tonio/TuxTrains/mtl", false);
-  Loader *l = new Loader("/home/tonio/TuxTrains/obj", false);
-
-  //materials = matParser.readFile("/home/tonio/TuxTrains/mtl/jaguard.mtl");
-  //parser = new ObjParser(materials);
-  //objets = parser->readFile("/home/tonio/TuxTrains/obj/jaguard.obj");
-  objets = l->getObjets(); //Charge tous les objets dans la scene en 3D
-  //TODO: Il y a une erreur de dessin lorsque plusieurs objets sont presents
-  //  Il s'agit probablement d'une erreur du parser
-
-/*
-	if (argv[1] != NULL) {
-    materials = matParser.readFile(argv[2]);
-    parser = new ObjParser(materials);
-		objets = parser->readFile(argv[1]);
-	} else {
-		printf("Veuillez passer en argument le nom du fichier obj (exemple: ./essai3D ./obj/jaguard.obj\n");
-		return 0;
-	}
-*/
-
-	//parser->~ObjParser();
-
+  
   glutInit(&argc, argv);
   glutInitDisplayMode(GLUT_DEPTH | GLUT_DOUBLE | GLUT_RGBA);
 

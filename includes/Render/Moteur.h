@@ -7,13 +7,14 @@
 class Moteur {
 
 	protected:
-    vector<Objet3D> listeObjets;
+    vector<Objet3D> objets;
+    const char * defaultPath = "/home/tonio/TuxTrains/obj";
 
 	public:
     Moteur(const char* objPath);
 
-    void ajouter(Objet3D obj);
-    void ajouter(vector<Objet3D> lst);
+    //void ajouter(Objet3D obj);
+    //void ajouter(vector<Objet3D> lst);
 		void tic();
 };
 
