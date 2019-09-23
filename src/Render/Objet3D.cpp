@@ -10,8 +10,21 @@ char* Objet3D::getNom() {
 	return nom;
 }
 
-void Objet3D::setNom(char* pNom) {
-	nom = pNom;
+void Objet3D::setNom(const char* pNom) {
+	nom = (char*)pNom;
+}
+
+string Objet3D::getNomMateriau(){
+  return mat.getNom();
+}
+
+void Objet3D::setMateriau(Material pNomMateriau) {
+  mat = pNomMateriau;
+  //printf("### %s\n", mat.getNom());
+}
+
+Material Objet3D::getMateriau() {
+  return mat;
 }
 
 void Objet3D::ajouterVertex(double pX, double pY, double pZ, double pW){
@@ -42,7 +55,7 @@ void Objet3D::ajouterFace(const int nbParametres, char** parametres){
 
 	if (MAX > 0) {
 
-		Face f;
+		Face * f = new Face(mat);
 
 		for(int cpt = 0; cpt < MAX; cpt++) {
       string delimiter = "/";
@@ -63,36 +76,40 @@ void Objet3D::ajouterFace(const int nbParametres, char** parametres){
 
       switch(tokens.size()){
         case 1:   // cas v
-          f.ajouterNumVertex(atoi(tokens[0].c_str()));
+          f->ajouterNumVertex(atoi(tokens[0].c_str()));
           break;
 
         case 2:// cas v/vt
           if(tokens[1].compare("") != 0) { // vt present
-            f.ajouterNumVertex(atoi(tokens[0].c_str()));
-            f.ajouterNumVertexTexture(atoi(tokens[1].c_str()));
+            f->ajouterNumVertex(atoi(tokens[0].c_str()));
+            f->ajouterNumVertexTexture(atoi(tokens[1].c_str()));
           }
 
           // cas v//vn
           if(tokens[1].compare("") == 0) { // vt absent
-            f.ajouterNumVertex(atoi(tokens[0].c_str()));
-            f.ajouterNumVertexNormal(atoi(tokens[2].c_str()));
+            f->ajouterNumVertex(atoi(tokens[0].c_str()));
+            f->ajouterNumVertexNormal(atoi(tokens[2].c_str()));
           }
           break;
 
         case 3:// cas v/vt/vn
-          f.ajouterNumVertex(atoi(tokens[0].c_str()));
-          f.ajouterNumVertexTexture(atoi(tokens[1].c_str()));
-          f.ajouterNumVertexNormal(atoi(tokens[2].c_str()));
+          f->ajouterNumVertex(atoi(tokens[0].c_str()));
+          f->ajouterNumVertexTexture(atoi(tokens[1].c_str()));
+          f->ajouterNumVertexNormal(atoi(tokens[2].c_str()));
           break;
 
       }
 
 
 		}
-		faces.insert(faces.end(), f);
+		faces.insert(faces.end(), *f);
 	}
 }
 
+
+void Objet3D::ajouterFace(Face f) {
+  faces.insert(faces.end(), f);
+}
 
 void afficherVertex(Vertex& v) {
 	v.dessiner();
@@ -103,7 +120,7 @@ void Objet3D::init() {
   // Instanciation de la liste
   listeAffichage = glGenLists(1);
 
-  printf("Initialisation de l'objet %s\n", nom);
+  printf("Initialisation de l'objet %s '%s'\n", nom, mat.getNom().c_str());
   // CrÃation et dÃ©finition de la liste d'affichage
   glNewList(listeAffichage, GL_COMPILE);
 
@@ -121,6 +138,8 @@ void Objet3D::init() {
 
 void Objet3D::dessiner() {
 
+glPushMatrix();
   glCallList(listeAffichage);
+glPopMatrix();
 
 }

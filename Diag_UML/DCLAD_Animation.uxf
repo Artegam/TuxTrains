@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?><diagram program="umlet" version="13.3">
+  <zoom_level>10</zoom_level>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>340</x>
+      <y>180</y>
+      <w>210</w>
+      <h>190</h>
+    </coordinates>
+    <panel_attributes>Moteur
+--
+#listeObjets:Objets3D
+--
++tic():void
+
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>730</x>
+      <y>100</y>
+      <w>500</w>
+      <h>330</h>
+    </coordinates>
+    <panel_attributes>Render::Objet3D
+--
+#nom: char*
+#mat: Material
+#vertices: vector&lt;Vertex&gt;
+#verticesNormal: vector&lt;VertexNormal&gt;
+#faces: vector&lt;Face&gt;
+#listeAffichage: GLuint
+--
++init():void
++getNom() :chr*
++setNom(nom :char *):void
++getNomMateriau():string
++setMateriau(Material pNomMateriau):void
++ajouterVertex(double pX, double pY, double pZ, double pW):void
++ajouterVertexNormal(double pX, double pY, double pZ, double pW):void
++ajouterFace(const int nbParametres, char** parametres):void
++afficherVertex(Vertex&amp; v):void
++dessiner():void
+/+animer():void/
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>10</x>
+      <y>250</y>
+      <w>210</w>
+      <h>110</h>
+    </coordinates>
+    <panel_attributes>Main
+--
+-id: Long {composite}
+_-ClassAttribute: Long_
+--
++idle() : void
++render() : void</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>900</x>
+      <y>550</y>
+      <w>200</w>
+      <h>120</h>
+    </coordinates>
+    <panel_attributes>Locomotive::TheRocket
+--
+-vitesse:GLfloat
+-fichierObj:string
+-fichierMtl:string
+--
++accellerer():void
++freiner():void
+
+
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>960</x>
+      <y>420</y>
+      <w>70</w>
+      <h>150</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;50.0;130.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>210</x>
+      <y>260</y>
+      <w>150</w>
+      <h>60</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-</panel_attributes>
+    <additional_attributes>130.0;10.0;10.0;40.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>540</x>
+      <y>220</y>
+      <w>210</w>
+      <h>70</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-</panel_attributes>
+    <additional_attributes>190.0;10.0;10.0;50.0</additional_attributes>
+  </element>
+</diagram>

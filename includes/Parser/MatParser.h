@@ -1,8 +1,13 @@
+#ifndef MATPARSER_H
+#define MATPARSER_H
 
 #include <stdio.h>
 #include <cstring>
 #include <vector>
 #include "Material.h"
+#include <fstream>
+#include <iostream>
+#include <regex>
 
 /*
 	- newmtl name
@@ -17,21 +22,20 @@
 
 */
 
+using namespace std;
+
 class MatParser {
 
 protected:
-	vector<Material> materials;
 	Material * vMat;
+  vector<string> fichierRAM;
+  map<string, Material> materiaux;
 
 public:
-
-	vector<Material> readFile (const char * filename);
-	/*
-	void readVertex(FILE* fichier);
-	void readVertexNormal(FILE* fichier);
-	void readObject(FILE* fichier);
-	void readFace(FILE* fichier);
-	void readMaterialLib(FILE* fichier);
-	void readMateriaUsed(FILE* fichier);
-	*/
+  void parserFichier(void);
+  vector<string> getTokens(vector<string>::iterator it);
+  map<string, Material> readFile (const char * filename);
 };
+
+#endif
+
