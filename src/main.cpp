@@ -166,6 +166,7 @@ if(loumiere) {
 glPushMatrix();
 	glColor3d(1,1,1); // Texte en blanc
 	vBitmapOutput(-1,3,str,GLUT_BITMAP_HELVETICA_18);
+  glRotate(1.0, 0.0, 0.0, 1.0); //angle, x, y, z (referentiel)
 glPopMatrix();
 
   moteur.tic();

@@ -140,6 +140,9 @@ void Objet3D::dessiner() {
 
 glPushMatrix();
   glCallList(listeAffichage);
+  if( nom == "Roue_AVG_Circle.002") { //Si et seuleemnt si l'objet se nomme Roue_AVG_Circle.002
+     glRotate(5.0, 0.0, 1.0, 0.0); //faire tourner la roue autouer de l'axe Y
+  }
 glPopMatrix();
 
 }
