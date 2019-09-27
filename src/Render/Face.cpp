@@ -54,7 +54,15 @@ void Face::dessiner(vector<Vertex> pVertices, vector<VertexNormal> pVerticesNorm
 //  glutSolidCube(1.0);
 //  glEnd();
 
-	glBegin(GL_TRIANGLES);
+glPolygonMode(GL_FRONT_AND_BACK, GL_FILL); //Remplissage standart
+glPolygonMode(GL_FRONT_AND_BACK, GL_LINE); //Mode en fil de fer
+glLineWidth(3.0); //epaiseur du trait
+
+	//glBegin(GL_TRIANGLES); //mode remplissage triangle classique
+	//glBegin(GL_TRIANGLES_STRIP); //mode remplissage triangle relies, par exemple 4 vertex font 2 triangles adjacents
+	glBegin(GL_LINE_LOOP); //mode tracer en lignes. le dernier point est reliÃ© au premier
+	glBegin(GL_POLYGON); //mode polygone
+
   //glNormal3d(0, 0, 1);
 	for(int cpt = 1; cpt < nbPoints-1; cpt++){
 		int index;
