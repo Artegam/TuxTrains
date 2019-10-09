@@ -22,7 +22,7 @@ class ObjParser {
     Objet3D * vObj;
     vector<string> fichierRAM;
 
-    int parserFace(smatch m);
+    int parserFace(string m);
     string cheminFichiersObj;
     MatParser matParser;
     Material mat_courant;
@@ -34,6 +34,7 @@ class ObjParser {
     vector<Objet3D> readFile (const char * filename, const char * chemin);
     void parserFichier(void);
     vector<string> getTokens(vector<string>::iterator it);
+    vector<string> split (string s, string delimiter);
 
 };
 

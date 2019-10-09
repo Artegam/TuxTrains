@@ -9,6 +9,7 @@ class Moteur {
 	protected:
     vector<Objet3D> objets;
     const char * defaultPath = "/home/tonio/TuxTrains/obj";
+    float angle = 0.0;
 
 	public:
     Moteur(const char* objPath);

@@ -17,18 +17,20 @@ using namespace std;
 class Objet3D {
 
 	protected:
-		char* nom;
+		string nom;
     Material mat;
 		vector<Vertex> vertices;
 		vector<VertexNormal> verticesNormal;
 		vector<Face> faces;
     GLuint listeAffichage;
 
+    float angle = 0.0;
+
 	public:
 		void setNom(const char* pNom);
 		void setMateriau(Material pMateriau);
 
-		char* getNom();
+		string getNom();
     string getNomMateriau();
     Material getMateriau(void);
 

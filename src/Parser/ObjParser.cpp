@@ -83,7 +83,7 @@ void ObjParser::parserFichier() {
       regex v3_regex("v \\(-*.*\\) \\(-*.*\\) \\(-*.*\\)$", regex_constants::basic);
 
       if(regex_search(*it, m, v3_regex)) {
-        objets[objets.size()-1].ajouterVertex(stod(m[1].str().c_str()), stod(m[2].str().c_str()), stod(m[3].str().c_str()), 0.0);
+        objets.front().ajouterVertex(stod(m[1].str().c_str()), stod(m[2].str().c_str()), stod(m[3].str().c_str()), 0.0);
         continue;
       }
 
@@ -91,7 +91,7 @@ void ObjParser::parserFichier() {
       regex v4_regex("v \\(-*.*\\) \\(-*.*\\) \\(-*.*\\) \\(-*.*\\)$", regex_constants::basic);
 
       if(regex_search(*it, m, v4_regex)) {
-        objets[objets.size()-1].ajouterVertex(stod(m[1].str().c_str()), stod(m[2].str().c_str()), stod(m[3].str().c_str()),  stod(m[4].str().c_str()));
+        objets.front().ajouterVertex(stod(m[1].str().c_str()), stod(m[2].str().c_str()), stod(m[3].str().c_str()),  stod(m[4].str().c_str()));
         continue;
       }
 
@@ -100,7 +100,7 @@ void ObjParser::parserFichier() {
       regex vn3_regex("vn \\(-*.*\\) \\(-*.*\\) \\(-*.*\\)$", regex_constants::basic);
 
       if(regex_search(*it, m, vn3_regex)) {
-        objets[objets.size()-1].ajouterVertexNormal(stod(m[1].str().c_str()), stod(m[2].str().c_str()), stod(m[3].str().c_str()), 0.0);
+        objets.front().ajouterVertexNormal(stod(m[1].str().c_str()), stod(m[2].str().c_str()), stod(m[3].str().c_str()), 0.0);
         continue;
       }
 
@@ -109,20 +109,24 @@ void ObjParser::parserFichier() {
       regex vn4_regex("vn \\(-*.*\\) \\(-*.*\\) \\(-*.*\\) \\(-*.*\\)$", regex_constants::basic);
 
       if(regex_search(*it, m, vn4_regex)) {
-        objets[objets.size()-1].ajouterVertexNormal(stod(m[1].str().c_str()), stod(m[2].str().c_str()), stod(m[3].str().c_str()), stod(m[4].str().c_str()));
+        objets.front().ajouterVertexNormal(stod(m[1].str().c_str()), stod(m[2].str().c_str()), stod(m[3].str().c_str()), stod(m[4].str().c_str()));
         continue;
       }
 
 
       //Les faces
       //Le cas de f xxxx xxxx xxxx
-      regex f3_regex("f \\([0-9/]*\\) \\([0-9/]*\\) \\([0-9/]*\\)$", regex_constants::basic);
+      //exemple
+      //f 4//9 2//9 20//9 18//9 16//9 14//9 12//9 10//9 8//9 6//9
+      //f [0-9\/ ]*
+      //regex f3_regex("f \\([0-9/]*\\) \\([0-9/]*\\) \\([0-9/]*\\)$", regex_constants::basic);
+      regex f_regex("f \\([0-9\\/ ]*\\)", regex_constants::basic);
 
-      if(regex_search(*it, m, f3_regex)) {
-        parserFace(m);
+      if(regex_search(*it, m, f_regex)) {
+        parserFace(m[1].str());
         continue;
       }
-
+/*
       //Le cas de f xxxx xxxx xxxx xxxxx
       regex f4_regex("f \\(.*\\) \\(.*\\) \\(.*\\) \\(.*\\)$", regex_constants::basic);
 
@@ -130,6 +134,7 @@ void ObjParser::parserFichier() {
         parserFace(m);
         continue;
       }
+*/
   }
 
   //printf ("FIN parcours fichier RAM\n");
@@ -137,13 +142,18 @@ void ObjParser::parserFichier() {
 }
 
 
-int ObjParser::parserFace(smatch m) {
+int ObjParser::parserFace(string m) {
   Face *f = new Face(mat_courant);
+
   regex v_vt_vn_regex("^\\([0-9]*\\)/\\([0-9]*\\)/\\([0-9]*\\)$", regex_constants::basic);
   smatch sm;
 
-  for(unsigned int i = 1; i < m.size(); i++) {
-    string str = m[i].str();
+
+  vector<string> matches = split(m, " "); // divise les arguments trouves
+  vector<string>::iterator it;
+
+	for(it = matches.begin(); it != matches.end(); it++) {
+    string str = *it;
 
     if(regex_search(str, sm, v_vt_vn_regex)) {
 
@@ -169,7 +179,7 @@ int ObjParser::parserFace(smatch m) {
     }
   }
 
-  objets.back().ajouterFace(*f);
+  objets.front().ajouterFace(*f);
   return 0;
 }
 
@@ -193,3 +203,19 @@ vector<string> ObjParser::getTokens(vector<string>::iterator it) {
 
   return tokens;
 }
+
+vector<string> ObjParser::split (string s, string delimiter) {
+    size_t pos_start = 0, pos_end, delim_len = delimiter.length();
+    string token;
+    vector<string> res;
+
+    while ((pos_end = s.find (delimiter, pos_start)) != string::npos) {
+        token = s.substr (pos_start, pos_end - pos_start);
+        pos_start = pos_end + delim_len;
+        res.push_back (token);
+    }
+
+    res.push_back (s.substr (pos_start));
+    return res;
+}
+

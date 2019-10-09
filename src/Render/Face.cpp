@@ -54,7 +54,8 @@ void Face::dessiner(vector<Vertex> pVertices, vector<VertexNormal> pVerticesNorm
 //  glutSolidCube(1.0);
 //  glEnd();
 
-	glBegin(GL_TRIANGLES);
+	//glBegin(GL_TRIANGLES);
+	glBegin(GL_LINE_LOOP);
   //glNormal3d(0, 0, 1);
 	for(int cpt = 1; cpt < nbPoints-1; cpt++){
 		int index;

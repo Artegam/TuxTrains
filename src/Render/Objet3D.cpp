@@ -2,16 +2,17 @@
 
 #include "Objet3D.h"
 #include <stdio.h>
+#include <math.h>
 
 //test pour les fichiers tildeÃ©s
 void afficherVertex(Vertex& v);
 
-char* Objet3D::getNom() {
+string Objet3D::getNom() {
 	return nom;
 }
 
 void Objet3D::setNom(const char* pNom) {
-	nom = (char*)pNom;
+	nom = pNom;
 }
 
 string Objet3D::getNomMateriau(){
@@ -52,7 +53,7 @@ void Objet3D::ajouterVertexNormal(double pX, double pY, double pZ, double pW){
 void Objet3D::ajouterFace(const int nbParametres, char** parametres){
 
   const int MAX = nbParametres;
-
+printf("%s : ajouter face\n", nom.c_str());
 	if (MAX > 0) {
 
 		Face * f = new Face(mat);
@@ -108,6 +109,7 @@ void Objet3D::ajouterFace(const int nbParametres, char** parametres){
 
 
 void Objet3D::ajouterFace(Face f) {
+//printf("%s : ajouter face(f)\n", nom.c_str());
   faces.insert(faces.end(), f);
 }
 
@@ -118,12 +120,12 @@ void afficherVertex(Vertex& v) {
 void Objet3D::init() {
 
   // Instanciation de la liste
-  listeAffichage = glGenLists(1);
+  //listeAffichage = glGenLists(100);
 
-  printf("Initialisation de l'objet %s '%s'\n", nom, mat.getNom().c_str());
+  printf("Initialisation de l'objet %s '%s'\n", nom.c_str(), mat.getNom().c_str());
   // CrÃation et dÃ©finition de la liste d'affichage
-  glNewList(listeAffichage, GL_COMPILE);
-
+  //glNewList(listeAffichage, GL_COMPILE);
+/*
   //Calcul de l'objet (points, faces, etc...
  	vector<Face>::iterator it;
 
@@ -131,18 +133,23 @@ void Objet3D::init() {
 	for(it = faces.begin(); it != faces.end(); it++) {
 		it->dessiner(vertices, verticesNormal);
 	}
-
-  glEndList();
+*/
+  //glEndList();
 
 }
 
 void Objet3D::dessiner() {
 
-glPushMatrix();
-  glCallList(listeAffichage);
-  if( nom == "Roue_AVG_Circle.002") { //Si et seuleemnt si l'objet se nomme Roue_AVG_Circle.002
-     glRotate(5.0, 0.0, 1.0, 0.0); //faire tourner la roue autouer de l'axe Y
-  }
-glPopMatrix();
 
+  //Calcul de l'objet (points, faces, etc...
+ 	vector<Face>::iterator it;
+
+  printf("%s : %d\n", nom.c_str(), faces.size());
+
+	//if (faces.size() > 0) printf("%s nb de faces : %d\n", nom, faces.size());
+	for(it = faces.begin(); it != faces.end(); it++) {
+		it->dessiner(vertices, verticesNormal);
+	}
+
+    //glCallList(listeAffichage);
 }

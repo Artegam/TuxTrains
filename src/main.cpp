@@ -111,7 +111,7 @@ void initLight(void)
    glLightfv(GL_LIGHT0, GL_SPECULAR, lightspecular);
 
    //LIGHT1
-   GLfloat lightpos1[] = {0.0, 40.0, 0.0, 0.0}; //Poition de la source lumineuse
+   GLfloat lightpos1[] = {0.0, 40.0, -10.0, 0.0}; //Poition de la source lumineuse
    GLfloat lightdiffuse1[] = {10.0, 10.0, 10.0, 0.0}; // QuantitÃ© de couleur reflechie par les objets
    GLfloat lightspecular1[] = {1.0, 1.0, 1.0, 0.0}; // Aspect blanc reflete
 
@@ -125,7 +125,7 @@ void initLight(void)
    glEnable(GL_DEPTH_TEST);
    glEnable(GL_LIGHTING);
    glEnable(GL_LIGHT0);
-   //glEnable(GL_LIGHT1);
+   glEnable(GL_LIGHT1);
 
 // FIN POUR LES TESTS DE LUMIERE
   printf("Fin de LIGHT Initialisation...\n");
@@ -154,28 +154,22 @@ void idle(void) {
 
 void render(void) {
 
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+  glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-//AZZIZ LOUMIERE !!!
-if(loumiere) {
-   glEnable(GL_LIGHT1);
-}else{
-   glDisable(GL_LIGHT1);
-}
+  //AZZIZ LOUMIERE !!!
+  if(loumiere) {
+    glEnable(GL_LIGHT1);
+  }else{
+    glDisable(GL_LIGHT1);
+  }
 
-glPushMatrix();
-	glColor3d(1,1,1); // Texte en blanc
-	vBitmapOutput(-1,3,str,GLUT_BITMAP_HELVETICA_18);
-  glRotate(1.0, 0.0, 0.0, 1.0); //angle, x, y, z (referentiel)
-glPopMatrix();
+  glColor3d(1,1,1); // Texte en blanc
+  vBitmapOutput(-1,3,str,GLUT_BITMAP_HELVETICA_18);
 
   moteur.tic();
-/*
-	for(it = objets.begin(); it != objets.end(); it++) {
-		it->dessiner();
-	}
-*/
-  glRotatef(angle,0.0,1.0,0.0);
+
+  //rotation de la scene
+  //glRotatef(angle,0.0,1.0,0.0);
 
   //Pour symbolyser la lumiÃ¨re du soleil
   GLfloat es[4] = {0.8f, 0.8f, 0.8f, 1.0f};
@@ -227,15 +221,35 @@ void keyboard(unsigned char key, int x, int y){
   // ASCH - 29/09/2014 - La touche 27 est la touche echap
   // Attention le printf est trÃ¨s lent
   //printf("vous avez appuye sur %d", key);
-  if (key == 27) {
-    exit(0);
-  }
 
-  if (key == 97) {
+  switch (key) {
+
+    case 27:
+      exit(0);
+      break;
+
+    case 97: //a
     //inverser le bit de la lumiere
     loumiere = !loumiere;
-  }
+    break;
 
+    case 'I':
+      glLoadIdentity();
+      gluLookAt(0, 0, 10, 0, 0, 0, 0, 1, 0);
+      glutPostRedisplay();
+      break;
+   //Rotations pour tests
+   case 'x':
+   case 'X':
+      glRotatef(30.,1.0,0.0,0.0);
+      glutPostRedisplay();
+      break;
+   case 'y':
+   case 'Y':
+      glRotatef(30.,0.0,1.0,0.0);
+      glutPostRedisplay();
+      break;
+  }
 }
 
 void mouse(int button, int state, int x, int y){

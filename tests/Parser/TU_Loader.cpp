@@ -14,7 +14,7 @@ int TU_Loader::execute() {
   //Initialisation des objets (chargement dans la carte graphique pour le rendu
   printf("Parcours des  objets lus...\n");
 	for(it = objets.begin(); it != objets.end(); it++) {
-		printf(" -> %s\n", it->getNom());
+		printf(" -> %s\n", it->getNom().c_str());
 	}
 
   return 0;
