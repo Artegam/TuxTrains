@@ -148,6 +148,7 @@ void Objet3D::dessiner() {
 
 	//if (faces.size() > 0) printf("%s nb de faces : %d\n", nom, faces.size());
 	for(it = faces.begin(); it != faces.end(); it++) {
+    it->dump();
 		it->dessiner(vertices, verticesNormal);
 	}
 

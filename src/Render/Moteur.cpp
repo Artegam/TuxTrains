@@ -19,9 +19,9 @@ glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
   for(it = objets.begin(); it != objets.end(); it++) {
     //printf("%s\n", it->getNom().c_str());
 //glPushMatrix();
-//    if(it->getNom() != "Chaudiere_Circle.001") {
+    if(it->getNom() != "Chaudiere_Circle.001") {
       it->dessiner(); //ou animer();
-//    }
+    }
 //glPopMatrix();
 
   }
