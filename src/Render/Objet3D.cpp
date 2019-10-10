@@ -123,6 +123,8 @@ void Objet3D::init() {
   //listeAffichage = glGenLists(100);
 
   printf("Initialisation de l'objet %s '%s'\n", nom.c_str(), mat.getNom().c_str());
+  printf("v: %d, vn: %d, f: %d\n", vertices.size(), verticesNormal.size(), faces.size());
+
   // CrÃation et dÃ©finition de la liste d'affichage
   //glNewList(listeAffichage, GL_COMPILE);
 /*
@@ -144,11 +146,11 @@ void Objet3D::dessiner() {
   //Calcul de l'objet (points, faces, etc...
  	vector<Face>::iterator it;
 
-  printf("%s : %d\n", nom.c_str(), faces.size());
+  //printf("%s : %d\n", nom.c_str(), faces.size());
 
 	//if (faces.size() > 0) printf("%s nb de faces : %d\n", nom, faces.size());
 	for(it = faces.begin(); it != faces.end(); it++) {
-    it->dump();
+    //it->dump();
 		it->dessiner(vertices, verticesNormal);
 	}
 

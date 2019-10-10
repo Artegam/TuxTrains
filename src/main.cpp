@@ -23,7 +23,7 @@ using namespace std;
   static int current_time = 0;
   static int last_time = 0;
   static double fps = 0.0; //Le nb de fps
-  static bool loumiere = false;
+  static bool loumiere = true; //par dÃ©faut allumÃ©  eouteind
   Moteur moteur("/home/tonio/TuxTrains/obj"); //Le moteur qui gere le chargement et l'animation des objets en 3D
 
 
