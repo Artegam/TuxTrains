@@ -40,7 +40,7 @@ void Face::dump() {
   printf("\n");
 }
 
-void Face::dessiner(vector<Vertex> pVertices, vector<VertexNormal> pVerticesNormal){
+void Face::dessiner(map<int, Vertex> pVertices, vector<VertexNormal> pVerticesNormal){
 
 	int nbPoints = vertexNums.size();
 
@@ -67,7 +67,7 @@ void Face::dessiner(vector<Vertex> pVertices, vector<VertexNormal> pVerticesNorm
 			if(pVerticesNormal.size() > 0) pVerticesNormal[normalIndex-1].dessiner();
 		}
 		index = (int)vertexNums[0];
-		pVertices[index-1].dessiner();
+		pVertices[index-1].dessiner(); //Enlever le -1 du coup ???
 
 		//Cpt
 		if(vertexNormalNums.size() > 0) {

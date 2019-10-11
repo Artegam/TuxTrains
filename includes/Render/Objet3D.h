@@ -2,6 +2,7 @@
 #define OBJET3D
 
 #include <vector>
+#include <map>
 #include <algorithm>    // std::for_each
 #include <stdio.h>
 #include <cstring>
@@ -19,7 +20,7 @@ class Objet3D {
 	protected:
 		string nom;
     Material mat;
-		vector<Vertex> vertices;
+		map<int, Vertex> vertices;
 		vector<VertexNormal> verticesNormal;
 		vector<Face> faces;
     GLuint listeAffichage;
@@ -34,7 +35,7 @@ class Objet3D {
     string getNomMateriau();
     Material getMateriau(void);
 
-		void ajouterVertex(double pX, double pY, double pZ, double pW);
+		void ajouterVertex(int index, double pX, double pY, double pZ, double pW);
 		void ajouterVertexNormal(double pX, double pY, double pZ, double pW);
 		void ajouterFace(const int nbParametres, char** parametres);
     void ajouterFace(Face f);

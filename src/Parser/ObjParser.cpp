@@ -38,6 +38,8 @@ void ObjParser::parserFichier() {
   vector<string>::iterator it;
   //printf ("Debut parcours fichier RAM\n");
 
+  int index_vertex = 0;
+
   for(it = fichierRAM.begin(); it != fichierRAM.end(); it++) {
 
       //Le cas o xxxx
@@ -83,7 +85,8 @@ void ObjParser::parserFichier() {
       regex v3_regex("v \\(-*.*\\) \\(-*.*\\) \\(-*.*\\)$", regex_constants::basic);
 
       if(regex_search(*it, m, v3_regex)) {
-        objets.front().ajouterVertex(stod(m[1].str().c_str()), stod(m[2].str().c_str()), stod(m[3].str().c_str()), 0.0);
+        index_vertex++;
+        objets.front().ajouterVertex(index_vertex, stod(m[1].str().c_str()), stod(m[2].str().c_str()), stod(m[3].str().c_str()), 0.0);
         continue;
       }
 
@@ -91,7 +94,8 @@ void ObjParser::parserFichier() {
       regex v4_regex("v \\(-*.*\\) \\(-*.*\\) \\(-*.*\\) \\(-*.*\\)$", regex_constants::basic);
 
       if(regex_search(*it, m, v4_regex)) {
-        objets.front().ajouterVertex(stod(m[1].str().c_str()), stod(m[2].str().c_str()), stod(m[3].str().c_str()),  stod(m[4].str().c_str()));
+        index_vertex++;
+        objets.front().ajouterVertex(index_vertex, stod(m[1].str().c_str()), stod(m[2].str().c_str()), stod(m[3].str().c_str()),  stod(m[4].str().c_str()));
         continue;
       }
 

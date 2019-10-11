@@ -2,6 +2,7 @@
 #define FACE_H
 
 #include <vector>
+#include <map>
 //#include <algorithm>
 
 #include "Vertex.h"
@@ -28,7 +29,7 @@ class Face {
 		void ajouterNumVertexTexture(long numVertexTexture);
 		void ajouterNumVertexNormal(long numVertexNormal);
 
-		void dessiner(vector<Vertex> pVertices, vector<VertexNormal> pVerticesNormal);
+		void dessiner(map<int, Vertex> pVertices, vector<VertexNormal> pVerticesNormal);
     void dump(void);
 
 };

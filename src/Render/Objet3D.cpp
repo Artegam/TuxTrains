@@ -28,7 +28,7 @@ Material Objet3D::getMateriau() {
   return mat;
 }
 
-void Objet3D::ajouterVertex(double pX, double pY, double pZ, double pW){
+void Objet3D::ajouterVertex(int index, double pX, double pY, double pZ, double pW){
 	Vertex * v = new Vertex();
 
 	v->setX(pX);
@@ -36,7 +36,7 @@ void Objet3D::ajouterVertex(double pX, double pY, double pZ, double pW){
 	v->setZ(pZ);
 	if (pW > 0) v->setW(pW);
 
-	vertices.insert(vertices.end(), *v);
+	vertices[index].insert(vertices.end(), *v);
 }
 
 void Objet3D::ajouterVertexNormal(double pX, double pY, double pZ, double pW){
