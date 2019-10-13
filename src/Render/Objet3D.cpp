@@ -36,10 +36,10 @@ void Objet3D::ajouterVertex(int index, double pX, double pY, double pZ, double p
 	v->setZ(pZ);
 	if (pW > 0) v->setW(pW);
 
-	vertices[index].insert(vertices.end(), *v);
+	vertices[index] = *v;
 }
 
-void Objet3D::ajouterVertexNormal(double pX, double pY, double pZ, double pW){
+void Objet3D::ajouterVertexNormal(int index, double pX, double pY, double pZ, double pW){
 	VertexNormal * vn = new VertexNormal();
 
 	vn->setX(pX);
@@ -47,7 +47,7 @@ void Objet3D::ajouterVertexNormal(double pX, double pY, double pZ, double pW){
 	vn->setZ(pZ);
 	if (pW > 0) vn->setW(pW);
 	//printf("Vn %lf %lf %lf \n", pX, pY, pZ);
-	verticesNormal.insert(verticesNormal.end(), *vn);
+	verticesNormal[index] = *vn;
 }
 
 void Objet3D::ajouterFace(const int nbParametres, char** parametres){
@@ -142,17 +142,87 @@ void Objet3D::init() {
 
 void Objet3D::dessiner() {
 
-
   //Calcul de l'objet (points, faces, etc...
  	vector<Face>::iterator it;
 
-  //printf("%s : %d\n", nom.c_str(), faces.size());
+  if(nom == "Roue_AVG_Circle.002" ||
+      nom == "Roue_AVD_Circle.004" ||
+      nom == "Roue_ARD_Circle.005" ||
+      nom == "Roue_ARG_Circle.006") {
 
+    //glPushMatrix();
+    angle += 10.0;
+    Vertex barycentre = calculerBarycentre();
+
+    //Cubes position barycentre
+    glPushMatrix();
+    glTranslatef(barycentre.getX(), barycentre.getY(), barycentre.getZ()); //OpenGL n'a pas le meme repere que blender.... GGrrrrr...
+    glRotatef(angle,0.0,0.0,1.0);
+    glutSolidCube(0.25);
+
+    glPopMatrix();
+    //dessiner
+
+    //Roues position origine
+    glPushMatrix();
+    // Les operations matricielles sont inversees
+    glTranslatef(barycentre.getX(), barycentre.getY(), barycentre.getZ()); //OpenGL n'a pas le meme repere que blender.... GGrrrrr...
+    glRotatef(angle,0.0,0.0,1.0);
+    glTranslatef(-barycentre.getX(), -barycentre.getY(), -barycentre.getZ()); //OpenGL n'a pas le meme repere que blender.... GGrrrrr...
+    glBegin(GL_TRIANGLES);
+    for(it = faces.begin(); it != faces.end(); it++) {
+      //it->dump();
+      it->dessiner(vertices, verticesNormal);
+    }
+    glEnd();
+    glPopMatrix();
+
+
+  }else{
+
+    //dessiner
+	glBegin(GL_TRIANGLES);
+    for(it = faces.begin(); it != faces.end(); it++) {
+      //it->dump();
+      it->dessiner(vertices, verticesNormal);
+    }
+  glEnd();
+  }
+
+
+/*
 	//if (faces.size() > 0) printf("%s nb de faces : %d\n", nom, faces.size());
 	for(it = faces.begin(); it != faces.end(); it++) {
     //it->dump();
 		it->dessiner(vertices, verticesNormal);
 	}
-
+*/
+  //glEnd();
     //glCallList(listeAffichage);
 }
+
+Vertex Objet3D::calculerBarycentre() {
+
+  Vertex barycentre;
+  unsigned int nbPts = vertices.size();
+
+  double sommeX = 0.0;
+  double sommeY = 0.0;
+  double sommeZ = 0.0;
+
+  map<int, Vertex>::iterator it;
+
+
+  for(it = vertices.begin(); it != vertices.end(); it++) {
+    sommeX += it->second.getX();
+    sommeY += it->second.getY();
+    sommeZ += it->second.getZ();
+  }
+
+  barycentre.setX(sommeX/nbPts);
+  barycentre.setY(sommeY/nbPts);
+  barycentre.setZ(sommeZ/nbPts);
+
+  return barycentre;
+}
+

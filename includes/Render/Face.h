@@ -29,7 +29,7 @@ class Face {
 		void ajouterNumVertexTexture(long numVertexTexture);
 		void ajouterNumVertexNormal(long numVertexNormal);
 
-		void dessiner(map<int, Vertex> pVertices, vector<VertexNormal> pVerticesNormal);
+		void dessiner(map<int, Vertex> pVertices, map<int, VertexNormal> pVerticesNormal);
     void dump(void);
 
 };

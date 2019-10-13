@@ -39,6 +39,7 @@ void ObjParser::parserFichier() {
   //printf ("Debut parcours fichier RAM\n");
 
   int index_vertex = 0;
+  int index_vertex_normal = 0;
 
   for(it = fichierRAM.begin(); it != fichierRAM.end(); it++) {
 
@@ -104,7 +105,8 @@ void ObjParser::parserFichier() {
       regex vn3_regex("vn \\(-*.*\\) \\(-*.*\\) \\(-*.*\\)$", regex_constants::basic);
 
       if(regex_search(*it, m, vn3_regex)) {
-        objets.front().ajouterVertexNormal(stod(m[1].str().c_str()), stod(m[2].str().c_str()), stod(m[3].str().c_str()), 0.0);
+        index_vertex_normal++;
+        objets.front().ajouterVertexNormal(index_vertex_normal, stod(m[1].str().c_str()), stod(m[2].str().c_str()), stod(m[3].str().c_str()), 0.0);
         continue;
       }
 
@@ -113,7 +115,8 @@ void ObjParser::parserFichier() {
       regex vn4_regex("vn \\(-*.*\\) \\(-*.*\\) \\(-*.*\\) \\(-*.*\\)$", regex_constants::basic);
 
       if(regex_search(*it, m, vn4_regex)) {
-        objets.front().ajouterVertexNormal(stod(m[1].str().c_str()), stod(m[2].str().c_str()), stod(m[3].str().c_str()), stod(m[4].str().c_str()));
+        index_vertex_normal++;
+        objets.front().ajouterVertexNormal(index_vertex_normal, stod(m[1].str().c_str()), stod(m[2].str().c_str()), stod(m[3].str().c_str()), stod(m[4].str().c_str()));
         continue;
       }
 

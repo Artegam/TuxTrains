@@ -21,7 +21,7 @@ class Objet3D {
 		string nom;
     Material mat;
 		map<int, Vertex> vertices;
-		vector<VertexNormal> verticesNormal;
+		map<int, VertexNormal> verticesNormal;
 		vector<Face> faces;
     GLuint listeAffichage;
 
@@ -36,9 +36,11 @@ class Objet3D {
     Material getMateriau(void);
 
 		void ajouterVertex(int index, double pX, double pY, double pZ, double pW);
-		void ajouterVertexNormal(double pX, double pY, double pZ, double pW);
+		void ajouterVertexNormal(int index, double pX, double pY, double pZ, double pW);
 		void ajouterFace(const int nbParametres, char** parametres);
     void ajouterFace(Face f);
+
+    Vertex calculerBarycentre();
 
     void init();
 		void dessiner();

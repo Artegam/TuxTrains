@@ -19,11 +19,30 @@ void Moteur::tic() {
   for(it = objets.begin(); it != objets.end(); it++) {
     //printf("%s\n", it->getNom().c_str());
 //glPushMatrix();
-    if(it->getNom() != "Chassis_Plane") {
+/*
+    if(it->getNom() == "Roue_AVG_Circle.002" ||
+        it->getNom() == "Roue_AVD_Circle.004" ||
+        it->getNom() == "Roue_ARD_Circle.005" ||
+        it->getNom() == "Roue_ARG_Circle.006") {
+
+glPushMatrix();
+angle += 10.0;
+      //glLoadIdentity();
+    Vertex barycentre = it->calculerBarycentre();
+    //printf("barycantre x:%f y:%f z:%f\n", barycentre.getX(), barycentre.getY(), barycentre.getZ());
+    glTranslatef(-barycentre.getX(), -barycentre.getY(), -barycentre.getZ());
+     //glRotatef(angle,0.0,0.0,1.0);
+      it->dessiner(); //ou animer();
+    glTranslatef(barycentre.getX(), barycentre.getY(), barycentre.getZ());
+      //it->dessiner(); //ou animer();
+glPopMatrix();
+    }else{
       it->dessiner(); //ou animer();
     }
 //glPopMatrix();
-
+*/
+  //glTranslatef(-0.01, 0.0, 0.0);
+      it->dessiner(); //ou animer();
   }
 
   //glutPostRedisplay();

@@ -40,52 +40,89 @@ void Face::dump() {
   printf("\n");
 }
 
-void Face::dessiner(map<int, Vertex> pVertices, vector<VertexNormal> pVerticesNormal){
-
-	int nbPoints = vertexNums.size();
-
-  //if(vertexNums.size() < 3 and vertexNums.size() > 4) printf("Nb Points : %d\n", vertexNums.size());
+void Face::dessiner(map<int, Vertex> pVertices, map<int, VertexNormal> pVerticesNormal){
 
   //Materiau
   //mat.printInfos();
   mat.dessiner();
 
-//  glBegin(GL_QUADS);
-//  glutSolidCube(1.0);
-//  glEnd();
 
 	//glBegin(GL_TRIANGLES);
-	glBegin(GL_LINE_LOOP);
+	//glBegin(GL_LINE_LOOP);
   //glNormal3d(0, 0, 1);
-	for(int cpt = 1; cpt < nbPoints-1; cpt++){
-		int index;
-		int normalIndex;
 
-		// origine
-		if(vertexNormalNums.size() > 0) {
-			normalIndex = (int)vertexNormalNums[0];
-			if(pVerticesNormal.size() > 0) pVerticesNormal[normalIndex-1].dessiner();
-		}
-		index = (int)vertexNums[0];
-		pVertices[index-1].dessiner(); //Enlever le -1 du coup ???
+  // Si la taille de la liste est < 3 il faut sortir une ereur
 
-		//Cpt
-		if(vertexNormalNums.size() > 0) {
-			normalIndex = (int)vertexNormalNums[cpt];
-			if(pVerticesNormal.size() > 0) pVerticesNormal[normalIndex-1].dessiner();
-		}
-		index = (int)vertexNums[cpt];
-		pVertices[index-1].dessiner();
+  // Si la taille de la liste est >= 3 C'est bon
+  //
+  // Il faut parcourir la liste suivant le critÃ¨re :
+  // Taille de la liste - 3
+  //
+  // exemple taille de la liste = 7
+  // 7 - 3 = 4 => 4 iterations (de 0 a 3)
+  //
+  // pour offset, offset + 1, offset + 2
+  // calculer les deux index
+  // dessiner les deux vertex
+  //
+  //
 
-		//Cpt +1
-		if(vertexNormalNums.size() > 0) {
-			normalIndex = (int)vertexNormalNums[cpt+1];
-			if(pVerticesNormal.size() > 0) pVerticesNormal[normalIndex-1].dessiner();
-		}
-		index = (int)vertexNums[cpt+1];
-		pVertices[index-1].dessiner();
+  int index = 0;
+  int index_normal = 0;
 
-	}
-	glEnd();
+  if(vertexNums.size() >= 3) {
+
+    for(unsigned int i = 0; i <= vertexNums.size() - 3; i++) {
+
+      // Vertex 1
+      index = vertexNums[i];
+      index_normal = vertexNormalNums[i];
+
+      pVerticesNormal[index_normal].dessiner();
+      pVertices[index].dessiner();
+
+      // Vertex 2
+      index = vertexNums[i+1];
+      index_normal = vertexNormalNums[i+1];
+
+      pVerticesNormal[index_normal].dessiner();
+      pVertices[index].dessiner();
+
+      // Vertex 3
+      index = vertexNums[i+2];
+      index_normal = vertexNormalNums[i+2];
+
+      pVerticesNormal[index_normal].dessiner();
+      pVertices[index].dessiner();
+
+    }
+
+  }
+  unsigned int i = vertexNums.size() - 3;
+
+  // Vertex 2
+  index = vertexNums[i+1];
+  index_normal = vertexNormalNums[i+1];
+
+  pVerticesNormal[index_normal].dessiner();
+  pVertices[index].dessiner();
+
+  // Vertex 3
+  index = vertexNums[i+2];
+  index_normal = vertexNormalNums[i+2];
+
+  pVerticesNormal[index_normal].dessiner();
+  pVertices[index].dessiner();
+
+  //Vertex 0
+  index = vertexNums[0];
+  index_normal = vertexNormalNums[0];
+
+  pVerticesNormal[index_normal].dessiner();
+  pVertices[index].dessiner();
+
+
+  //glEnd();
 
 }
+
