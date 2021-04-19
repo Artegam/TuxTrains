@@ -123,7 +123,7 @@ void Objet3D::init() {
   //listeAffichage = glGenLists(100);
 
   printf("Initialisation de l'objet %s '%s'\n", nom.c_str(), mat.getNom().c_str());
-  printf("v: %d, vn: %d, f: %d\n", vertices.size(), verticesNormal.size(), faces.size());
+  printf("v: %ld, vn: %ld, f: %ld\n", vertices.size(), verticesNormal.size(), faces.size());
 
   // CrÃation et dÃ©finition de la liste d'affichage
   //glNewList(listeAffichage, GL_COMPILE);
