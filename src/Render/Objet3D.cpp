@@ -21,7 +21,6 @@ string Objet3D::getNomMateriau(){
 
 void Objet3D::setMateriau(Material pNomMateriau) {
   mat = pNomMateriau;
-  //printf("### %s\n", mat.getNom());
 }
 
 Material Objet3D::getMateriau() {
@@ -46,16 +45,13 @@ void Objet3D::ajouterVertexNormal(int index, double pX, double pY, double pZ, do
 	vn->setY(pY);
 	vn->setZ(pZ);
 	if (pW > 0) vn->setW(pW);
-	//printf("Vn %lf %lf %lf \n", pX, pY, pZ);
 	verticesNormal[index] = *vn;
 }
 
 void Objet3D::ajouterFace(const int nbParametres, char** parametres){
 
   const int MAX = nbParametres;
-printf("%s : ajouter face\n", nom.c_str());
 	if (MAX > 0) {
-
 		Face * f = new Face(mat);
 
 		for(int cpt = 0; cpt < MAX; cpt++) {
@@ -98,10 +94,7 @@ printf("%s : ajouter face\n", nom.c_str());
           f->ajouterNumVertexTexture(atoi(tokens[1].c_str()));
           f->ajouterNumVertexNormal(atoi(tokens[2].c_str()));
           break;
-
       }
-
-
 		}
 		faces.insert(faces.end(), *f);
 	}
@@ -109,7 +102,6 @@ printf("%s : ajouter face\n", nom.c_str());
 
 
 void Objet3D::ajouterFace(Face f) {
-//printf("%s : ajouter face(f)\n", nom.c_str());
   faces.insert(faces.end(), f);
 }
 
@@ -150,7 +142,6 @@ void Objet3D::dessiner() {
       nom == "Roue_ARD_Circle.005" ||
       nom == "Roue_ARG_Circle.006") {
 
-    //glPushMatrix();
     angle += 10.0;
     Vertex barycentre = calculerBarycentre();
 
@@ -171,7 +162,6 @@ void Objet3D::dessiner() {
     glTranslatef(-barycentre.getX(), -barycentre.getY(), -barycentre.getZ()); //OpenGL n'a pas le meme repere que blender.... GGrrrrr...
     glBegin(GL_TRIANGLES);
     for(it = faces.begin(); it != faces.end(); it++) {
-      //it->dump();
       it->dessiner(vertices, verticesNormal);
     }
     glEnd();

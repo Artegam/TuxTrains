@@ -10,9 +10,6 @@
 
 using namespace std;
 
-//Ligne de commande de compilation
-//g++ monPremierEssai.cpp -lGL -lglut -o monPremierEssai
-
 	vector<Objet3D> objets;
 	vector<Objet3D>::iterator it;
   map<string, Material> materials;
@@ -22,13 +19,14 @@ using namespace std;
   static int frame = 0;
   static int current_time = 0;
   static int last_time = 0;
-  static double fps = 0.0; //Le nb de fps
+  static double fps = 0.0;     //Le nb de fps
   static bool loumiere = true; //par dÃ©faut allumÃ©  eouteind
   Moteur moteur("/home/tonio/TuxTrains/obj"); //Le moteur qui gere le chargement et l'animation des objets en 3D
 
 
   char str[150] = "";
 
+// Prototypes
 void initLight(void);
 void idle(void);
 void Reshape(int w, int h);
@@ -40,11 +38,9 @@ void vStrokeOutput(GLfloat x, GLfloat y, char *string, void *font);
 
 int main(int argc, char** argv) {
 
-	//ObjParser * parser;
   MatParser matParser;
 
 	angle = -1.0;
-	//float valZoom = 0.0;
 
 	// Pour un écran Widescreen ratio d'aspect = 16:9
 	long width = 800;
@@ -98,9 +94,6 @@ int main(int argc, char** argv) {
 void initLight(void)
 {
 
-  printf("LIGHT Initialisation()....\n");
-
-
   //LIGHT0
    GLfloat lightpos[] = {2.0, 2.0, 2.0, 0.0};
    GLfloat lightdiffuse[] = {0.0, 0.0, 2.0, 0.0};
@@ -111,15 +104,13 @@ void initLight(void)
    glLightfv(GL_LIGHT0, GL_SPECULAR, lightspecular);
 
    //LIGHT1
-   GLfloat lightpos1[] = {0.0, 40.0, -10.0, 0.0}; //Poition de la source lumineuse
+   GLfloat lightpos1[] = {0.0, 40.0, -10.0, 0.0};     //Position de la source lumineuse
    GLfloat lightdiffuse1[] = {10.0, 10.0, 10.0, 0.0}; // QuantitÃ© de couleur reflechie par les objets
-   GLfloat lightspecular1[] = {1.0, 1.0, 1.0, 0.0}; // Aspect blanc reflete
+   GLfloat lightspecular1[] = {1.0, 1.0, 1.0, 0.0};   // Aspect blanc reflete
 
    glLightfv(GL_LIGHT1, GL_POSITION, lightpos1);
    glLightfv(GL_LIGHT1, GL_DIFFUSE, lightdiffuse1);
    glLightfv(GL_LIGHT1, GL_SPECULAR, lightspecular1);
-
-
 
    glLightModeli(GL_LIGHT_MODEL_LOCAL_VIEWER, GL_TRUE);
    glEnable(GL_DEPTH_TEST);
@@ -127,9 +118,7 @@ void initLight(void)
    glEnable(GL_LIGHT0);
    glEnable(GL_LIGHT1);
 
-// FIN POUR LES TESTS DE LUMIERE
-  printf("Fin de LIGHT Initialisation...\n");
-
+  printf("LIGHT Initialisation OK\n");
 
 }
 
@@ -140,7 +129,6 @@ void idle(void) {
 
   if(current_time - last_time > 1000) {
     fps = frame * 1000.0 / (current_time - last_time);
-		//printf("FPS : %f\n", fps);
 
     sprintf(str, "FPS : %f", fps);
     //vBitmapOutput(10, 10, str, GLUT_BITMAP_8_BY_13);
@@ -219,12 +207,9 @@ void Reshape(int w, int h)
 
 void keyboard(unsigned char key, int x, int y){
   // ASCH - 29/09/2014 - La touche 27 est la touche echap
-  // Attention le printf est trÃ¨s lent
-  //printf("vous avez appuye sur %d", key);
 
   switch (key) {
-
-    case 27:
+    case 27: // Escape
       exit(0);
       break;
 
@@ -238,7 +223,8 @@ void keyboard(unsigned char key, int x, int y){
       gluLookAt(0, 0, 10, 0, 0, 0, 0, 1, 0);
       glutPostRedisplay();
       break;
-   //Rotations pour tests
+
+   // Axes de rotations
    case 'x':
    case 'X':
       glRotatef(30.,1.0,0.0,0.0);
@@ -263,7 +249,7 @@ void vBitmapOutput(int x, int y, char *string, void *font)
 {
 	int len,i; // len donne la longueur de la chaÃ®ne de caractÃ¨res
 
-	glRasterPos2f(x,y); // Positionne le premier caractÃ¨re de la chaÃ®ne
+	glRasterPos2f(x,y);         // Positionne le premier caractÃ¨re de la chaÃ®ne
 	len = (int) strlen(string); // Calcule la longueur de la chaÃ®ne
 	for (i = 0; i < len; i++) glutBitmapCharacter(font,string[i]); // Affiche chaque caractÃ¨re de la chaÃ®ne
 }
@@ -272,8 +258,8 @@ void vStrokeOutput(GLfloat x, GLfloat y, char *string, void *font)
 {
 	char *p;
 
-	glPushMatrix();	// glPushMatrix et glPopMatrix sont utilisÃ©es pour sauvegarde 
-			// et restaurer les systÃ¨mes de coordonnÃ©es non translatÃ©s
+	glPushMatrix();	// glPushMatrix et glPopMatrix sont utilisÃ©es pour sauvegarder
+			// et restaurer les systÃ¨mes de coordonnÃ©es non translates
 	glTranslatef(x, y, 0); // Positionne le premier caractÃ¨re de la chaÃ®ne
 	for (p = string; *p; p++) glutStrokeCharacter(font, *p); // Affiche chaque caractÃ¨re de la chaÃ®ne
 	glPopMatrix();
