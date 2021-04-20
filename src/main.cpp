@@ -13,6 +13,12 @@ using namespace std;
 	vector<Objet3D> objets;
 	vector<Objet3D>::iterator it;
   map<string, Material> materials;
+	// Pour un écran Widescreen ratio d'aspect = 16:9
+	long width = 800;
+	long height = 450;
+  int mouseX = 0;
+  int mouseY = 0;
+  bool click = false;
 	int angle;
   GLfloat anim =0;
   GLfloat a_step = 0.5;
@@ -25,6 +31,7 @@ using namespace std;
 
 
   char str[150] = "";
+  char sMouse[150] = "";
 
 // Prototypes
 void initLight(void);
@@ -33,6 +40,7 @@ void Reshape(int w, int h);
 void render(void);
 void keyboard(unsigned char key, int x, int y);
 void mouse(int button, int state, int x, int y);
+void mouseMove(int x, int y);
 void vBitmapOutput(int x, int y, char *string, void *font);
 void vStrokeOutput(GLfloat x, GLfloat y, char *string, void *font);
 
@@ -42,9 +50,6 @@ int main(int argc, char** argv) {
 
 	angle = -1.0;
 
-	// Pour un écran Widescreen ratio d'aspect = 16:9
-	long width = 800;
-	long height = 450;
 	float zNear = 0.1;
 	float zFar = 50.0;
 	float zoomFactor = 1.0;
@@ -86,6 +91,7 @@ int main(int argc, char** argv) {
 	//glutReshapeFunc(Reshape);
   glutKeyboardFunc(keyboard);
   glutMouseFunc(mouse);
+  glutMotionFunc(mouseMove);
 
   glutMainLoop();
 }
@@ -154,6 +160,9 @@ void render(void) {
   glColor3d(1,1,1); // Texte en blanc
   vBitmapOutput(-1,3,str,GLUT_BITMAP_HELVETICA_18);
 
+  glColor3d(1,0,0); // Texte en rouge
+  vBitmapOutput(-2,3,sMouse,GLUT_BITMAP_HELVETICA_18);
+
   moteur.tic();
 
   //rotation de la scene
@@ -185,8 +194,8 @@ glPushMatrix();
 
   glLightfv(GL_LIGHT0, GL_POSITION, lightpos);
   glTranslatef(c[0], c[1], c[2]); //Pose la position
-  glutSolidCube(0.5);
-  glRotatef(anim, 1.0, 0.0, 0.0);
+  //glutSolidCube(0.5);
+  //glRotatef(anim, 1.0, 0.0, 0.0);
 
 glPopMatrix();
 
@@ -239,11 +248,29 @@ void keyboard(unsigned char key, int x, int y){
 }
 
 void mouse(int button, int state, int x, int y){
-  if(button == GLUT_RIGHT_BUTTON) {
-    exit(0);
+
+
+  switch (button) {
+    case GLUT_RIGHT_BUTTON:
+      exit(0);
+      break;
+
+    case GLUT_LEFT_BUTTON:
+      // Par exemple ici ajouter un rail
+      click = !click;
+      mouseX = x;
+      mouseY = y;
+      break;
   }
 }
 
+void mouseMove(int x, int y) {
+
+  glRotatef(360. * (mouseX - x) / width,0.0,1.0,0.0);
+  glRotatef(360. * (mouseY - y) / width,1.0,0.0,0.0);
+  mouseX = x;
+  mouseY = y;
+}
 
 void vBitmapOutput(int x, int y, char *string, void *font)
 {

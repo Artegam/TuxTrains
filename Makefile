@@ -29,7 +29,8 @@ OBJECTS = $(O_PARSER) Objet3D.o Face.o Vertex.o VertexNormal.o Material.o Moteur
 TESTS_U = test_unitaires
 O_TESTS_U = $(OBJECTS) test_unitaires.o TU_Loader.o TU_Moteur.o TU_MatParser.o
 
-all:$(EXEC) $(TESTS_U)
+#all:$(EXEC) $(TESTS_U)
+all:$(EXEC)
 
 
 $(EXEC): main.o $(OBJECTS)
@@ -38,10 +39,8 @@ $(EXEC): main.o $(OBJECTS)
 
 $(TESTS_U): $(O_TESTS_U)
 	g++ $(OPT) $(INCLUDES) -o $(BIN)$@ o/*.o $(LIBS)
-	rm -R o/
 
 main.o: main.cpp
-	mkdir o/
 	g++ $(OPT) -c $(INCLUDES) $^ $(LIBS) -o o/$@
 
 %.o: %.cpp

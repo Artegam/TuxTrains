@@ -149,7 +149,7 @@ void Objet3D::dessiner() {
     glPushMatrix();
     glTranslatef(barycentre.getX(), barycentre.getY(), barycentre.getZ()); //OpenGL n'a pas le meme repere que blender.... GGrrrrr...
     glRotatef(angle,0.0,0.0,1.0);
-    glutSolidCube(0.25);
+    //glutSolidCube(0.25);
 
     glPopMatrix();
     //dessiner

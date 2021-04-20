@@ -13,7 +13,7 @@
 // documentation ici : https://pubs.opengroup.org/onlinepubs/007908799/xsh/dirent.h.html
 
 Loader::Loader(const char* cheminObj, bool recursif) {
-  //Charger les fichier obj, ne charger que les fichiers MTL necessaires aux fixhiers obj
+  //Charger les fichier obj, ne charger que les fichiers MTL necessaires aux fichiers obj
 
   //vector<string> fichiersMtl;
   vector<string> fichiersObj;
@@ -40,11 +40,12 @@ Loader::Loader(const char* cheminObj, bool recursif) {
   //Lecture des fichiers obj
   parser = new ObjParser();
 
+  printf(" # Lecture des fichiers objets de la scene :\n");
   for(it = fichiersObj.begin(); it != fichiersObj.end(); it++) {
     regex self_regex(".*\\.obj$", regex_constants::basic);
     if(regex_search(it->c_str(), self_regex)) {
       objets = parser->readFile(it->c_str(), cheminObj);
-      printf(" # %s\n", it->c_str());
+      printf(" # %s...\n", it->c_str());
     }
   }
 

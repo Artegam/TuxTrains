@@ -13,7 +13,7 @@ void Moteur::ajouter(vector<Objet3D> lst) {
 */
 void Moteur::tic() {
   vector<Objet3D>::iterator it;
-  glTranslatef(-0.01, 0.0, 0.0);
+  //glTranslatef(-0.01, 0.0, 0.0);
   for(it = objets.begin(); it != objets.end(); it++) {
       it->dessiner(); //ou animer();
   }
