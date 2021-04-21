@@ -27,6 +27,7 @@ class Vertex {
 		double getW();
 
 		void dessiner();
+    void dump();
 };
 
 #endif

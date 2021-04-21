@@ -30,7 +30,7 @@ class Face {
 		void ajouterNumVertexNormal(long numVertexNormal);
 
 		void dessiner(map<int, Vertex> pVertices, map<int, VertexNormal> pVerticesNormal);
-    void dump(void);
+    void dump(map<int, Vertex> pVertices);
 
 };
 

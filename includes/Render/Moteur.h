@@ -2,12 +2,14 @@
 #define MOTEUR_H
 
 #include <vector>
+#include <list>
 #include "Objet3D.h"
 
 class Moteur {
 
 	protected:
     vector<Objet3D> objets;
+    list<vector<Objet3D>> files;
     const char * defaultPath = "/home/tonio/TuxTrains/obj";
     float angle = 0.0;
 

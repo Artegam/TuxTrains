@@ -13,6 +13,7 @@ vector<Objet3D> ObjParser::readFile (const char * filename, const char * chemin)
 
   string sligne;
   cheminFichiersObj = chemin;
+  fichierRAM.clear();
 
   ifstream fichier;
   fichier.open(filename, ios::in);
@@ -27,13 +28,13 @@ vector<Objet3D> ObjParser::readFile (const char * filename, const char * chemin)
   fichier.close();
   printf ("Fin de lecture du fichier\n");
 
-  parserFichier();
-
-  return objets;
+  return parserFichier();
 }
 
 
-void ObjParser::parserFichier() {
+vector<Objet3D> ObjParser::parserFichier() {
+
+  vector<Objet3D> objets;
   map<string, Material> materials;
   vector<string>::iterator it;
   //printf ("Debut parcours fichier RAM\n");
@@ -130,7 +131,7 @@ void ObjParser::parserFichier() {
       regex f_regex("f \\([0-9\\/ ]*\\)", regex_constants::basic);
 
       if(regex_search(*it, m, f_regex)) {
-        parserFace(m[1].str());
+        objets.front().ajouterFace(parserFace(m[1].str()));
         continue;
       }
 /*
@@ -146,10 +147,11 @@ void ObjParser::parserFichier() {
 
   //printf ("FIN parcours fichier RAM\n");
   //printf("Fin du traitement\n");
+  return objets;
 }
 
 
-int ObjParser::parserFace(string m) {
+Face ObjParser::parserFace(string m) {
   Face *f = new Face(mat_courant);
 
   regex v_vt_vn_regex("^\\([0-9]*\\)/\\([0-9]*\\)/\\([0-9]*\\)$", regex_constants::basic);
@@ -186,8 +188,7 @@ int ObjParser::parserFace(string m) {
     }
   }
 
-  objets.front().ajouterFace(*f);
-  return 0;
+  return *f;
 }
 
 

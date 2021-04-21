@@ -23,12 +23,17 @@ void Face::ajouterNumVertexNormal(long numVertexNormal) {
 	vertexNormalNums.insert(vertexNormalNums.end(), numVertexNormal);
 }
 
-void Face::dump() {
+void Face::dump(map<int, Vertex> pVertices) {
   printf("####### dump face #########\n");
   printf(" vertex\n");
   for(unsigned int i = 0; i < vertexNums.size(); i++) {
     printf("%ld ", vertexNums[i]);
   }
+  printf("\n");
+  for(unsigned int i = 0; i < vertexNums.size(); i++) {
+    pVertices[vertexNums[i]].dump();
+  }
+
   printf("\n vertex normal\n");
   for(unsigned int i = 0; i < vertexNormalNums.size(); i++) {
     printf("%ld ", vertexNormalNums[i]);

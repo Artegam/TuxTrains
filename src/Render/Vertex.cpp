@@ -42,3 +42,7 @@ void Vertex::dessiner() {
 	//glColor3f(0.0, 0.0, 1.0);
 	glVertex3d(x, y, z);
 }
+
+void Vertex::dump() {
+  printf("* %f:%f:%f\n", x, y, z);
+}

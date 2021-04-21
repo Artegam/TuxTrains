@@ -156,6 +156,7 @@ void Objet3D::dessiner() {
 
     //Roues position origine
     glPushMatrix();
+
     // Les operations matricielles sont inversees
     glTranslatef(barycentre.getX(), barycentre.getY(), barycentre.getZ()); //OpenGL n'a pas le meme repere que blender.... GGrrrrr...
     glRotatef(angle,0.0,0.0,1.0);
@@ -169,11 +170,10 @@ void Objet3D::dessiner() {
 
 
   }else{
-
     //dessiner
 	glBegin(GL_TRIANGLES);
     for(it = faces.begin(); it != faces.end(); it++) {
-      //it->dump();
+      //it->dump(vertices);
       it->dessiner(vertices, verticesNormal);
     }
   glEnd();

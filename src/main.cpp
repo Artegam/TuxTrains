@@ -1,6 +1,7 @@
 #include <GL/glut.h>
 #include <iostream>
 #include <vector>
+#include <cmath>
 
 #include "Parser/ObjParser.h"
 #include "Parser/MatParser.h"
@@ -18,7 +19,14 @@ using namespace std;
 	long height = 450;
   int mouseX = 0;
   int mouseY = 0;
+  float rx = 0.0;
+  float ry = 0.0;
+
+  GLfloat cs[3] = {0.0f, 15.0f, 0.0f}; // Position de LIGHT1
+  GLfloat cs2[3] = {0.0f, 0.0f, 15.0f}; // Position de LIGHT1
   bool click = false;
+  float varLight1 = 0.0;
+  float varLight2 = 0.0;
 	int angle;
   GLfloat anim =0;
   GLfloat a_step = 0.5;
@@ -102,29 +110,52 @@ void initLight(void)
 
   //LIGHT0
    GLfloat lightpos[] = {2.0, 2.0, 2.0, 0.0};
-   GLfloat lightdiffuse[] = {0.0, 0.0, 2.0, 0.0};
-   GLfloat lightspecular[] = {0.0, 0.0, 2.0, 0.0};
+   GLfloat lightdiffuse[] = {0.0, 0.0, 1.0, 0.0};
+   GLfloat lightspecular[] = {0.0, 0.0, 1.0, 0.0};
 
    glLightfv(GL_LIGHT0, GL_POSITION, lightpos);
    glLightfv(GL_LIGHT0, GL_DIFFUSE, lightdiffuse);
    glLightfv(GL_LIGHT0, GL_SPECULAR, lightspecular);
 
    //LIGHT1
-   GLfloat lightpos1[] = {0.0, 40.0, -10.0, 0.0};     //Position de la source lumineuse
-   GLfloat lightdiffuse1[] = {10.0, 10.0, 10.0, 0.0}; // QuantitÃ© de couleur reflechie par les objets
-   GLfloat lightspecular1[] = {1.0, 1.0, 1.0, 0.0};   // Aspect blanc reflete
+   GLfloat lightpos1[] = {cs[0], cs[1], cs[2], 0.0};     //Position de la source lumineuse
+//   GLfloat lightdiffuse1[] = {0.5, 0.5, 0.5, 0.0};     // QuantitÃ© de couleur reflechie par les objets
+//   GLfloat lightspecular1[] = {0.5, 0.5, 0.5, 0.0};    // Aspect blanc reflete
+
+   GLfloat lightdiffuse1[] = {varLight1, varLight1, varLight1, 0.0}; // QuantitÃ© de couleur reflechie par les objets
+   GLfloat lightspecular1[] = {varLight1, varLight1, varLight1, 0.0};   // Aspect blanc reflete
 
    glLightfv(GL_LIGHT1, GL_POSITION, lightpos1);
    glLightfv(GL_LIGHT1, GL_DIFFUSE, lightdiffuse1);
    glLightfv(GL_LIGHT1, GL_SPECULAR, lightspecular1);
 
+   //LIGHT2 (opposee a LIGHT1)
+   GLfloat lightpos2[] = {cs2[0], cs2[1], cs2[2], 0.0};     //Position de la source lumineuse
+//   GLfloat lightdiffuse2[] = {0.1, 0.1, 0.5, 0.0}; // QuantitÃ© de couleur reflechie par les objets
+//   GLfloat lightspecular2[] = {0.1, 0.1, 0.5, 0.0};   // Aspect blanc reflete
+
+   GLfloat lightdiffuse2[] = {varLight2, varLight2, varLight2 * 0.4, 0.0}; // QuantitÃ© de couleur reflechie par les objets
+   GLfloat lightspecular2[] = {varLight2, varLight2, varLight2 * 0.4, 0.0};   // Aspect blanc reflete
+
+   glLightfv(GL_LIGHT2, GL_POSITION, lightpos2);
+   glLightfv(GL_LIGHT2, GL_DIFFUSE, lightdiffuse2);
+   glLightfv(GL_LIGHT2, GL_SPECULAR, lightspecular2);
+
+
+   //exponent propertie defines the concentration of the light
+   glLightf(GL_LIGHT1, GL_SPOT_EXPONENT, 15.0f);
+
+   //light attenuation (default values used here : no attenuation with the distance)
+   glLightf(GL_LIGHT1, GL_CONSTANT_ATTENUATION, 1.0f);
+   glLightf(GL_LIGHT1, GL_LINEAR_ATTENUATION, 0.0f);
+   glLightf(GL_LIGHT1, GL_QUADRATIC_ATTENUATION, 0.0f);
+
    glLightModeli(GL_LIGHT_MODEL_LOCAL_VIEWER, GL_TRUE);
    glEnable(GL_DEPTH_TEST);
    glEnable(GL_LIGHTING);
-   glEnable(GL_LIGHT0);
+   //glEnable(GL_LIGHT0);
    glEnable(GL_LIGHT1);
-
-  printf("LIGHT Initialisation OK\n");
+   glEnable(GL_LIGHT2);
 
 }
 
@@ -150,6 +181,8 @@ void render(void) {
 
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
+  initLight();
+
   //AZZIZ LOUMIERE !!!
   if(loumiere) {
     glEnable(GL_LIGHT1);
@@ -163,18 +196,29 @@ void render(void) {
   glColor3d(1,0,0); // Texte en rouge
   vBitmapOutput(-2,3,sMouse,GLUT_BITMAP_HELVETICA_18);
 
-  moteur.tic();
-
-  //rotation de la scene
-  //glRotatef(angle,0.0,1.0,0.0);
 
   //Pour symbolyser la lumiÃ¨re du soleil
   GLfloat es[4] = {0.8f, 0.8f, 0.8f, 1.0f};
   glMaterialfv(GL_FRONT, GL_EMISSION, es);
-  GLfloat cs[3] = {0.0f, 15.0f, 0.0f};
+
   glTranslatef(cs[0], cs[1], cs[2]);
   glutSolidSphere(0.25, 6, 6);
   glTranslatef(0-cs[0], 0-cs[1], 0-cs[2]);
+
+
+  glTranslatef(cs2[0], cs2[1], cs2[2]);
+  glutSolidSphere(0.25, 6, 6);
+  glTranslatef(0-cs2[0], 0-cs2[1], 0-cs2[2]);
+
+
+  glPushMatrix();
+  //rotation de la scene
+  glRotatef(rx, 0., 1., 0.);
+  glRotatef(ry, 1., 0., 0.);
+
+  moteur.tic();
+
+  glPopMatrix();
 
   //Pour symboliser la lumiÃ¨re bleue qui se dÃ©place
   GLfloat e[4] = {0.0f, 0.0f, 0.8f, 1.0f};
@@ -244,11 +288,24 @@ void keyboard(unsigned char key, int x, int y){
       glRotatef(30.,0.0,1.0,0.0);
       glutPostRedisplay();
       break;
+
+  case 'c':
+  if(varLight1 < 1.0) {varLight1 += 0.1;}
+  break;
+  case 'v':
+  if(varLight1 > 0.0) {varLight1 -= 0.1;}
+  break;
+  case 'b':
+  if(varLight2 < 1.0) {varLight2 += 0.1;}
+  break;
+  case 'n':
+  if(varLight2 > 0.0) {varLight2 -= 0.1;}
+  break;
+
   }
 }
 
 void mouse(int button, int state, int x, int y){
-
 
   switch (button) {
     case GLUT_RIGHT_BUTTON:
@@ -265,9 +322,10 @@ void mouse(int button, int state, int x, int y){
 }
 
 void mouseMove(int x, int y) {
-
-  glRotatef(360. * (mouseX - x) / width,0.0,1.0,0.0);
-  glRotatef(360. * (mouseY - y) / width,1.0,0.0,0.0);
+//  glRotatef(90. * (mouseX - x) / width, 0., 1., 0.);
+//  glRotatef(90. * (mouseY - y) / height,1.0,0.0,0.0);
+  rx += fmod(90. * (mouseX - x) / width, 360.);
+  ry += fmod(90. * (mouseY - y) / height, 360.);
   mouseX = x;
   mouseY = y;
 }
