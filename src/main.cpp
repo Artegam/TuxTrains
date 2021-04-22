@@ -21,10 +21,14 @@ using namespace std;
   int mouseY = 0;
   float rx = 0.0;
   float ry = 0.0;
+  float zoomFactor = 1.;
+	float zNear = 0.1;
+	float zFar = 50.0;
 
   GLfloat cs[3] = {0.0f, 15.0f, 0.0f}; // Position de LIGHT1
   GLfloat cs2[3] = {0.0f, 0.0f, 15.0f}; // Position de LIGHT1
   bool click = false;
+  int mbutton = 0;
   float varLight1 = 0.0;
   float varLight2 = 0.0;
 	int angle;
@@ -57,11 +61,6 @@ int main(int argc, char** argv) {
   MatParser matParser;
 
 	angle = -1.0;
-
-	float zNear = 0.1;
-	float zFar = 50.0;
-	float zoomFactor = 1.0;
-
 
   glutInit(&argc, argv);
   glutInitDisplayMode(GLUT_DEPTH | GLUT_DOUBLE | GLUT_RGBA);
@@ -179,6 +178,19 @@ void idle(void) {
 
 void render(void) {
 
+
+  // Regler la camera et la profondeur de champs
+  GLint w = glutGet(GLUT_WINDOW_WIDTH);
+  GLint h = glutGet(GLUT_WINDOW_HEIGHT) ;
+  glViewport( 0, 0, w, h);
+
+      glLoadIdentity();
+gluLookAt(0.0*zoomFactor, 6.0*zoomFactor, 6.0*zoomFactor,    /* oeil */
+          0.0, 0.0, 0.0,    /* point observe */
+          0.0, 1.0, 0.0);   /* oÃ¹ est le ciel  */
+      glutPostRedisplay();
+
+  // Creation de la scene
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
   initLight();
@@ -250,12 +262,11 @@ glPopMatrix();
 
 void Reshape(int w, int h)
 {
-		glViewport( 0, 0, (GLint)w, (GLint)h );
-		glMatrixMode( GL_PROJECTION );
-		glLoadIdentity();
-		glFrustum( -1.0, 1.0, -1.0, 1.0, 1.5, 100.0);
-		glMatrixMode( GL_MODELVIEW );
-		glLoadIdentity();
+  glMatrixMode( GL_PROJECTION );
+  glLoadIdentity();
+  glFrustum( -1.0, 1.0, -1.0, 1.0, 1.5, 100.0);
+  glMatrixMode( GL_MODELVIEW );
+  glLoadIdentity();
 }
 
 void keyboard(unsigned char key, int x, int y){
@@ -315,8 +326,14 @@ void mouse(int button, int state, int x, int y){
     case GLUT_LEFT_BUTTON:
       // Par exemple ici ajouter un rail
       click = !click;
+      mbutton = GLUT_LEFT_BUTTON;
       mouseX = x;
       mouseY = y;
+      break;
+
+    case GLUT_MIDDLE_BUTTON:
+      click = !click;
+      mbutton = GLUT_MIDDLE_BUTTON;
       break;
   }
 }
@@ -324,10 +341,22 @@ void mouse(int button, int state, int x, int y){
 void mouseMove(int x, int y) {
 //  glRotatef(90. * (mouseX - x) / width, 0., 1., 0.);
 //  glRotatef(90. * (mouseY - y) / height,1.0,0.0,0.0);
-  rx += fmod(90. * (mouseX - x) / width, 360.);
-  ry += fmod(90. * (mouseY - y) / height, 360.);
-  mouseX = x;
-  mouseY = y;
+  if(click && mbutton == GLUT_MIDDLE_BUTTON) {
+    // Zoom
+printf("Zoom.... %f\n", zoomFactor);
+
+      zoomFactor += 0.1 * (mouseY - y) / height;
+    if(zoomFactor < 0.1){
+      zoomFactor = 0.1;
+    }else if (zoomFactor > 2.0) {
+      zoomFactor = 2.0;
+    }
+  } else {
+    rx += fmod(90. * (mouseX - x) / width, 360.);
+    ry += fmod(90. * (mouseY - y) / height, 360.);
+    mouseX = x;
+    mouseY = y;
+  }
 }
 
 void vBitmapOutput(int x, int y, char *string, void *font)
