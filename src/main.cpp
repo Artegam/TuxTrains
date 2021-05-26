@@ -339,13 +339,10 @@ void mouse(int button, int state, int x, int y){
 }
 
 void mouseMove(int x, int y) {
-//  glRotatef(90. * (mouseX - x) / width, 0., 1., 0.);
-//  glRotatef(90. * (mouseY - y) / height,1.0,0.0,0.0);
+  //TODO: mettre juste la molette au lieu du click du bouton du milieu
   if(click && mbutton == GLUT_MIDDLE_BUTTON) {
     // Zoom
-printf("Zoom.... %f\n", zoomFactor);
-
-      zoomFactor += 0.1 * (mouseY - y) / height;
+    zoomFactor += 0.05 * (mouseY - y);
     if(zoomFactor < 0.1){
       zoomFactor = 0.1;
     }else if (zoomFactor > 2.0) {
@@ -355,8 +352,9 @@ printf("Zoom.... %f\n", zoomFactor);
     rx += fmod(90. * (mouseX - x) / width, 360.);
     ry += fmod(90. * (mouseY - y) / height, 360.);
     mouseX = x;
-    mouseY = y;
   }
+
+    mouseY = y;
 }
 
 void vBitmapOutput(int x, int y, char *string, void *font)
