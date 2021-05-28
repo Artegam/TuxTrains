@@ -39,7 +39,7 @@ using namespace std;
   static int last_time = 0;
   static double fps = 0.0;     //Le nb de fps
   static bool loumiere = true; //par dÃ©faut allumÃ©  eouteind
-  Moteur moteur("/home/tonio/TuxTrains/obj"); //Le moteur qui gere le chargement et l'animation des objets en 3D
+  Moteur moteur("./obj"); //Le moteur qui gere le chargement et l'animation des objets en 3D
 
 
   char str[150] = "";
@@ -58,6 +58,9 @@ void vStrokeOutput(GLfloat x, GLfloat y, char *string, void *font);
 
 int main(int argc, char** argv) {
 
+  printf("******************************************************** \n");
+  printf("*************  Demarrage de tuxtrain     *************** \n");
+  printf("******************************************************** \n");
   MatParser matParser;
 
 	angle = -1.0;
