@@ -31,7 +31,7 @@ Phase II
 Phase IV
   - [ ] Etude : Recherche de chemin (pour la pose des voies de chemin de fer)
   - [ ] Etude : Recherche de calculs de collision entre objets
-  
+
 Phase ?
   - [ ] Etude : Recherches sur l'intelligence artificielle pour les concurents
   - [ ] Etude : Ajouter le fonction réseau avec boost pour les parties multi-joueurs
