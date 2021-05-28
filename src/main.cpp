@@ -25,6 +25,10 @@ using namespace std;
 	float zNear = 0.1;
 	float zFar = 50.0;
 
+  // Les constantes
+  const float MAX_ZOOM = 5.0;
+
+  float camera_pos[3] = {0.0f, 6.0f, 6.0f};
   GLfloat cs[3] = {0.0f, 15.0f, 0.0f}; // Position de LIGHT1
   GLfloat cs2[3] = {0.0f, 0.0f, 15.0f}; // Position de LIGHT1
   bool click = false;
@@ -55,6 +59,7 @@ void mouse(int button, int state, int x, int y);
 void mouseMove(int x, int y);
 void vBitmapOutput(int x, int y, char *string, void *font);
 void vStrokeOutput(GLfloat x, GLfloat y, char *string, void *font);
+void createLight(int light, GLfloat lightpos[], GLfloat lightdiffuse[], GLfloat lightspecular[]);
 
 int main(int argc, char** argv) {
 
@@ -111,38 +116,25 @@ void initLight(void)
 {
 
   //LIGHT0
-   GLfloat lightpos[] = {2.0, 2.0, 2.0, 0.0};
-   GLfloat lightdiffuse[] = {0.0, 0.0, 1.0, 0.0};
-   GLfloat lightspecular[] = {0.0, 0.0, 1.0, 0.0};
+   GLfloat pos[] = {2.0, 2.0, 2.0, 0.0};  //Position de la source lumineuse
+   GLfloat diff[] = {0.3, 0.3, 0.5, 0.0}; // QuantitÃ© de couleur reflechie par les objets
+   GLfloat spec[] = {0.3, 0.3, 0.5, 0.0}; // Aspect blanc reflete
 
-   glLightfv(GL_LIGHT0, GL_POSITION, lightpos);
-   glLightfv(GL_LIGHT0, GL_DIFFUSE, lightdiffuse);
-   glLightfv(GL_LIGHT0, GL_SPECULAR, lightspecular);
+   createLight(GL_LIGHT0, pos, diff, spec);
 
    //LIGHT1
-   GLfloat lightpos1[] = {cs[0], cs[1], cs[2], 0.0};     //Position de la source lumineuse
-//   GLfloat lightdiffuse1[] = {0.5, 0.5, 0.5, 0.0};     // QuantitÃ© de couleur reflechie par les objets
-//   GLfloat lightspecular1[] = {0.5, 0.5, 0.5, 0.0};    // Aspect blanc reflete
+   pos[0] = cs[0];pos[1] = cs[1]; pos[2] = cs[2]; pos[3] =  0.0;
+   diff[0] = varLight1; diff[1] = varLight1; diff[2] = varLight1; diff[3] = 0.0;
+   spec[0] = varLight1; spec[1] = varLight1; spec[2] = varLight1; spec[3] = 0.0;
 
-   GLfloat lightdiffuse1[] = {varLight1, varLight1, varLight1, 0.0}; // QuantitÃ© de couleur reflechie par les objets
-   GLfloat lightspecular1[] = {varLight1, varLight1, varLight1, 0.0};   // Aspect blanc reflete
-
-   glLightfv(GL_LIGHT1, GL_POSITION, lightpos1);
-   glLightfv(GL_LIGHT1, GL_DIFFUSE, lightdiffuse1);
-   glLightfv(GL_LIGHT1, GL_SPECULAR, lightspecular1);
+   createLight(GL_LIGHT1, pos, diff, spec);
 
    //LIGHT2 (opposee a LIGHT1)
-   GLfloat lightpos2[] = {cs2[0], cs2[1], cs2[2], 0.0};     //Position de la source lumineuse
-//   GLfloat lightdiffuse2[] = {0.1, 0.1, 0.5, 0.0}; // QuantitÃ© de couleur reflechie par les objets
-//   GLfloat lightspecular2[] = {0.1, 0.1, 0.5, 0.0};   // Aspect blanc reflete
+   pos[0] = cs2[0];pos[1] = cs2[1]; pos[2] = cs2[2]; pos[3] =  0.0;
+   diff[0] = varLight2; diff[1] = varLight2; diff[2] = varLight2 * 0.4; diff[3] = 0.0;
+   spec[0] = varLight2; spec[1] = varLight2; spec[2] = varLight2 * 0.4; spec[3] = 0.0;
 
-   GLfloat lightdiffuse2[] = {varLight2, varLight2, varLight2 * 0.4, 0.0}; // QuantitÃ© de couleur reflechie par les objets
-   GLfloat lightspecular2[] = {varLight2, varLight2, varLight2 * 0.4, 0.0};   // Aspect blanc reflete
-
-   glLightfv(GL_LIGHT2, GL_POSITION, lightpos2);
-   glLightfv(GL_LIGHT2, GL_DIFFUSE, lightdiffuse2);
-   glLightfv(GL_LIGHT2, GL_SPECULAR, lightspecular2);
-
+   createLight(GL_LIGHT2, pos, diff, spec);
 
    //exponent propertie defines the concentration of the light
    glLightf(GL_LIGHT1, GL_SPOT_EXPONENT, 15.0f);
@@ -155,9 +147,17 @@ void initLight(void)
    glLightModeli(GL_LIGHT_MODEL_LOCAL_VIEWER, GL_TRUE);
    glEnable(GL_DEPTH_TEST);
    glEnable(GL_LIGHTING);
-   //glEnable(GL_LIGHT0);
+   glEnable(GL_LIGHT0);
    glEnable(GL_LIGHT1);
    glEnable(GL_LIGHT2);
+
+}
+
+void createLight(int light, GLfloat lightpos[], GLfloat lightdiffuse[], GLfloat lightspecular[]) {
+
+   glLightfv(light, GL_POSITION, lightpos);
+   glLightfv(light, GL_DIFFUSE, lightdiffuse);
+   glLightfv(light, GL_SPECULAR, lightspecular);
 
 }
 
@@ -348,8 +348,8 @@ void mouseMove(int x, int y) {
     zoomFactor += 0.05 * (mouseY - y);
     if(zoomFactor < 0.1){
       zoomFactor = 0.1;
-    }else if (zoomFactor > 2.0) {
-      zoomFactor = 2.0;
+    }else if (zoomFactor > MAX_ZOOM) {
+      zoomFactor = MAX_ZOOM;
     }
   } else {
     rx += fmod(90. * (mouseX - x) / width, 360.);

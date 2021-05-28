@@ -57,12 +57,16 @@ vector<string> Loader::getFilenamesFromDir(const char* directory) {
   DIR* rep = NULL;
   struct dirent* fichierLu = NULL; /* Déclaration d'un pointeur vers la structure dirent. */
 
+  // Ouverture du repertoire
   rep = opendir(directory); // Ouverture d'un dossier (mauvais chemin par exemple)
-  if(rep == NULL) exit(1);  // Si le dossier n'a pas pu être ouvert
+  if(rep == NULL) {
+    printf("Impossible d'ouvrir le repertoire %s\n", directory);
+    exit(1);  // Si le dossier n'a pas pu être ouvert
+  }
 
-  printf("Repertoire scanne : %s\n", directory);
-
+  // Lecture des fichiers du repertoire
   fichierLu = readdir(rep);                                     // On lit le premier répertoire du dossier.
+  printf("Repertoire scanne : %s\n", directory);
   while(fichierLu != NULL) {
     if(fichierLu->d_type != DT_DIR) {                           // Protection : on ne prends pas les repertoires
       string nomFchier = fichierLu->d_name;
@@ -74,7 +78,11 @@ vector<string> Loader::getFilenamesFromDir(const char* directory) {
     fichierLu = readdir(rep);                                   // On lit le premier répertoire du dossier.
   }
 
-  if(closedir(rep) == -1) exit(-1);/* S'il y a eu un souci avec la fermeture */
+  // Fermeture du repertoire
+  if(closedir(rep) == -1) {
+    printf("Impossible de fermer le repertoire %s\n", directory);
+    exit(-1);/* S'il y a eu un souci avec la fermeture */
+  }
 
   return res;
 }
