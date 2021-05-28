@@ -29,6 +29,8 @@ using namespace std;
   const float MAX_ZOOM = 5.0;
 
   float camera_pos[3] = {0.0f, 6.0f, 6.0f};
+  float camera_cible[3] = {0.0f, 0.0f, 0.0f};
+
   GLfloat cs[3] = {0.0f, 15.0f, 0.0f}; // Position de LIGHT1
   GLfloat cs2[3] = {0.0f, 0.0f, 15.0f}; // Position de LIGHT1
   bool click = false;
@@ -188,8 +190,8 @@ void render(void) {
   glViewport( 0, 0, w, h);
 
       glLoadIdentity();
-gluLookAt(0.0*zoomFactor, 6.0*zoomFactor, 6.0*zoomFactor,    /* oeil */
-          0.0, 0.0, 0.0,    /* point observe */
+gluLookAt(camera_pos[0]*zoomFactor, camera_pos[1]*zoomFactor, camera_pos[2]*zoomFactor,    /* oeil */
+          camera_cible[0], camera_cible[1], camera_cible[2],    /* point observe */
           0.0, 1.0, 0.0);   /* oÃ¹ est le ciel  */
       glutPostRedisplay();
 
@@ -228,8 +230,8 @@ gluLookAt(0.0*zoomFactor, 6.0*zoomFactor, 6.0*zoomFactor,    /* oeil */
 
   glPushMatrix();
   //rotation de la scene
-  glRotatef(rx, 0., 1., 0.);
-  glRotatef(ry, 1., 0., 0.);
+  glRotatef(rx, 1., 0., 0.);
+  glRotatef(ry, 0., 1., 0.);
 
   moteur.tic();
 
@@ -280,16 +282,43 @@ void keyboard(unsigned char key, int x, int y){
       exit(0);
       break;
 
-    case 97: //a
+    case 'l': //l
     //inverser le bit de la lumiere
     loumiere = !loumiere;
     break;
 
+    case 'z': // vers l'avant
+    camera_pos[2] -= 2.0;
+    camera_cible[2] -=2.0;
+    break;
+
+    case 's': //vers l'arriere
+    camera_pos[2] += 2.0;
+    camera_cible[2] += 2.0;
+    break;
+
+    case 'q': //vers la gauche
+    camera_pos[0] -= 2.0;
+    camera_cible[0] -= 2.0;
+    break;
+
+    case 'd': //vers la droite
+    camera_pos[0] += 2.0;
+    camera_cible[0] += 2.0;
+    break;
+
+    case 'a': // rotation gauche
+    ry -= fmod(90. * 5.0 / height, 360.);
+    break;
+
+    case 'e': // rotation droite
+    ry += fmod(90. * 5.0 / height, 360.);
+    break;
+
     case 'I':
-      glLoadIdentity();
-      gluLookAt(0, 0, 10, 0, 0, 0, 0, 1, 0);
-      glutPostRedisplay();
-      break;
+    camera_pos[0] = 0.0; camera_pos[1] = 0.0; camera_pos[2] = 6.0;
+    camera_cible[0] = 0.0; camera_cible[1] = 0.0; camera_cible[2] = 0.0;
+    break;
 
    // Axes de rotations
    case 'x':
@@ -322,11 +351,14 @@ void keyboard(unsigned char key, int x, int y){
 void mouse(int button, int state, int x, int y){
 
   switch (button) {
-    case GLUT_RIGHT_BUTTON:
-      exit(0);
+    case GLUT_RIGHT_BUTTON: //rotations
+      click = !click;
+      mbutton = GLUT_RIGHT_BUTTON;
+      mouseX = x;
+      mouseY = y;
       break;
 
-    case GLUT_LEFT_BUTTON:
+    case GLUT_LEFT_BUTTON: // Deplacements
       // Par exemple ici ajouter un rail
       click = !click;
       mbutton = GLUT_LEFT_BUTTON;
@@ -334,7 +366,7 @@ void mouse(int button, int state, int x, int y){
       mouseY = y;
       break;
 
-    case GLUT_MIDDLE_BUTTON:
+    case GLUT_MIDDLE_BUTTON: // Zoom
       click = !click;
       mbutton = GLUT_MIDDLE_BUTTON;
       break;
@@ -351,12 +383,20 @@ void mouseMove(int x, int y) {
     }else if (zoomFactor > MAX_ZOOM) {
       zoomFactor = MAX_ZOOM;
     }
-  } else {
-    rx += fmod(90. * (mouseX - x) / width, 360.);
-    ry += fmod(90. * (mouseY - y) / height, 360.);
-    mouseX = x;
+  } else if (click && mbutton == GLUT_RIGHT_BUTTON) {
+    rx += fmod(90. * (mouseY - y) / height, 360.);
+    ry += fmod(90. * (mouseX - x) / width, 360.);
+  } else if (click && mbutton == GLUT_LEFT_BUTTON) {
+    //vers l'avant / arriere
+    camera_pos[2] += 10. * (mouseY - y) / height;
+    camera_cible[2] += 10. * (mouseY - y) / height;
+
+    //vers la gauche / droite
+    camera_pos[0] += 10. * (mouseX - x) / width;
+    camera_cible[0] += 10. * (mouseX - x) / width;
   }
 
+    mouseX = x;
     mouseY = y;
 }
 
