@@ -17,7 +17,7 @@ Phase II
   - [x] Parser : Ajouter le parser de materiaux et afficher à l'écran les couleurs (simple) des objets.
   - [-] Architecture : Ajouter un Loader et un Moteur pour gerer le chargement et les transformations des objets en 3D.
   - [ ] Amelioration : Ajouter une animation sur un objet en 3D. Faire un exemple avec la locomotive.
-  - [ ] Composant : Faire une locomotive simple avec pas de donnees de points (a utiliser pour faire les animations).
+  - [-] Composant : Faire une locomotive simple avec pas de donnees de points (a utiliser pour faire les animations).
 
   Phase III
   - [ ] Etude : Inclure / intégrer la bibliothèque Ogre ?

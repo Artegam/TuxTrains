@@ -145,22 +145,90 @@ void Objet3D::dessiner() {
     angle += 10.0;
     Vertex barycentre = calculerBarycentre();
 
+    // ************* Se positionner sur le barycentre **********
+    //OpenGL n'a pas le meme repere que blender.... GGrrrrr...
     //Cubes position barycentre
+    //On peux dessiner un cube sur la position du barycentre
     glPushMatrix();
-    glTranslatef(barycentre.getX(), barycentre.getY(), barycentre.getZ()); //OpenGL n'a pas le meme repere que blender.... GGrrrrr...
+    glTranslatef(barycentre.getX(), barycentre.getY(), barycentre.getZ());
     glRotatef(angle,0.0,0.0,1.0);
     //glutSolidCube(0.25);
-
     glPopMatrix();
-    //dessiner
 
-    //Roues position origine
+
+
+    // ************ Matrice pour les roues *************
     glPushMatrix();
 
+
+    // **********  Animation de rotation des roues **********
     // Les operations matricielles sont inversees
-    glTranslatef(barycentre.getX(), barycentre.getY(), barycentre.getZ()); //OpenGL n'a pas le meme repere que blender.... GGrrrrr...
+    //OpenGL n'a pas le meme repere que blender.... GGrrrrr...
+    glTranslatef(barycentre.getX(), barycentre.getY(), barycentre.getZ());
     glRotatef(angle,0.0,0.0,1.0);
-    glTranslatef(-barycentre.getX(), -barycentre.getY(), -barycentre.getZ()); //OpenGL n'a pas le meme repere que blender.... GGrrrrr...
+    glTranslatef(-barycentre.getX(), -barycentre.getY(), -barycentre.getZ());
+
+
+    // ********** Dessiner les roues *********
+    glBegin(GL_TRIANGLES);
+    for(it = faces.begin(); it != faces.end(); it++) {
+      it->dessiner(vertices, verticesNormal);
+    }
+    glEnd();
+    glPopMatrix();
+
+  }else if(nom == "Bras_puissance_G_Cube.001" ||
+           nom == "Bras_puissance_D_Cube.006" ||
+           nom == "Bras_entrainement_G_Cube.002" ||
+           nom == "Bras_entrainement_D_Cube.005") {
+
+
+    Vertex barycentre = calculerBarycentre();
+
+    facteurX += step;
+    if(facteurX <= -1.0 || facteurX >= 1.0) {step = -step;}
+
+    // ************* Se positionner sur le barycentre **********
+    //OpenGL n'a pas le meme repere que blender.... GGrrrrr...
+    //Cubes position barycentre
+    //On peux dessiner un cube sur la position du barycentre
+    glPushMatrix();
+    glTranslatef(barycentre.getX() + facteurX, barycentre.getY(), barycentre.getZ());
+    glTranslatef(-barycentre.getX(), -barycentre.getY(), -barycentre.getZ());
+    //glutSolidCube(0.25);
+    glPopMatrix();
+
+
+
+    // ************ Matrice pour les roues *************
+    glPushMatrix();
+
+
+    // **********  Animation de rotation des roues **********
+    // Les operations matricielles sont inversees
+    //OpenGL n'a pas le meme repere que blender.... GGrrrrr...
+
+
+    if(nom == "Bras_entrainement_G_Cube.002" ||
+       nom == "Bras_entrainement_D_Cube.005") {
+      //Je le remets a sa place sur l'objet
+      glTranslatef(barycentre.getX() + facteurX, barycentre.getY(), barycentre.getZ());
+      // Je fais la transformation
+      angle += 10.0;
+      glRotatef(angle,0.0,0.0,1.0);
+      glutSolidCube(0.25);
+      glTranslatef(1.0, 0, 0);
+      // Je l'amene en 0
+      glTranslatef(-barycentre.getX(), -barycentre.getY(), -barycentre.getZ());
+    } else {
+      //Je le remets a sa place sur l'objet
+      glTranslatef(barycentre.getX() + facteurX, barycentre.getY(), barycentre.getZ());
+      // Je fais la transformation
+      // Je l'amene en 0
+      glTranslatef(-barycentre.getX(), -barycentre.getY(), -barycentre.getZ());
+    }
+
+    // ********** Dessiner les roues *********
     glBegin(GL_TRIANGLES);
     for(it = faces.begin(); it != faces.end(); it++) {
       it->dessiner(vertices, verticesNormal);
@@ -171,12 +239,12 @@ void Objet3D::dessiner() {
 
   }else{
     //dessiner
-	glBegin(GL_TRIANGLES);
+    glBegin(GL_TRIANGLES);
     for(it = faces.begin(); it != faces.end(); it++) {
       //it->dump(vertices);
       it->dessiner(vertices, verticesNormal);
     }
-  glEnd();
+    glEnd();
   }
 
 

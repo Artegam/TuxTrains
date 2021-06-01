@@ -26,6 +26,8 @@ class Objet3D {
     GLuint listeAffichage;
 
     float angle = 0.0;
+    double facteurX = 0.0;
+    double step = 0.05;
 
 	public:
 		void setNom(const char* pNom);
