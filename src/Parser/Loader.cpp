@@ -44,8 +44,7 @@ Loader::Loader(const char* cheminObj, bool recursif) {
   for(it = fichiersObj.begin(); it != fichiersObj.end(); it++) {
     regex self_regex(".*\\.obj$", regex_constants::basic);
     if(regex_search(it->c_str(), self_regex)) {
-      objets = parser->readFile(it->c_str(), cheminObj);
-      files.push_back(objets);
+      objets[it->c_str()] = parser->readFile(it->c_str(), cheminObj);
       printf(" # %s...\n", it->c_str());
     }
   }
@@ -88,13 +87,9 @@ vector<string> Loader::getFilenamesFromDir(const char* directory) {
 }
 
 
-vector<Objet3D> Loader::getObjets()
+map<string, Objet3D> Loader::getObjets()
 {
  return objets;
 }
 
-list<vector<Objet3D>> Loader::getFiles()
-{
-  return files;
-}
 

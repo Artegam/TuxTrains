@@ -24,7 +24,7 @@ EXEC = TuxTrains
 OPT = -Wall
 
 O_PARSER = ObjParser.o MatParser.o Loader.o
-OBJECTS = $(O_PARSER) Objet3D.o Face.o Vertex.o VertexNormal.o Material.o Moteur.o
+OBJECTS = $(O_PARSER) Element3D.o Objet3D.o Face.o Vertex.o VertexNormal.o Material.o Moteur.o
 
 TESTS_U = test_unitaires
 O_TESTS_U = $(OBJECTS) test_unitaires.o TU_Loader.o TU_Moteur.o TU_MatParser.o

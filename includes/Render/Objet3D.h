@@ -8,10 +8,7 @@
 #include <cstring>
 #include <string>
 
-#include "Vertex.h"
-#include "VertexNormal.h"
-#include "Face.h"
-#include "Material.h"
+#include "Element3D.h"
 
 using namespace std;
 
@@ -19,28 +16,22 @@ class Objet3D {
 
 	protected:
 		string nom;
-    Material mat;
-		map<int, Vertex> vertices;
-		map<int, VertexNormal> verticesNormal;
-		vector<Face> faces;
-    GLuint listeAffichage;
-
+		map<string, Element3D> elements;
+    GLuint listeAffichage; // A Reflechir...
+/*
     float angle = 0.0;
     double facteurX = 0.0;
     double step = 0.05;
-
+*/
 	public:
+    Objet3D();
+    Objet3D(const char* pNom);
+
 		void setNom(const char* pNom);
-		void setMateriau(Material pMateriau);
-
 		string getNom();
-    string getNomMateriau();
-    Material getMateriau(void);
 
-		void ajouterVertex(int index, double pX, double pY, double pZ, double pW);
-		void ajouterVertexNormal(int index, double pX, double pY, double pZ, double pW);
-		void ajouterFace(const int nbParametres, char** parametres);
-    void ajouterFace(Face f);
+    void setElements(map<string,Element3D> pElements);
+    Element3D getElement3D(char* nom);
 
     Vertex calculerBarycentre();
 

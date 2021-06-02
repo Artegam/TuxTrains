@@ -8,18 +8,19 @@
 class Moteur {
 
 	protected:
-    vector<Objet3D> objets;
-    list<vector<Objet3D>> files;
+    map<string,Objet3D> objets;
     const char * defaultPath = "/home/tonio/TuxTrains/obj";
     float angle = 0.0;
 
 	public:
+    Moteur();
     Moteur(const char* objPath);
 
     //void ajouter(Objet3D obj);
     //void ajouter(vector<Objet3D> lst);
 		void tic();
 		void init();
+    Objet3D getObjet3D(string nom);
 };
 
 #endif

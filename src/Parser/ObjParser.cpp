@@ -9,9 +9,11 @@ ObjParser::ObjParser() {
 
 
 //ASCH - 17/10/2014 - MÃ©thodes
-vector<Objet3D> ObjParser::readFile (const char * filename, const char * chemin) {
+Objet3D ObjParser::readFile (const char * filename, const char * chemin) {
 
+  Objet3D obj(filename);
   string sligne;
+
   cheminFichiersObj = chemin;
   fichierRAM.clear();
 
@@ -27,20 +29,22 @@ vector<Objet3D> ObjParser::readFile (const char * filename, const char * chemin)
 
   fichier.close();
   printf ("Fin de lecture du fichier\n");
-
-  return parserFichier();
+  obj.setElements(parserFichier());
+  return obj;
 }
 
 
-vector<Objet3D> ObjParser::parserFichier() {
+map<string,Element3D> ObjParser::parserFichier() {
 
-  vector<Objet3D> objets;
+
   map<string, Material> materials;
   vector<string>::iterator it;
   //printf ("Debut parcours fichier RAM\n");
 
   int index_vertex = 0;
   int index_vertex_normal = 0;
+  string nomElt;
+
 
   for(it = fichierRAM.begin(); it != fichierRAM.end(); it++) {
 
@@ -50,12 +54,13 @@ vector<Objet3D> ObjParser::parserFichier() {
 
 
       if(regex_search(*it, m, o_regex)) {
-        vObj = new Objet3D();
-        char* nom = new char[m[1].str().size() + 1];
-        strcpy(nom, m[1].str().c_str());
+        vElt = new Element3D();
+        nomElt = m[1].str();
+        char* nom = new char[nomElt.size() + 1];
+        strcpy(nom, nomElt.c_str());
 
-        vObj->setNom(nom);
-        objets.insert(objets.begin(), *vObj);
+        vElt->setNom(nom);
+        elements[nomElt] = *vElt;
         continue;
       }
 
@@ -78,7 +83,7 @@ vector<Objet3D> ObjParser::parserFichier() {
         for(size_t i = 0; i < m.size(); ++i) {
           //printf(" Materiau lu : %s\n", m[1].str().c_str());
           mat_courant = materials[m[1].str()];
-          objets[0].setMateriau(mat_courant); //L'objet3D est insÃrÃ© en dÃ©but de liste a chaque fois ???
+          elements[nomElt].setMateriau(mat_courant); //L'objet3D est insÃrÃ© en dÃ©but de liste a chaque fois ???
         }
         continue;
       }
@@ -88,7 +93,7 @@ vector<Objet3D> ObjParser::parserFichier() {
 
       if(regex_search(*it, m, v3_regex)) {
         index_vertex++;
-        objets.front().ajouterVertex(index_vertex, stod(m[1].str().c_str()), stod(m[2].str().c_str()), stod(m[3].str().c_str()), 0.0);
+        elements[nomElt].ajouterVertex(index_vertex, stod(m[1].str().c_str()), stod(m[2].str().c_str()), stod(m[3].str().c_str()), 0.0);
         continue;
       }
 
@@ -97,7 +102,7 @@ vector<Objet3D> ObjParser::parserFichier() {
 
       if(regex_search(*it, m, v4_regex)) {
         index_vertex++;
-        objets.front().ajouterVertex(index_vertex, stod(m[1].str().c_str()), stod(m[2].str().c_str()), stod(m[3].str().c_str()),  stod(m[4].str().c_str()));
+        elements[nomElt].ajouterVertex(index_vertex, stod(m[1].str().c_str()), stod(m[2].str().c_str()), stod(m[3].str().c_str()),  stod(m[4].str().c_str()));
         continue;
       }
 
@@ -107,7 +112,7 @@ vector<Objet3D> ObjParser::parserFichier() {
 
       if(regex_search(*it, m, vn3_regex)) {
         index_vertex_normal++;
-        objets.front().ajouterVertexNormal(index_vertex_normal, stod(m[1].str().c_str()), stod(m[2].str().c_str()), stod(m[3].str().c_str()), 0.0);
+        elements[nomElt].ajouterVertexNormal(index_vertex_normal, stod(m[1].str().c_str()), stod(m[2].str().c_str()), stod(m[3].str().c_str()), 0.0);
         continue;
       }
 
@@ -117,7 +122,7 @@ vector<Objet3D> ObjParser::parserFichier() {
 
       if(regex_search(*it, m, vn4_regex)) {
         index_vertex_normal++;
-        objets.front().ajouterVertexNormal(index_vertex_normal, stod(m[1].str().c_str()), stod(m[2].str().c_str()), stod(m[3].str().c_str()), stod(m[4].str().c_str()));
+        elements[nomElt].ajouterVertexNormal(index_vertex_normal, stod(m[1].str().c_str()), stod(m[2].str().c_str()), stod(m[3].str().c_str()), stod(m[4].str().c_str()));
         continue;
       }
 
@@ -131,7 +136,7 @@ vector<Objet3D> ObjParser::parserFichier() {
       regex f_regex("f \\([0-9\\/ ]*\\)", regex_constants::basic);
 
       if(regex_search(*it, m, f_regex)) {
-        objets.front().ajouterFace(parserFace(m[1].str()));
+        elements[nomElt].ajouterFace(parserFace(m[1].str()));
         continue;
       }
 /*
@@ -147,7 +152,7 @@ vector<Objet3D> ObjParser::parserFichier() {
 
   //printf ("FIN parcours fichier RAM\n");
   //printf("Fin du traitement\n");
-  return objets;
+  return elements;
 }
 
 

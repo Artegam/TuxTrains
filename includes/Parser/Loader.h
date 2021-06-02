@@ -17,14 +17,12 @@ class Loader {
 
   protected:
     map<string, Material> listeMateriaux;
-    list<vector<Objet3D>> files;
-    vector<Objet3D> objets;
+    map<string, Objet3D> objets;
 
     vector<string> getFilenamesFromDir(const char* directory);
 
   public:
     Loader(const char* cheminObj, bool recursif);
-    vector<Objet3D> getObjets();
-    list<vector<Objet3D>> getFiles();
+    map<string, Objet3D> getObjets();
 
 };
