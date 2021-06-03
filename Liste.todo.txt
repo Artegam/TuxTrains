@@ -11,10 +11,13 @@ Phase I
 
 Phase II
   - [ ] Maintenance : Nettoyer le code, supprimer tout le code en remarques.
-  - [-] Amélioration 3 : Améliorer le système de parser des objets 3D. Utiliser des expressions régulières avec boost http://guillaume.belz.free.fr/doku.php?id=expressions_regulieres
-  - [ ] Maintenance : Ajouter / Modifier les tests unitaires
-  - [ ] Architecture : Modifier les objets qui concerne le rendu (points, faces, Objet3D). Les ranger dans un répertoire qui convient.
-  - [ ] Parser : Ajouter le parser de materiaux et afficher à l'écran les couleurs (simple) des objets.
+  - [x] Amélioration 3 : Améliorer le système de parser des objets 3D. Utiliser des expressions régulières avec boost http://guillaume.belz.free.fr/doku.php?id=expressions_regulieres
+  - [-] Maintenance : Ajouter / Modifier les tests unitaires
+  - [x] Architecture : Modifier les objets qui concerne le rendu (points, faces, Objet3D). Les ranger dans un répertoire qui convient.
+  - [x] Parser : Ajouter le parser de materiaux et afficher à l'écran les couleurs (simple) des objets.
+  - [-] Architecture : Ajouter un Loader et un Moteur pour gerer le chargement et les transformations des objets en 3D.
+  - [ ] Amelioration : Ajouter une animation sur un objet en 3D. Faire un exemple avec la locomotive.
+  - [-] Composant : Faire une locomotive simple avec pas de donnees de points (a utiliser pour faire les animations).
 
   Phase III
   - [ ] Etude : Inclure / intégrer la bibliothèque Ogre ?
@@ -28,7 +31,7 @@ Phase II
 Phase IV
   - [ ] Etude : Recherche de chemin (pour la pose des voies de chemin de fer)
   - [ ] Etude : Recherche de calculs de collision entre objets
-  
+
 Phase ?
   - [ ] Etude : Recherches sur l'intelligence artificielle pour les concurents
   - [ ] Etude : Ajouter le fonction réseau avec boost pour les parties multi-joueurs

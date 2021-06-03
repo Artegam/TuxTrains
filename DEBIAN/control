@@ -1,0 +1,10 @@
+Package: TuxTrains
+Version: 1.0
+Depends: freeglut3
+Section: custom
+Priority: optional
+Architecture: all
+Essential: no
+Installed-Size: 1024
+Maintainer: Tonio
+Description: Jeux de trains amateur pour linux
