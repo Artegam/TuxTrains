@@ -43,6 +43,7 @@ map<string,Element3D> ObjParser::parserFichier() {
 
   int index_vertex = 0;
   int index_vertex_normal = 0;
+  elements.clear();
   string nomElt;
 
 
