@@ -7,50 +7,51 @@
 void afficherVertex(Vertex& v);
 
 char* Objet3D::getNom() {
-	return nom;
+  return nom;
 }
 
 void Objet3D::setNom(char* pNom) {
-	nom = pNom;
+  nom = pNom;
 }
 
 void Objet3D::ajouterVertex(double pX, double pY, double pZ, double pW){
-	Vertex * v = new Vertex();
+  Vertex * v = new Vertex();
 
-	v->setX(pX);
-	v->setY(pY);
-	v->setZ(pZ);
-	if (pW > 0) v->setW(pW);
+  v->setX(pX);
+  v->setY(pY);
+  v->setZ(pZ);
+  if (pW > 0) v->setW(pW);
 
-	vertices.insert(vertices.end(), *v);
+  vertices.insert(vertices.end(), *v);
 }
 
 void Objet3D::ajouterVertexNormal(double pX, double pY, double pZ, double pW){
-	VertexNormal * vn = new VertexNormal();
+  VertexNormal * vn = new VertexNormal();
 
-	vn->setX(pX);
-	vn->setY(pY);
-	vn->setZ(pZ);
-	if (pW > 0) vn->setW(pW);
-	//printf("Vn %lf %lf %lf \n", pX, pY, pZ);
-	verticesNormal.insert(verticesNormal.end(), *vn);
+  vn->setX(pX);
+  vn->setY(pY);
+  vn->setZ(pZ);
+  if (pW > 0) vn->setW(pW);
+  //printf("Vn %lf %lf %lf \n", pX, pY, pZ);
+  verticesNormal.insert(verticesNormal.end(), *vn);
 }
 
 void Objet3D::ajouterFace(const int nbParametres, char** parametres){
-
-	int numVertex[4];
-	int numVertexTexture[4];
-	int numVertexNormal[4];
-	int nbVertexInfo;
-	int numCas;
+/*
+  int numVertex[4];
+  int numVertexTexture[4];
+  int numVertexNormal[4];
+  int nbVertexInfo;
+  int numCas;
+*/
   const int MAX = nbParametres;
 
-	if (MAX > 0) {
+  if (MAX > 0) {
 
-		Face f;
+    Face f;
 
-		for(int cpt = 0; cpt < MAX; cpt++) {
-			numCas = 0;
+    for(int cpt = 0; cpt < MAX; cpt++) {
+      //numCas = 0;
 
       string delimiter = "/";
       string token;
@@ -95,14 +96,14 @@ void Objet3D::ajouterFace(const int nbParametres, char** parametres){
       }
 
 
-		}
-		faces.insert(faces.end(), f);
-	}
+    }
+    faces.insert(faces.end(), f);
+  }
 }
 
 
 void afficherVertex(Vertex& v) {
-	v.dessiner();
+  v.dessiner();
 }
 
 void Objet3D::init() {
@@ -115,12 +116,12 @@ void Objet3D::init() {
   glNewList(listeAffichage, GL_COMPILE);
 
   //Calcul de l'objet (points, faces, etc...
- 	vector<Face>::iterator it;
+  vector<Face>::iterator it;
 
-	//if (faces.size() > 0) printf("%s nb de faces : %d\n", nom, faces.size());
-	for(it = faces.begin(); it != faces.end(); it++) {
-		it->dessiner(vertices, verticesNormal);
-	}
+  //if (faces.size() > 0) printf("%s nb de faces : %d\n", nom, faces.size());
+  for(it = faces.begin(); it != faces.end(); it++) {
+    it->dessiner(vertices, verticesNormal);
+  }
 
   glEndList();
 

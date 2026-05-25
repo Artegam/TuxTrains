@@ -31,7 +31,7 @@ int main(int argc, char** argv) {
 	ObjParser * parser = new ObjParser();
 
 	angle = -1.0;
-	float valZoom = 0.0;
+	//float valZoom = 0.0;
 
 	// Pour un écran Widescreen ratio d'aspect = 16:9
 	long width = 800;
