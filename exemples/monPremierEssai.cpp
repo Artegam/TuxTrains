@@ -14,10 +14,9 @@ void mouse(int button, int state, int x, int y);
 
 int main(int argc, char** argv) {
 
-	ObjParser * parser = new ObjParser(); 
-
-	//parser->readFile("./rail.obj");
-	parser->~ObjParser();
+  ObjParser * parser = new ObjParser(); 
+  //parser->readFile("./rail.obj");
+  parser->~ObjParser();
 
   glutInit(&argc, argv);
   glutInitDisplayMode(GLUT_DEPTH | GLUT_DOUBLE | GLUT_RGBA);
