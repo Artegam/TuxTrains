@@ -20,12 +20,12 @@
 class MatParser {
 
 protected:
-	vector<Material> materials;
+	std::vector<Material> materials;
 	Material * vMat;
 
 public:
 
-	vector<Material> readFile (const char * filename);
+	std::vector<Material> readFile (const char * filename);
 	/*
 	void readVertex(FILE* fichier);
 	void readVertexNormal(FILE* fichier);

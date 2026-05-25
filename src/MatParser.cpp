@@ -8,7 +8,7 @@
 
 
 //ASCH - 17/10/2014 - Méthodes
-vector<Material> MatParser::readFile (const char * filename) {
+std::vector<Material> MatParser::readFile (const char * filename) {
 
 	FILE* fichier;
 	char ligne[255];
