@@ -16,7 +16,8 @@ void graphicinterface::WindowManager::initLight(void) {
   glEnable(GL_LIGHT0);
 }
 
-void graphicinterface::WindowManager::init3D(int argc, char** argv) {
+void graphicinterface::WindowManager::init3D(int argc, char** argv, vector<Objet3D> data) {
+  graphicinterface::objets.insert(graphicinterface::objets.begin(), data.begin(), data.end());
   // Pour un écran Widescreen ratio d'aspect = 16:9
   //[ASC] penser a une struct ?
   long width = 800;
@@ -70,9 +71,11 @@ void graphicinterface::WindowManager::render(void) {
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
   glRotatef(angle, 0.0, 1.0, 0.0);
 
+/*
   Cube c;
   c.init();
   c.display();
+*/
   //[ASC] ici il y a un soucis avec dessiner les objets - pas encore trouvé d'ou vebait l'erreur....
   for(vector<Objet3D>::iterator it = graphicinterface::objets.begin(); it != graphicinterface::objets.end(); it++)
     it->dessiner();

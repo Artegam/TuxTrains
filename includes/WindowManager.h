@@ -45,7 +45,7 @@ namespace graphicinterface {
       static void mouse(int button, int state, int x, int y);
 
       void initLight(void);
-      void init3D(int argc, char** argv);
+      void init3D(int argc, char** argv, vector<Objet3D> data);
       void load3DFunc();
   };
 };
