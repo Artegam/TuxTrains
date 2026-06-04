@@ -1,9 +1,9 @@
-#include <GL/glut.h>
 #include <iostream>
 #include <vector>
 
 #include "ObjParser.h"
 #include "Objet3D.h"
+#include "WindowManager.h"
 
 
 using namespace std;
@@ -11,139 +11,24 @@ using namespace std;
 //Ligne de commande de compilation
 //g++ monPremierEssai.cpp -lGL -lglut -o monPremierEssai
 
-vector<Objet3D> objets;
-vector<Objet3D>::iterator it;
-int angle;
-static int frame = 0;
-static int current_time = 0;
-static int last_time = 0;
-static double fps = 0.0; //Le nb de fps
-
-void initLight(void) {
-  GLfloat mat_specular[] = { 1.0, 1.0, 1.0, 1.0 };
-  GLfloat mat_shininess[] = { 50.0 };
-  GLfloat light_position[] = { 4.0, 4.0, 4.0, 0.0 };
-  glClearColor (0.0, 0.0, 0.0, 0.0);
-  glShadeModel (GL_SMOOTH);
-
-  glMaterialfv(GL_FRONT, GL_SPECULAR, mat_specular);
-  glMaterialfv(GL_FRONT, GL_SHININESS, mat_shininess);
-  glLightfv(GL_LIGHT0, GL_POSITION, light_position);
-
-  glEnable(GL_DEPTH_TEST);
-  glEnable(GL_LIGHTING);
-  glEnable(GL_LIGHT0);
-}
-
-void init3D(int argc, char** argv) {
-  // Pour un écran Widescreen ratio d'aspect = 16:9
-  //[ASC] penser a une struct ?
-  long width = 800;
-  long height = 450;
-  float zNear = 0.1;
-  float zFar = 50.0;
-  float zoomFactor = 1.0;
-
-  glutInit(&argc, argv); // https://www.opengl.org/resources/libraries/glut/spec3/node10.html
-  glutInitDisplayMode(GLUT_DEPTH | GLUT_DOUBLE | GLUT_RGBA);
-
-  glutInitWindowPosition(100, 100);
-  glutInitWindowSize(width, height);
-  glutCreateWindow(argv[1]);
-
-  //Initialisation des matrices
-  glMatrixMode(GL_PROJECTION);
-  glLoadIdentity();
-  gluPerspective (50.0*zoomFactor, (float)width/(float)height, zNear, zFar);
-
-  glMatrixMode(GL_MODELVIEW);
-  glLoadIdentity();
-
-  glMatrixMode(GL_TEXTURE);
-  glLoadIdentity();
-
-  glMatrixMode(GL_MODELVIEW);
-
-  initLight();
-  gluLookAt(0.0, 6.0, 6.0, 0.0, 0.0, 0.0, 0.0 , 1.0, 0.0);
-}
-
-void idle(void) {
-  frame++;
-  current_time = glutGet(GLUT_ELAPSED_TIME);
-
-  if(current_time - last_time > 1000) {
-    fps = frame * 1000.0 / (current_time - last_time);
-    printf("FPS : %f\n", fps);
-    last_time = current_time;
-    frame = 0;
-  }
-
-  glutPostRedisplay();
-  glutSwapBuffers();
-}
-
-void Reshape(int w, int h) {
-  glViewport( 0, 0, (GLint)w, (GLint)h );
-  glMatrixMode( GL_PROJECTION );
-  glLoadIdentity();
-  glFrustum( -1.0, 1.0, -1.0, 1.0, 1.5, 100.0);
-  glMatrixMode( GL_MODELVIEW );
-  glLoadIdentity();
-}
-
-void render(void) {
-  glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-  glRotatef(angle,0.0,1.0,0.0);
-
-  for(it = objets.begin(); it != objets.end(); it++)
-    it->dessiner();
-
-  glutSwapBuffers();
-  glFlush();
-}
-
-void keyboard(unsigned char c, int x, int y){
-  // ASCH - 29/09/2014 - La touche 27 est la touche echap
-  if (c == 27)
-    exit(0);
-}
-
-void mouse(int button, int state, int x, int y){
-  if(button == GLUT_RIGHT_BUTTON)
-    exit(0);
-}
-
-void load3DFunc() {
-  glutDisplayFunc(render);
-  glutIdleFunc(idle);
-  //glutReshapeFunc(Reshape);
-  glutKeyboardFunc(keyboard);
-  glutMouseFunc(mouse);
-}
-
 int main(int argc, char** argv) {
   ObjParser * parser = new ObjParser();
-  angle = -1.0;
 
   std::vector<string> obj_files;
   obj_files.push_back("obj/jaguard.obj");
-  obj_files.push_back("obj/maison.obj");
+  //obj_files.push_back("obj/maison.obj");
   //obj_files.push_back("rail.obj");
   //obj_files.push_back("The_rocket_locomotive_1800_pour_integration.obj");
 
   for(std::vector<string>::iterator files = obj_files.begin(); files!=obj_files.end(); files++) {
     printf("Lecture du fichier... \t %s\n", (*files).c_str());
-    objets = parser->readFile((*files).c_str());
+    graphicinterface::objets = parser->readFile((*files).c_str());
   }
 
   parser->~ObjParser();
-  init3D(argc, argv);
+  graphicinterface::WindowManager w;
+  w.init3D(argc, argv);
 
-  //Initialisation des objets (chargement dans la carte graphique pour le rendu
-  for(it = objets.begin(); it != objets.end(); it++)
-    it->init();
-
-  load3DFunc();
+  w.load3DFunc();
   glutMainLoop(); //[ASC] est-ce le chargement de la fonction ??
 }
