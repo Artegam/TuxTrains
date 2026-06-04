@@ -29,29 +29,7 @@ void Cube::init(void) {
   v[0][2] = v[3][2] = v[4][2] = v[7][2] = 1;
   v[1][2] = v[2][2] = v[5][2] = v[6][2] = -1;
 
-  /* Enable a single OpenGL light. */
-  glLightfv(GL_LIGHT0, GL_DIFFUSE, light_diffuse);
-  glLightfv(GL_LIGHT0, GL_POSITION, light_position);
-  glEnable(GL_LIGHT0);
-  glEnable(GL_LIGHTING);
 
-  /* Use depth buffering for hidden surface elimination. */
-  glEnable(GL_DEPTH_TEST);
-
-  /* Setup the view of the cube. */
-  glMatrixMode(GL_PROJECTION);
-  gluPerspective( /* field of view in degree */ 40.0,
-    /* aspect ratio */ 1.0,
-    /* Z near */ 1.0, /* Z far */ 10.0);
-  glMatrixMode(GL_MODELVIEW);
-  gluLookAt(0.0, 0.0, 5.0,  /* eye is at (0,0,5) */
-    0.0, 0.0, 0.0,      /* center is at (0,0,0) */
-    0.0, 1.0, 0.);      /* up is in positive Y direction */
-
-  /* Adjust cube position to be asthetic angle. */
-  glTranslatef(0.0, 0.0, -1.0);
-  glRotatef(60, 1.0, 0.0, 0.0);
-  glRotatef(-20, 0.0, 0.0, 1.0);
 }
 
 
