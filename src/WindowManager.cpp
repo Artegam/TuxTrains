@@ -34,6 +34,7 @@ void graphicinterface::WindowManager::init3D(int argc, char** argv, vector<Objet
   glutCreateWindow(argv[1]);
 
   //Initialisation des matrices
+  //this->Reshape(width, height);
   glMatrixMode(GL_PROJECTION);
   glLoadIdentity();
   gluPerspective (50.0*zoomFactor, (float)width/(float)height, zNear, zFar);
@@ -55,33 +56,115 @@ void graphicinterface::WindowManager::init3D(int argc, char** argv, vector<Objet
   graphicinterface::start = true;
 }
 
-/*
 void graphicinterface::WindowManager::Reshape(int w, int h) {
-  glViewport( 0, 0, (GLint)w, (GLint)h );
-  glMatrixMode( GL_PROJECTION );
+  long width = 800;
+  long height = 450;
+  float zNear = 0.1;
+  float zFar = 50.0;
+  float zoomFactor = 1.0;
+
+  glViewport(0, 0, (GLint)w, (GLint)h);
+  glMatrixMode(GL_PROJECTION);
   glLoadIdentity();
-  glFrustum( -1.0, 1.0, -1.0, 1.0, 1.5, 100.0);
-  glMatrixMode( GL_MODELVIEW );
+  gluPerspective (50.0*zoomFactor, (float)width/(float)height, zNear, zFar);
+
+  glMatrixMode(GL_MODELVIEW);
   glLoadIdentity();
-}
+
+/*
+  glMatrixMode(GL_TEXTURE);
+  glLoadIdentity();
+  glMatrixMode(GL_MODELVIEW);
 */
+
+
+  gluLookAt(0.0, 6.0, 6.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
+
+
+/*
+  glViewport(0,0,w,h);
+  glMatrixMode(GL_PROJECTION);
+  glLoadIdentity();
+  gluOrtho2D(0,w,0,h);
+  glScalef(1,-1,1);
+  glTranslatef(0,-h,0);
+  glMatrixMode(GL_MODELVIEW);
+*/
+
+/*
+  glViewport( 0, 0, (GLint)w, (GLint)h );
+  glMatrixMode(GL_PROJECTION);
+  glLoadIdentity();
+  glFrustum(-1.0, 1.0, -1.0, 1.0, 1.5, 100.0);
+  glMatrixMode(GL_MODELVIEW);
+  glLoadIdentity();
+*/
+}
 
 void graphicinterface::WindowManager::render(void) {
+  long width = 800;
+  long height = 450;
+  float zNear = 0.1;
+  float zFar = 50.0;
+  float zoomFactor = 1.0;
+
   int angle = -1;
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+  //[ASC] 3D view configuration
+  glMatrixMode(GL_PROJECTION);
+  glLoadIdentity();
+  gluPerspective (50.0*zoomFactor, (float)width/(float)height, zNear, zFar);
+  glMatrixMode(GL_MODELVIEW);
+
+  //[ASC] drawing...
   glRotatef(angle, 0.0, 1.0, 0.0);
 
-/*
   Cube c;
   c.init();
-  c.display();
-*/
+  //c.display();
   //[ASC] ici il y a un soucis avec dessiner les objets - pas encore trouvé d'ou vebait l'erreur....
+/*
   for(vector<Objet3D>::iterator it = graphicinterface::objets.begin(); it != graphicinterface::objets.end(); it++)
     it->dessiner();
+*/
 
-  glutSwapBuffers();
+
+  //[ASC] 2D view configuration
+  glMatrixMode(GL_PROJECTION);
+  //glPushMatrix();
+  //glFlush();
+  glLoadIdentity();
+  gluOrtho2D(0,width,0,height);
+  //glScalef(1,-1,1);
+  //glTranslatef(0,-height,0);
+  glMatrixMode(GL_MODELVIEW);
+  glLoadIdentity();
+
+  //[ASC] 2D drawing...
+/*
+  char txt[20];
+  sprintf(txt, "FPS : %d\n", graphicinterface::fps);
+*/
+
+          unsigned int x, y, z;
+          x = 10;
+          y = height-15;
+          z = 0;
+          glRasterPos3f(x, y, z);
+
+/*
+  for (unsigned int i = 0; i < strlen(txt); i++)
+    glutBitmapCharacter(GLUT_BITMAP_9_BY_15, txt[i]); // Affiche chaque caractère de la chaîne
+*/
+
+    glutBitmapCharacter(GLUT_BITMAP_9_BY_15, 'Y'); // Affiche chaque caractère de la chaîne
+
   glFlush();
+  glutSwapBuffers();
+
+  //glPopMatrix();
+
 }
 
 void graphicinterface::WindowManager::keyboard(unsigned char c, int x, int y){
@@ -96,7 +179,7 @@ void graphicinterface::WindowManager::mouse(int button, int state, int x, int y)
 void graphicinterface::WindowManager::load3DFunc() {
   glutDisplayFunc(render);
   glutIdleFunc(graphicinterface::WindowManager::myidle);
-  //glutReshapeFunc(Reshape);
+  glutReshapeFunc(Reshape);
   glutKeyboardFunc(keyboard);
   glutMouseFunc(mouse);
 }

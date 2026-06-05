@@ -4,7 +4,10 @@
 #include <iostream>
 #include <vector>
 #include <ctime>
+#include <cstring>
 
+#include <GL/gl.h>
+#include <GL/glu.h>
 #include <GL/glut.h>
 
 #include "Objet3D.h"
@@ -16,11 +19,12 @@ namespace graphicinterface {
   static time_t before;
   static bool start;
   static int frame;
+  static int fps;
  
   class WindowManager {
     public:
       //static void idle(void);
-      //void Reshape(int w, int h);
+      static void Reshape(int w, int h);
       static void myidle (void) {
         if(graphicinterface::start) {
           graphicinterface::frame = 0;
@@ -33,11 +37,20 @@ namespace graphicinterface {
 
         if(difftime(graphicinterface::now, graphicinterface::before) >= 1) {
           printf("FPS : %d\n", graphicinterface::frame);
+          char txt[20];
+          sprintf(txt, "FPS : %d\n", graphicinterface::frame);
+          unsigned int x, y, z;
+          x = 50;
+          y = 50;
+          z = 0;
+          glRasterPos3f(x, y, z);
+          printf("------ %s\n", txt);
           graphicinterface::start=true;
+          graphicinterface::fps=graphicinterface::frame;
         }
 
         glutPostRedisplay();
-        glutSwapBuffers();
+        //glutSwapBuffers();
       }
 
       static void render(void);
