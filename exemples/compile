@@ -1,0 +1,3 @@
+#!/bin/bash
+
+g++ cube_et_texte.cpp -o cube_et_texte -lGL -lglut -lGLU
