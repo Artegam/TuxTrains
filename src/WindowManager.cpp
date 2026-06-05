@@ -22,10 +22,6 @@ void graphicinterface::WindowManager::init3D(int argc, char** argv, vector<Objet
   //[ASC] penser a une struct ?
   long width = 800;
   long height = 450;
-  float zNear = 0.1;
-  float zFar = 50.0;
-  float zoomFactor = 1.0;
-
   glutInit(&argc, argv); // https://www.opengl.org/resources/libraries/glut/spec3/node10.html
   glutInitDisplayMode(GLUT_DEPTH | GLUT_DOUBLE | GLUT_RGBA);
 
@@ -34,21 +30,7 @@ void graphicinterface::WindowManager::init3D(int argc, char** argv, vector<Objet
   glutCreateWindow(argv[1]);
 
   //Initialisation des matrices
-  //this->Reshape(width, height);
-  glMatrixMode(GL_PROJECTION);
-  glLoadIdentity();
-  gluPerspective (50.0*zoomFactor, (float)width/(float)height, zNear, zFar);
-
-  glMatrixMode(GL_MODELVIEW);
-  glLoadIdentity();
-
-  glMatrixMode(GL_TEXTURE);
-  glLoadIdentity();
-
-  glMatrixMode(GL_MODELVIEW);
-
   initLight();
-  gluLookAt(0.0, 6.0, 6.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
 
   //Initialisation des objets (chargement dans la carte graphique pour le rendu
   for(vector<Objet3D>::iterator it = graphicinterface::objets.begin(); it != graphicinterface::objets.end(); it++)
@@ -71,103 +53,45 @@ void graphicinterface::WindowManager::Reshape(int w, int h) {
   glMatrixMode(GL_MODELVIEW);
   glLoadIdentity();
 
-/*
-  glMatrixMode(GL_TEXTURE);
-  glLoadIdentity();
-  glMatrixMode(GL_MODELVIEW);
-*/
-
-
   gluLookAt(0.0, 6.0, 6.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
+}
 
+void graphicinterface::WindowManager::drawview3D () {
+  //[ASC] drawing...
+  glRotatef(graphicinterface::angle, 0.0, 1.0, 0.0);
 
-/*
-  glViewport(0,0,w,h);
-  glMatrixMode(GL_PROJECTION);
-  glLoadIdentity();
-  gluOrtho2D(0,w,0,h);
-  glScalef(1,-1,1);
-  glTranslatef(0,-h,0);
-  glMatrixMode(GL_MODELVIEW);
-*/
+  for(vector<Objet3D>::iterator it = graphicinterface::objets.begin(); it != graphicinterface::objets.end(); it++)
+    it->dessiner();
+}
 
-/*
-  glViewport( 0, 0, (GLint)w, (GLint)h );
-  glMatrixMode(GL_PROJECTION);
-  glLoadIdentity();
-  glFrustum(-1.0, 1.0, -1.0, 1.0, 1.5, 100.0);
-  glMatrixMode(GL_MODELVIEW);
-  glLoadIdentity();
-*/
+void graphicinterface::WindowManager::drawview2D () {
+  long height = 450;
+  //[ASC] 2D drawing...
+  unsigned int x, y;
+  x = 10;
+  y = height-15;
+  glRasterPos2f(x, y);
+
+  //glLoadIdentity();
+  char txt[20];
+  sprintf(txt, "FPS : %d\n", graphicinterface::fps);
+  for (unsigned int i = 0; i < strlen(txt)-1; i++)
+    glutBitmapCharacter(GLUT_BITMAP_9_BY_15, txt[i]); // Affiche chaque caractère de la chaîne
 }
 
 void graphicinterface::WindowManager::render(void) {
-  long width = 800;
-  long height = 450;
-  float zNear = 0.1;
-  float zFar = 50.0;
-  float zoomFactor = 1.0;
-
-  int angle = -1;
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-  //[ASC] 3D view configuration
-  glMatrixMode(GL_PROJECTION);
-  glLoadIdentity();
-  gluPerspective (50.0*zoomFactor, (float)width/(float)height, zNear, zFar);
-  glMatrixMode(GL_MODELVIEW);
-
-  //[ASC] drawing...
-  glRotatef(angle, 0.0, 1.0, 0.0);
-
-  Cube c;
-  c.init();
-  //c.display();
-  //[ASC] ici il y a un soucis avec dessiner les objets - pas encore trouvé d'ou vebait l'erreur....
-/*
-  for(vector<Objet3D>::iterator it = graphicinterface::objets.begin(); it != graphicinterface::objets.end(); it++)
-    it->dessiner();
-*/
-
+  glProjBegin();
+  drawview3D();
 
   //[ASC] 2D view configuration
-  glMatrixMode(GL_PROJECTION);
-  //glPushMatrix();
-  //glFlush();
-  glLoadIdentity();
-  gluOrtho2D(0,width,0,height);
-  //glScalef(1,-1,1);
-  //glTranslatef(0,-height,0);
-  glMatrixMode(GL_MODELVIEW);
-  glLoadIdentity();
-
-  //[ASC] 2D drawing...
-/*
-  char txt[20];
-  sprintf(txt, "FPS : %d\n", graphicinterface::fps);
-*/
-
-          unsigned int x, y, z;
-          x = 10;
-          y = height-15;
-          z = 0;
-          glRasterPos3f(x, y, z);
-
-/*
-  for (unsigned int i = 0; i < strlen(txt); i++)
-    glutBitmapCharacter(GLUT_BITMAP_9_BY_15, txt[i]); // Affiche chaque caractère de la chaîne
-*/
-
-    glutBitmapCharacter(GLUT_BITMAP_9_BY_15, 'Y'); // Affiche chaque caractère de la chaîne
-
-  glFlush();
+  glOrthoBegin();
+  drawview2D();
+  glOrthoEnd();
   glutSwapBuffers();
-
-  //glPopMatrix();
-
 }
 
-void graphicinterface::WindowManager::keyboard(unsigned char c, int x, int y){
+void graphicinterface::WindowManager::keyboard(unsigned char c, int x, int y) {
   // ASCH - 29/09/2014 - La touche 27 est la touche echap
   if (c == 27) exit(0);
 }
@@ -179,7 +103,7 @@ void graphicinterface::WindowManager::mouse(int button, int state, int x, int y)
 void graphicinterface::WindowManager::load3DFunc() {
   glutDisplayFunc(render);
   glutIdleFunc(graphicinterface::WindowManager::myidle);
-  glutReshapeFunc(Reshape);
+  //glutReshapeFunc(Reshape);
   glutKeyboardFunc(keyboard);
   glutMouseFunc(mouse);
 }

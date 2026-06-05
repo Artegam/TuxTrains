@@ -11,7 +11,6 @@
 #include <GL/glut.h>
 
 #include "Objet3D.h"
-#include "Cube.h"
 
 namespace graphicinterface {
   static vector<Objet3D> objets;
@@ -20,10 +19,54 @@ namespace graphicinterface {
   static bool start;
   static int frame;
   static int fps;
+  static int angle;
  
   class WindowManager {
     public:
-      //static void idle(void);
+      static void glOrthoBegin() {
+        long width = 800;
+        long height = 450;
+        glMatrixMode(GL_PROJECTION);
+        glPushMatrix();
+        glLoadIdentity();
+        glOrtho(0.0, width, 0.0, height, -1.0, 1.0);
+        glMatrixMode(GL_MODELVIEW);
+        glPushMatrix();
+        glLoadIdentity();
+        glDisable(GL_DEPTH_TEST);
+        glDisable(GL_LIGHTING);
+      };
+      static void glOrthoEnd() {
+        glEnable(GL_DEPTH_TEST);
+        glEnable(GL_LIGHTING);
+        glPopMatrix();
+        glMatrixMode(GL_PROJECTION);
+        glPopMatrix();
+        glMatrixMode(GL_MODELVIEW);
+      };
+      static void glProjBegin() {
+        long width = 800;
+        long height = 450;
+        float zNear = 0.1;
+        float zFar = 100.0;
+        float zoomFactor = 1.0;
+
+        //[ASC] 3D view configuration
+        glMatrixMode(GL_PROJECTION);
+        glLoadIdentity();
+        gluPerspective (45.0*zoomFactor, (float)width/(float)height, zNear, zFar);
+        glMatrixMode(GL_MODELVIEW);
+        glLoadIdentity();
+        gluLookAt(0.0, 6.0, 6.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
+      };
+      static void glProjEnd() {
+        glMatrixMode(GL_PROJECTION);
+        glPopMatrix();
+        glMatrixMode(GL_MODELVIEW);
+        glPopMatrix();
+      };
+      static void drawview3D ();
+      static void drawview2D ();
       static void Reshape(int w, int h);
       static void myidle (void) {
         if(graphicinterface::start) {
@@ -36,7 +79,6 @@ namespace graphicinterface {
         graphicinterface::frame++;
 
         if(difftime(graphicinterface::now, graphicinterface::before) >= 1) {
-          printf("FPS : %d\n", graphicinterface::frame);
           char txt[20];
           sprintf(txt, "FPS : %d\n", graphicinterface::frame);
           unsigned int x, y, z;
@@ -44,13 +86,12 @@ namespace graphicinterface {
           y = 50;
           z = 0;
           glRasterPos3f(x, y, z);
-          printf("------ %s\n", txt);
           graphicinterface::start=true;
           graphicinterface::fps=graphicinterface::frame;
         }
 
+        graphicinterface::angle++;
         glutPostRedisplay();
-        //glutSwapBuffers();
       }
 
       static void render(void);
