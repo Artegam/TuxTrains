@@ -86,6 +86,11 @@ void graphicinterface::WindowManager::drawview3D () {
   field.display();
 }
 
+void graphicinterface::WindowManager::print (const char * txt) {
+  for (unsigned int i = 0; i < strlen(txt); i++)
+    glutBitmapCharacter(GLUT_BITMAP_9_BY_15, txt[i]); // Affiche chaque caractère de la chaîne
+}
+
 void graphicinterface::WindowManager::drawview2D () {
   long height = 450;
   //[ASC] 2D drawing...
@@ -96,9 +101,13 @@ void graphicinterface::WindowManager::drawview2D () {
 
   //glLoadIdentity();
   char txt[20];
-  sprintf(txt, "FPS : %d\n", graphicinterface::fps);
-  for (unsigned int i = 0; i < strlen(txt)-1; i++)
-    glutBitmapCharacter(GLUT_BITMAP_9_BY_15, txt[i]); // Affiche chaque caractère de la chaîne
+  sprintf(txt, "FPS : %d", graphicinterface::fps);
+  graphicinterface::WindowManager::print(txt);
+
+  y = height-(15*2);
+  glRasterPos2f(x, y);
+  sprintf(txt, "angle : %f", graphicinterface::angle);
+  graphicinterface::WindowManager::print(txt);
 }
 
 void graphicinterface::WindowManager::render(void) {

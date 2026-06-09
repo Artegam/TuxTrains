@@ -5,6 +5,7 @@
 #include <vector>
 #include <ctime>
 #include <cstring>
+#include <cmath>
 
 #include <GL/gl.h>
 #include <GL/glu.h>
@@ -20,7 +21,7 @@ namespace graphicinterface {
   static bool start;
   static int frame;
   static int fps;
-  static int angle;
+  static double angle;
   static board::Point3D cameraPos((std::vector<double>){0.0, 6.0, 6.0});
   static board::Point3D cameraTarget((std::vector<double>){0.0, 0.0, 0.0});
   static board::Point3D cameraUpVector((std::vector<double>){0.0, 1.0, 0.0});
@@ -71,6 +72,7 @@ namespace graphicinterface {
       };
       static void drawview3D ();
       static void drawview2D ();
+      static void print (const char * txt);
       static void Reshape(int w, int h);
       static void moveCamera();
       static void myidle (void) {
@@ -84,8 +86,6 @@ namespace graphicinterface {
         graphicinterface::frame++;
 
         if(difftime(graphicinterface::now, graphicinterface::before) >= 1) {
-          char txt[20];
-          sprintf(txt, "FPS : %d\n", graphicinterface::frame);
           unsigned int x, y, z;
           x = 50;
           y = 50;
@@ -95,7 +95,8 @@ namespace graphicinterface {
           graphicinterface::fps=graphicinterface::frame;
         }
 
-        graphicinterface::angle++;
+        graphicinterface::angle+=0.1;
+        graphicinterface::angle=std::fmod(graphicinterface::angle, 360.0); //Modulo pour le type double
         glutPostRedisplay();
       }
 
