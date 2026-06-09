@@ -1,4 +1,5 @@
 #include "WindowManager.h"
+#include "GL_Board.h"
 
 void graphicinterface::WindowManager::initLight(void) {
   GLfloat mat_specular[] = { 1.0, 1.0, 1.0, 1.0 };
@@ -60,8 +61,24 @@ void graphicinterface::WindowManager::drawview3D () {
   //[ASC] drawing...
   glRotatef(graphicinterface::angle, 0.0, 1.0, 0.0);
 
+/*
   for(vector<Objet3D>::iterator it = graphicinterface::objets.begin(); it != graphicinterface::objets.end(); it++)
     it->dessiner();
+*/
+/*
+  Case c;
+  Objet3D o = c.toObjet3D();
+  o.setNom((char*)string("terrain").c_str());
+  o.init();
+  o.dessiner();
+*/
+/*
+  glboard::GL_SquareBox cell;
+  cell.display();
+*/
+  glboard::GL_Field field(10, 10);
+  field.display();
+
 }
 
 void graphicinterface::WindowManager::drawview2D () {

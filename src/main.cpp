@@ -15,8 +15,8 @@ int main(int argc, char** argv) {
   ObjParser * parser = new ObjParser();
 
   std::vector<string> obj_files;
-  obj_files.push_back("obj/jaguard.obj");
-  //obj_files.push_back("obj/maison.obj");
+  //obj_files.push_back("obj/jaguard.obj");
+  obj_files.push_back("obj/maison.obj");
   //obj_files.push_back("rail.obj");
   //obj_files.push_back("The_rocket_locomotive_1800_pour_integration.obj");
 
@@ -30,7 +30,6 @@ int main(int argc, char** argv) {
   graphicinterface::WindowManager w;
 
   w.init3D(argc, argv, data);
-
   w.load3DFunc();
   glutMainLoop(); //[ASC] est-ce le chargement de la fonction ??
 }
