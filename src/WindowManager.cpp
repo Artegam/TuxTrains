@@ -1,5 +1,4 @@
 #include "WindowManager.h"
-#include "GL_Board.h"
 
 void graphicinterface::WindowManager::initLight(void) {
   GLfloat mat_specular[] = { 1.0, 1.0, 1.0, 1.0 };
@@ -54,7 +53,14 @@ void graphicinterface::WindowManager::Reshape(int w, int h) {
   glMatrixMode(GL_MODELVIEW);
   glLoadIdentity();
 
-  gluLookAt(0.0, 6.0, 6.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
+  moveCamera();
+}
+
+void graphicinterface::WindowManager::moveCamera () {
+  vector<double> vecPos = cameraPos.getCoordinates();
+  vector<double> vecTarget = cameraTarget.getCoordinates();
+  vector<double> vecUp = cameraUpVector.getCoordinates();
+  gluLookAt(vecPos[0], vecPos[1], vecPos[2], vecTarget[0], vecTarget[1], vecTarget[2], vecUp[0], vecUp[1], vecUp[2]);
 }
 
 void graphicinterface::WindowManager::drawview3D () {
@@ -78,7 +84,6 @@ void graphicinterface::WindowManager::drawview3D () {
 */
   glboard::GL_Field field(10, 10);
   field.display();
-
 }
 
 void graphicinterface::WindowManager::drawview2D () {

@@ -11,6 +11,7 @@
 #include <GL/glut.h>
 
 #include "Objet3D.h"
+#include "GL_Board.h"
 
 namespace graphicinterface {
   static vector<Objet3D> objets;
@@ -20,6 +21,9 @@ namespace graphicinterface {
   static int frame;
   static int fps;
   static int angle;
+  static board::Point3D cameraPos((std::vector<double>){0.0, 6.0, 6.0});
+  static board::Point3D cameraTarget((std::vector<double>){0.0, 0.0, 0.0});
+  static board::Point3D cameraUpVector((std::vector<double>){0.0, 1.0, 0.0});
  
   class WindowManager {
     public:
@@ -68,6 +72,7 @@ namespace graphicinterface {
       static void drawview3D ();
       static void drawview2D ();
       static void Reshape(int w, int h);
+      static void moveCamera();
       static void myidle (void) {
         if(graphicinterface::start) {
           graphicinterface::frame = 0;
