@@ -2,7 +2,6 @@ CXX := g++
 PROJECT := essai3D
 TESTS = tests/
 INC = includes/
-EXT_INC = boost_1_70_0
 SRC = src/
 OUT = o/
 BIN = bin/
@@ -11,7 +10,7 @@ TEST_DIR = $(TESTS)$(SRC)
 
 PROJECT_DIRS = $(SRC) $(INC) $(OUT) $(BIN) $(TEST_DIR)
 
-INCLUDES = -I $(INC) -I $(EXT_INC) # -I $(INC_RENDER) -I $(TESTS)
+INCLUDES = -I $(INC) # -I $(INC_RENDER) -I $(TESTS)
 
 LIBS = -lGL -lglut -lGLU
 OPT = -Wall -g
