@@ -26,7 +26,9 @@ namespace glboard {
 
   class GL_SquareBox : public board::SquareBox {
     public:
+      GL_SquareBox(std::map<std::pair<unsigned int, unsigned int>, board::Point3D> data);
       void display();
+      void display(GL_Point3D pt);
   };
 
   class GL_Field : public board::Field {

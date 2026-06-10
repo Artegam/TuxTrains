@@ -5,11 +5,4 @@ void glboard::GL_Point3D::display () {
   glTranslatef(vec[0], vec[1], vec[2]);
   glutSolidCube(0.1);
   glTranslatef(-vec[0], -vec[1], -vec[2]);
-/* 
-  glBegin(GL_TRIANGLES);
-  glVertex3f(vec[0], vec[1], vec[2]);
-  glVertex3f(vec[0], vec[1], vec[2]);
-  glVertex3f(vec[0], vec[1], vec[2]);
-  glEnd();
-*/
 }

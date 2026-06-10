@@ -106,7 +106,7 @@ void graphicinterface::WindowManager::drawview2D () {
 
   y = height-(15*2);
   glRasterPos2f(x, y);
-  sprintf(txt, "angle : %f", graphicinterface::angle);
+  sprintf(txt, "angle : %.1f", graphicinterface::angle);
   graphicinterface::WindowManager::print(txt);
 }
 
