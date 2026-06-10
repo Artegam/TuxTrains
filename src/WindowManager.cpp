@@ -1,19 +1,7 @@
 #include "WindowManager.h"
 
 void graphicinterface::WindowManager::initLight(void) {
-  GLfloat mat_specular[] = { 1.0, 1.0, 1.0, 1.0 };
-  GLfloat mat_shininess[] = { 50.0 };
-  GLfloat light_position[] = { 4.0, 4.0, 4.0, 0.0 };
-  glClearColor (0.0, 0.0, 0.0, 0.0);
-  glShadeModel (GL_SMOOTH);
-
-  glMaterialfv(GL_FRONT, GL_SPECULAR, mat_specular);
-  glMaterialfv(GL_FRONT, GL_SHININESS, mat_shininess);
-  glLightfv(GL_LIGHT0, GL_POSITION, light_position);
-
-  glEnable(GL_DEPTH_TEST);
-  glEnable(GL_LIGHTING);
-  glEnable(GL_LIGHT0);
+  graphicinterface::light.init();
 }
 
 void graphicinterface::WindowManager::init3D(int argc, char** argv, vector<Objet3D> data) {
@@ -84,6 +72,7 @@ void graphicinterface::WindowManager::drawview3D () {
 */
   glboard::GL_Field field(10, 10);
   field.display();
+  graphicinterface::light.display();
 }
 
 void graphicinterface::WindowManager::print (const char * txt) {

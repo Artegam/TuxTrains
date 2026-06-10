@@ -9,6 +9,7 @@ namespace board {
   class Point2D {
     private:
       double _x, _y;
+      double _nx, _ny; //[ASC] normal vector
     public:
       Point2D ();
       Point2D (double x, double y);
@@ -21,6 +22,7 @@ namespace board {
   class Point3D : Point2D {
     private:
       double _z;
+      double _nz; //[ASC] normal vector
     public:
       Point3D();
       Point3D(double x, double y, double z);

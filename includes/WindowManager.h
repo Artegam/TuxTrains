@@ -25,6 +25,8 @@ namespace graphicinterface {
   static board::Point3D cameraPos((std::vector<double>){0.0, 6.0, 6.0});
   static board::Point3D cameraTarget((std::vector<double>){0.0, 0.0, 0.0});
   static board::Point3D cameraUpVector((std::vector<double>){0.0, 1.0, 0.0});
+  static board::Point3D lightPos((std::vector<double>){1.0, 1.0, 1.0});
+  static glboard::GL_Light light(lightPos);
  
   class WindowManager {
     public:
