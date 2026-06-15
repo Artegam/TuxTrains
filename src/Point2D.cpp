@@ -15,3 +15,4 @@ void board::Point2D::setCoordinates(std::vector<double> coordinates) { _x = coor
 std::vector<double> board::Point2D::getCoordinates() {
   return {_x, _y};
 }
+void board::Point2D::setNormal(std::vector<double> norm) {_nx=norm[0]; _ny=norm[1];}

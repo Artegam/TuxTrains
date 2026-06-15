@@ -4,7 +4,7 @@ void graphicinterface::WindowManager::initLight(void) {
   graphicinterface::light.init();
 }
 
-void graphicinterface::WindowManager::init3D(int argc, char** argv, vector<Objet3D> data) {
+void graphicinterface::WindowManager::init3D(int argc, char** argv, vector<board::SquareBox> data) {
   graphicinterface::objets.insert(graphicinterface::objets.begin(), data.begin(), data.end());
   // Pour un écran Widescreen ratio d'aspect = 16:9
   //[ASC] penser a une struct ?
@@ -21,8 +21,10 @@ void graphicinterface::WindowManager::init3D(int argc, char** argv, vector<Objet
   initLight();
 
   //Initialisation des objets (chargement dans la carte graphique pour le rendu
-  for(vector<Objet3D>::iterator it = graphicinterface::objets.begin(); it != graphicinterface::objets.end(); it++)
+/*
+  for(vector<board::SquareBox>::iterator it = graphicinterface::objets.begin(); it != graphicinterface::objets.end(); it++)
     it->init();
+*/
   graphicinterface::start = true;
 }
 
@@ -55,10 +57,8 @@ void graphicinterface::WindowManager::drawview3D () {
   //[ASC] drawing...
   glRotatef(graphicinterface::angle, 0.0, 1.0, 0.0);
 
-/*
-  for(vector<Objet3D>::iterator it = graphicinterface::objets.begin(); it != graphicinterface::objets.end(); it++)
-    it->dessiner();
-*/
+  for(vector<board::SquareBox>::iterator it = graphicinterface::objets.begin(); it != graphicinterface::objets.end(); it++)
+    glboard::GL_SquareBox(*it).display();
 /*
   Case c;
   Objet3D o = c.toObjet3D();
@@ -71,7 +71,7 @@ void graphicinterface::WindowManager::drawview3D () {
   cell.display();
 */
   glboard::GL_Field field(10, 10);
-  field.display();
+  //field.display();
   graphicinterface::light.display();
 }
 

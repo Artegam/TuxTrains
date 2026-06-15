@@ -29,6 +29,9 @@ namespace glboard {
   class GL_SquareBox : public board::SquareBox {
     public:
       GL_SquareBox(std::map<std::pair<unsigned int, unsigned int>, board::Point3D> data);
+      GL_SquareBox(board::SquareBox box) : SquareBox(box.getPoints()) {setNormal(box.getNormal());};
+      void display3v(std::map<std::pair<unsigned int, unsigned int>, board::Point3D> points);
+      void display4v(std::map<std::pair<unsigned int, unsigned int>, board::Point3D> points);
       void display();
       void displayNormal(GL_Point3D pt);
       void displayVertex(GL_Point3D pt);

@@ -22,3 +22,4 @@ void board::Point3D::elevate (double elevation) {
   std::vector<double> vec = Point2D::getCoordinates();
   Point2D::move(vec[0], elevation);
 }
+void board::Point3D::setNormal(std::vector<double> norm) {board::Point2D::setNormal(norm);_nz=norm[2];}

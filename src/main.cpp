@@ -15,12 +15,13 @@ int main(int argc, char** argv) {
   ObjParser * parser = new ObjParser();
 
   std::vector<string> obj_files;
-  //obj_files.push_back("obj/jaguard.obj");
-  obj_files.push_back("obj/maison.obj");
-  //obj_files.push_back("rail.obj");
-  //obj_files.push_back("The_rocket_locomotive_1800_pour_integration.obj");
+  obj_files.push_back("obj/jaguard.obj");
+  //obj_files.push_back("obj/cube.obj");
+  //obj_files.push_back("obj/maison.obj");
+  //obj_files.push_back("obj/rail.obj");
+  //obj_files.push_back("obj/The_rocket_locomotive_1800_pour_integration.obj");
 
-  vector<Objet3D> data;
+  vector<board::SquareBox> data;
   for(std::vector<string>::iterator files = obj_files.begin(); files!=obj_files.end(); files++) {
     printf("Lecture du fichier... \t %s\n", (*files).c_str());
     data = parser->readFile((*files).c_str());

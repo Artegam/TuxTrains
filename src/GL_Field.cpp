@@ -14,8 +14,8 @@ void glboard::GL_Field::display () {
       std::map<std::pair<unsigned int, unsigned int>, board::Point3D> points;
       points.insert(std::make_pair(std::make_pair(0, 0), pts[{x, z}]));
       points.insert(std::make_pair(std::make_pair(0, 1), pts[{x, z+1}]));
-      points.insert(std::make_pair(std::make_pair(1, 0), pts[{x+1, z}]));
-      points.insert(std::make_pair(std::make_pair(1, 1), pts[{x+1, z+1}]));
+      points.insert(std::make_pair(std::make_pair(1, 0), pts[{x+1, z+1}]));
+      points.insert(std::make_pair(std::make_pair(1, 1), pts[{x+1, z}]));
       GL_SquareBox box(points);
       box.display();
     }

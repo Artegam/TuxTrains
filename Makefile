@@ -12,7 +12,7 @@ PROJECT_DIRS = $(SRC) $(INC) $(OUT) $(BIN) $(TEST_DIR)
 
 INCLUDES = -I $(INC) # -I $(INC_RENDER) -I $(TESTS)
 
-LIBS = -lGL -lglut -lGLU
+LIBS = -lGL -lglut -lGLU -liobyte
 OPT = -Wall -g
 OPT_THREAD = -std=c++0x
 

@@ -16,6 +16,7 @@ namespace board {
       Point2D (std::vector<double> coordinates) {_x = coordinates[0]; _y = coordinates[1];}; //[ASC] attention aucune protection...
       void move (double x, double y); 
       void setCoordinates(std::vector<double> coordinates);
+      void setNormal(std::vector<double> norm);
       std::vector<double> getCoordinates();
   };
 
@@ -29,6 +30,7 @@ namespace board {
       Point3D(std::vector<double> coordinates);
       void move (double x, double y, double z);
       void setCoordinates(std::vector<double> coordinates);
+      void setNormal(std::vector<double> norm);
       std::vector<double> getCoordinates();
       void elevate (double elevation);
   };
@@ -36,11 +38,14 @@ namespace board {
   class SquareBox {
     private:
       std::map<std::pair<unsigned int, unsigned int>, board::Point3D> _points;
+      Point3D _normal;
     public:
       SquareBox();
       SquareBox(std::map<std::pair<unsigned int, unsigned int>, board::Point3D> data);
       void move(std::pair<unsigned int, unsigned int> position);
       std::map<std::pair<unsigned int, unsigned int>, board::Point3D> getPoints() {return _points;}; 
+      board::Point3D getNormal() {return _normal;};
+      void setNormal(Point3D norm) {_normal=norm;};
   };
 
   class Field {

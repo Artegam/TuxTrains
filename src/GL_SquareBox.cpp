@@ -2,37 +2,71 @@
 #include <stdio.h>
 
 glboard::GL_SquareBox::GL_SquareBox(std::map<std::pair<unsigned int, unsigned int>, board::Point3D> data) : board::SquareBox(data) {};
-void glboard::GL_SquareBox::display () {
-  std::map<std::pair<unsigned int, unsigned int>, board::Point3D> points = getPoints();
 
-  glBegin(GL_TRIANGLES);
 
-  //Soit 4 points ABCD
+void glboard::GL_SquareBox::display3v (std::map<std::pair<unsigned int, unsigned int>, board::Point3D> points) {
+  board::Point3D normal1;
+  //Soit 3 points ABC
+  // A (0,0), B (0,1), C (1,0)
+  // AB
+  //  C
   //Dessiner ABC
   //calculer le vecteur normal
-  board::Point3D normal1 = computeNormal ({points[{1, 1}], points[{0, 0}], points[{0, 1}]});
-  displayNormal(normal1);
-  displayVertex(GL_Point3D(points[{0, 0}]));
-  displayVertex(GL_Point3D(points[{0, 1}]));
-  displayVertex(GL_Point3D(points[{1, 1}]));
+  normal1 = computeNormal ({points[{0, 0}], points[{0, 1}], points[{1, 0}]});
+  glBegin(GL_TRIANGLES); //[ASC] pour voir seulement les lignes GL_LINE_STRIP ou GL_LINE_LOOP
+  //glBegin(GL_LINE_LOOP);
+    displayNormal(normal1);
+    displayVertex(GL_Point3D(points[{0, 0}]));
+    displayVertex(GL_Point3D(points[{0, 1}]));
+    displayVertex(GL_Point3D(points[{1, 0}]));
+  glEnd();
+  //[ASC] Draw normal vectors
+  DrawNormals(GL_Point3D(points[{0, 0}]), normal1);
+  DrawNormals(GL_Point3D(points[{0, 1}]), normal1);
+  DrawNormals(GL_Point3D(points[{1, 0}]), normal1);
+}
 
-  //Dessiner ACD
-  //[ASC] ordre pour la normale changee because racine carree negative donne la valeur nan
-  board::Point3D normal2 = computeNormal ({points[{1, 1}], points[{1, 0}], points[{0, 0}]});
-  displayNormal(normal2);
-  displayVertex(GL_Point3D(points[{0, 0}]));
-  displayVertex(GL_Point3D(points[{1, 1}]));
-  displayVertex(GL_Point3D(points[{1, 0}]));
+void glboard::GL_SquareBox::display4v (std::map<std::pair<unsigned int, unsigned int>, board::Point3D> points) {
+  board::Point3D normal1, normal2;
+  //Soit 4 points ABCD
+  // A (0,0) B (0,1) C (1,0) D (1,1)
+  // AB
+  // DC
+  //Dessiner ABD
+  //calculer le vecteur normal
+  normal1 = computeNormal ({points[{1, 1}], points[{0, 0}], points[{0, 1}]});
+  glBegin(GL_TRIANGLES); //[ASC] pour voir seulement les lignes GL_LINE_STRIP ou GL_LINE_LOOP
+  //glBegin(GL_LINE_LOOP);
+    displayNormal(normal1); // normal vector for opengl lighting computations
+    displayVertex(GL_Point3D(points[{0, 0}]));
+    displayVertex(GL_Point3D(points[{0, 1}]));
+    displayVertex(GL_Point3D(points[{1, 1}]));
 
+    //Dessiner DBC
+    //[ASC] ordre pour la normale changee because racine carree negative donne la valeur nan
+    normal2 = computeNormal ({points[{1, 1}], points[{1, 0}], points[{0, 0}]});
+    displayNormal(normal2); // normal vector for opengl lighting computations
+    displayVertex(GL_Point3D(points[{1, 1}]));
+    displayVertex(GL_Point3D(points[{0, 1}]));
+    displayVertex(GL_Point3D(points[{1, 0}]));
   glEnd();
 
   DrawNormals(GL_Point3D(points[{0, 0}]), normal1);
-  DrawNormals(GL_Point3D(points[{0, 1}]), {0.0, 1.0, 0.0});
-  DrawNormals(GL_Point3D(points[{1, 1}]), {0.0, 1.0, 0.0});
+  DrawNormals(GL_Point3D(points[{0, 1}]), normal1);
+  DrawNormals(GL_Point3D(points[{1, 1}]), normal1);
 
-  DrawNormals(GL_Point3D(points[{0, 0}]), {0.0, 1.0, 0.0});
-  DrawNormals(GL_Point3D(points[{1, 1}]), {0.0, 1.0, 0.0});
-  DrawNormals(GL_Point3D(points[{1, 0}]), {0.0, 1.0, 0.0});
+  DrawNormals(GL_Point3D(points[{0, 0}]), normal2);
+  DrawNormals(GL_Point3D(points[{1, 1}]), normal2);
+  DrawNormals(GL_Point3D(points[{1, 0}]), normal2);
+}
+
+void glboard::GL_SquareBox::display () {
+  std::map<std::pair<unsigned int, unsigned int>, board::Point3D> points = getPoints();
+
+  if(points.size() == 3)
+    display3v(points);
+  if(points.size() == 4)
+    display4v(points);
 }
 
 void glboard::GL_SquareBox::displayNormal(GL_Point3D pt) {
@@ -43,6 +77,8 @@ void glboard::GL_SquareBox::displayNormal(GL_Point3D pt) {
 void glboard::GL_SquareBox::displayVertex(GL_Point3D pt) {
   std::vector<double> vec = pt.getCoordinates();
   glVertex3f(vec[0], vec[1], vec[2]);
+  if(vec[0] == 0.0 && vec[1] == 0 && vec[2] == 0)
+    printf("point zero !!\n");
 }
 
 board::Point3D glboard::GL_SquareBox::computeNormal (std::vector<board::Point3D> triangle) {

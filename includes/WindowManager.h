@@ -15,7 +15,7 @@
 #include "GL_Board.h"
 
 namespace graphicinterface {
-  static vector<Objet3D> objets;
+  static vector<board::SquareBox> objets;
   static time_t now;
   static time_t before;
   static bool start;
@@ -107,7 +107,7 @@ namespace graphicinterface {
       static void mouse(int button, int state, int x, int y);
 
       void initLight(void);
-      void init3D(int argc, char** argv, vector<Objet3D> data);
+      void init3D(int argc, char** argv, vector<board::SquareBox> data);
       void load3DFunc();
   };
 };
